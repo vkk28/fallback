@@ -1,0 +1,78 @@
+{
+  "name": "fallback",
+  "handlers": "indexer/src/handlers",
+  "rollback_on_reorg": true,
+  "save_full_history": true,
+  "field_selection": {
+    "transaction_fields": [
+      "hash"
+    ]
+  },
+  "chains": [
+    {
+      "id": 10143,
+      "start_block": 69077351,
+      "max_reorg_depth": 100,
+      "block_lag": 2,
+      "contracts": [
+        {
+          "name": "FallbackFactory",
+          "abi_file_path": "indexer/abis/FallbackFactory.json",
+          "events": [
+            {
+              "event": "PayeeAccepted"
+            },
+            {
+              "event": "PlanCreated"
+            },
+            {
+              "event": "TermsProposed"
+            }
+          ],
+          "address": "0x658eE9465274e74C179719A7cbb6402201c36023"
+        },
+        {
+          "name": "FallbackPlan",
+          "abi_file_path": "indexer/abis/FallbackPlan.json",
+          "events": [
+            {
+              "event": "Activated"
+            },
+            {
+              "event": "AllocationChanged"
+            },
+            {
+              "event": "Claimed"
+            },
+            {
+              "event": "Closed"
+            },
+            {
+              "event": "InstallmentCancelled"
+            },
+            {
+              "event": "InstallmentMissed"
+            },
+            {
+              "event": "PaymentSettled"
+            },
+            {
+              "event": "ShareFrozen"
+            },
+            {
+              "event": "SupportChanged"
+            }
+          ]
+        }
+      ],
+      "rpc": {
+        "url": "https://testnet-rpc.monad.xyz",
+        "for": "sync",
+        "initial_block_interval": 100,
+        "interval_ceiling": 100,
+        "acceleration_additive": 10
+      }
+    }
+  ],
+  "schema": "indexer/schema.graphql"
+}

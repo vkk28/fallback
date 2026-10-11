@@ -45,3 +45,8 @@ docs/evidence/*
 .netlify/
 .railway/
 indexer/config.fixture.yaml
+
+# Envio Cloud root config generates local-only runtime/type outputs.
+/generated/
+/envio-env.d.ts
+/.envio/

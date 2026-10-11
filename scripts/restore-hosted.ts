@@ -101,6 +101,9 @@ try {
   await sql`GRANT CONNECT ON DATABASE fallback TO fallback_app`;
   await sql`GRANT USAGE ON SCHEMA public TO fallback_app`;
   await sql`GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO fallback_app`;
+  // Setup completion removes only the actor/version-matched preliminary draft.
+  // Payment requests and financial journal rows have no DELETE permission.
+  await sql`GRANT DELETE ON setup_drafts TO fallback_app`;
   await sql`GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO fallback_app`;
   await sql`ALTER ROLE fallback_app SET statement_timeout='20s'`;
   await sql`ALTER ROLE fallback_app SET idle_in_transaction_session_timeout='30s'`;

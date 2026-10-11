@@ -815,3 +815,31 @@ verification reports and operational details in HANDOFF. Refresh the installed G
 than upgrading tooling: code-only extraction plus no-label clustering updates all
 three artifacts with zero model calls. Track actual source coverage/import stubs and
 parser gaps separately. No financial or application change; no tests rerun.
+
+## 12 October — free hackathon hosting and worker cutover
+
+Use Netlify Free for Next.js/API and a 15-minute scheduled trigger with an
+authenticated background worker, Neon Free for private metadata, and Envio
+Development for temporary public-chain indexing. The user approves each provider,
+the dedicated testnet signer, source publication to vkk28/fallback, public site
+access, and transfer of the listed server secrets to Netlify. No paid upgrade,
+payment method, external recipient email or mainnet operation is configured.
+
+Explicit @netlify/plugin-nextjs is required for the nested app. Merely publishing
+apps/web/.next produced a 404 without the adapter. Public RPC and public Privy app
+ID are ordinary configuration; actual keys/DB URL remain secrets and secret scanning
+stays enabled. Netlify ignored demoting an existing secret, so the two known public
+values were recreated and their classification verified before rebuilding.
+
+Quiesce owned local web/worker before cutover; preserve the signer and exact
+12-table/141-row snapshot, including 39 request identities and zero initial jobs.
+Full-precision SQL timestamp/primary-key verification passes on Neon. The user
+separately approves DELETE on setup_drafts for normal setup completion; financial
+requests/journal retain no DELETE permission. Native background invocation returns
+202 and completes in 4102.93ms without errors; that proves execution, not a payment.
+
+The root config.yaml lets Envio Cloud use the existing root dependency manifest
+and shared handlers. Preserve the configured start block69077351 (token deployment;
+factory deployment is69077360), rollback/history settings and existing event logic.
+Use the public testnet RPC with the proved 100-block ceiling. Codegen and generated
+cloud-handler typecheck pass; actual cloud indexing remains a separate gate.
