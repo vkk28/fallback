@@ -14,3 +14,7 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# Explicit adapter: the Next app lives below the root package.json.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
