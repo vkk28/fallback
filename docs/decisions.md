@@ -1,5 +1,36 @@
 # Decision record
 
+## 2026-10-12 — verified free database and bounded hosted worker
+
+Preserve user-selected fallbackk hosting name. Use verified Free Netlify/Neon,
+0.25CU direct PostgreSQL and five-minute suspension. Add authenticated15-minute
+trigger plus bounded background handler, disabled until single-owner cutover.
+Reuse existing journal/nonce/receipt logic; do not change contract terms or signer.
+Close worker sessions before Lambda freezes. User explicitly approves testnet
+automation and its move to Netlify, project-only Neon access and repository-only
+Netlify GitHub installation. No email recipients or paid provisioning are added.
+
+Restore only verified private snapshots into the new Neon target. Retry empty
+migrated databases safely; existing nonempty data is verification-only. Match rows
+by exact primary key and timestamps by PostgreSQL equality at full stored precision,
+avoiding collation/parser display differences and JS millisecond truncation. Verify
+TLS and limited fallback_app transactions/locks, no schema CREATE/request DELETE.
+12tables/141rows pass; no owner credentials enter hosted application configuration.
+
+## 2026-10-11 — free hackathon hosting with laptop off
+
+User clarifies three or four testers and requires the app to run with their laptop
+off. Free application hosting is appropriate; a production VM/Google billing is
+unnecessary. Selected Vercel scope is verified Hobby. Netlify Free supports scheduled
+and background functions; prefer a bounded worker adaptation, Neon Free metadata
+PostgreSQL and temporary Envio Development indexing. State Envio's maximum30-day
+lifespan and quotas. Polling consumes DB compute independently of user count; measure
+cadence/scale-to-zero. Preserve immutable consent, job/nonce journal, request identities
+and single-owner worker/database cutover. netlify.toml is prepared; runtime adaptation,
+connections, migrations and hosting are incomplete. No cloud/private-state upload.
+Google's unapplied monthly credit, overdue verification and expired trial do not
+establish free hosting. Cancel the earlier local Docker build and record no pass.
+
 ## 2026-10-11 — authorized source publication and free hosting
 
 User explicitly selected the public vkk28/fallback GitHub repository and granted

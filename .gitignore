@@ -42,5 +42,6 @@ docs/evidence/*
 
 .pnpm-store/
 .vercel/
+.netlify/
 .railway/
 indexer/config.fixture.yaml

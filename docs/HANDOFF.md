@@ -1,8 +1,49 @@
-# Fallback handoff — 11 October 2026, Asia/Kolkata
+# Fallback handoff — 12 October 2026, Asia/Kolkata
 
 ## Current task and source
 
-Latest authorization: user selected https://github.com/vkk28/fallback.git for source
+Active deployment: user selected fallbackk.netlify.app in the prepared Netlify
+form and supplied the new Neon owner connection in ignored mode600 neon.json.
+Netlify and Neon Free plans are verified; Neon compute is fixed0.25CU with5-minute
+suspension. User explicitly approves testnet automation with the preserved signer,
+moving it to Netlify, project-only Neon CLI access, and the Netlify GitHub app for
+vkk28/fallback only. Chrome reconnects as browser5; model must preserve these grants.
+The CLI mint attempts failed before usable credentials; user-provided DB connection
+is used instead. No credential, private row or account metadata is logged/published.
+
+21:25:18UTC11October: new Neon database restores/verifies12tables/141records.
+Timestamps compare in PostgreSQL at full precision; other fields compare exactly
+by primary key, independent of server collation. TLS verifies certificates/hostname.
+fallback_app has SELECT/INSERT/UPDATE but no schema CREATE/request DELETE; interactive
+transaction/advisory lock check passes. Owner/app URLs stay private under .tools.
+Native app/worker deployment remains pending; hosted worker stays disabled.
+
+New finite worker handler authenticates the internal trigger, checks actual10143,
+refuses registries over50plans and processes at most20existing jobs. It reuses the
+unchanged nonce journal/receipt/notification logic and closes DB sessions. Netlify
+trigger runs every15minutes, same-origin HTTPS only, and requires an explicit enable.
+pnpm check passes107application/49contract checks; local-chain integration, focused
+lint, types and local Netlify function packaging pass. Read-only chain:verify passes.
+Initial backup failed because local DB/web were stopped; owned restart preserves
+their data and a fresh exact disposable restore passes12tables/141rows. Local worker
+is restored after specific human approval; keep it until single-owner cutover.
+Current source request counts:38confirmed/1preserved legacy failed; no jobs.
+
+Latest user steering: a free hackathon demo for three or four testers using
+Vercel/Netlify, with every service online while the laptop is off. Read-only Vercel
+API confirms selected Hobby scope. Netlify Free supports scheduled/background
+functions: a bounded worker adapter, Neon Free and temporary Envio Development
+are proposed. netlify.toml prepares the app build, not a completed deployment.
+Netlify CLI authentication is unverified; Neon tools are absent and already recently
+suggested. No remote database/worker/indexer exists. See deployment.md.
+Netlify and Neon browser login pages are open for the user. Netlify explicitly
+accepts terms on login, so no account form is submitted by the agent.
+Google inspection shows unapplied monthly credits, overdue identity verification
+and an expired trial; no form, upgrade or redemption. The Docker web build was
+cancelled after the approach changed; no pass. Actual chain:verify passes at
+17:35:58UTC on11October. Financial source/state and local services are unchanged.
+
+Prior authorization: user selected https://github.com/vkk28/fallback.git for source
 publication and granted deployment authority, limited to existing credits/free
 resources only. The supplied repository is public and empty; authenticated GitHub
 push/admin access is verified. Preserve its selected visibility. Prepare compatible
@@ -58,8 +99,8 @@ requests and zero owner/supporter claims. No new signing, submission or enqueue.
 
 Keep databases, worker key, failed legacy request, private evidence, backups and
 wallet/provider bindings. Native financial confirmations and OTP entry remain human
-controlled. Keep invitation HMAC/encryption keys with private backups. No full-app
-hosting or external email recipients have been authorized.
+controlled. Keep invitation HMAC/encryption keys with private backups. Free hosting
+is now authorized; external email recipients remain unauthorized.
 
 ## Actual verification and remaining dependencies
 
@@ -101,7 +142,9 @@ worker, then cluster-only . --no-label. No model calls/uploads/hooks. Solidity/S
 are unsupported; inspect source, SQL and financial tests separately. Latest counts
 and four self-loops/no dangling endpoints are recorded in tooling/evidence.
 
-Next: finish item1's live new-person sign-in and consented email delivery verification
+Next: follow deployment.md for free provider connections, bounded worker preparation
+and the private state-preserving cutover. Finish item1's live new-person sign-in and
+consented email delivery verification
 when configuration/recipients are available, then proceed to item2 Alchemy RPC. Later
 execution order remains live recovery, conditional payments, Envio/notifications,
 worker delivery, CRE, integrated UI/PWA checks and durable hosting last.

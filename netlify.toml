@@ -1,0 +1,16 @@
+[build]
+  command = "pnpm web:build"
+  publish = "apps/web/.next"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "24.19.0"
+  PNPM_VERSION = "11.25.0"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Requires Netlify's Next.js adapter, not a static export.
+# Keep server credentials in host runtime storage.
+# HOSTED_WORKER_ENABLED stays false until the state-preserving worker cutover.
+
+[functions]
+  node_bundler = "esbuild"

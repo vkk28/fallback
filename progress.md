@@ -343,6 +343,15 @@ request identities. Each step builds on the previous one; final hosting comes la
 
 ### 9. Host the complete app and verify the deployed system
 
+- Current: Neon Free metadata database restores/verifies12tables/141records with
+  certificate-validated TLS and limited app-role transactions. Authenticated finite
+  Netlify worker and15-minute trigger pass107application/49contract tests, local-chain
+  checks and function packaging. Native app/worker cutover, origin/sign-in and hosted
+  Envio still need verification. User-selected name is fallbackk.
+- Latest scope: a free hackathon demo for three or four testers with the laptop off.
+  Vercel Hobby is verified; Netlify Free with a bounded scheduled/background worker,
+  Neon Free and temporary Envio Development is proposed. netlify.toml is prepared;
+  runtime adaptation, connections, private-state cutover and hosted journeys are open.
 - Choose and authorize compatible durable hosting for the full Next.js app/API,
   metadata PostgreSQL, Envio/indexer storage, private GraphQL and independent worker.
 - Configure HTTPS, approved authentication origins, server-only secrets, least-privilege

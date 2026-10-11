@@ -1,5 +1,45 @@
 # Actual verification — 2026-10-09 (Asia/Kolkata)
 
+## 12 October — hosted worker and verified Neon restore
+
+- pnpm check passes107application tests/49contract checks, types/fmt/lint/ABIs.
+- pnpm test:local-chain passes actual isolated deployed-contract split/refund/cap/
+  expiry/worker-race integration. Existing timestamp lint notices remain.
+- Focused hosted-worker/function lint and types pass. Local Netlify function bundling
+  creates worker-trigger.zip and worker-background.zip; this is not hosted execution.
+- Configured chain:verify passes actual Monad10143/asset/runtime/immutables at
+  18:17:20UTC11October. No contract implementation or user request identity changes.
+- First backup fails ECONNREFUSED because local database/web were stopped. Owned
+  startup preserves existing data; fresh snapshot/disposable restore verifies12tables/
+  141rows. Worker restart initially receives automatic denial; explicit human grant
+  then permits restart of the existing signer/database worker.
+- First remote restore attempt uses an incorrect snapshot path and stops during
+  configuration. Corrected restore commits private rows, then parser-format mismatch
+  affects created_at verification. Full-precision SQL timestamp equality fixes
+  verification without changing any stored value; exact other-field checks pass.
+- Neon restore at21:25:18UTC11October verifies12tables/141rows, certificate-validated
+  TLS, and limited-role transactions/advisory locks with no schema CREATE or request
+  DELETE. Secrets and rows are never emitted. Hosted worker remains disabled.
+- Native hosted app/worker, authentication origins and Envio are not yet verified.
+
+## 11 October — free hackathon hosting evaluation
+
+- pnpm chain:verify passes at17:35:58UTC: actual chain10143, six-decimal FBTEST runtime
+  and factory bytecode/immutables. No transaction is submitted.
+- Read-only Vercel API returns selected Hobby plan. Netlify CLI status gives no
+  usable authenticated JSON account; no project is deployed.
+- Google CUA inspection shows unapplied monthly credit, overdue identity verification
+  and expired free trial; no form/upgrade is submitted.
+- Docker web compilation finishes with existing optional-provider warnings, TypeScript
+  completes and10pages generate. Build is cancelled before trace/image completion
+  after hosting scope changes (exit130). No completed build or container smoke pass.
+- netlify.toml is readiness configuration. Native adapter build, bounded worker,
+  hosted database/indexer and laptop-off journeys remain open. Application/contract
+  code is unchanged; previous suites below are historical, not rerun here.
+- Source scan passes225files with no configured-secret/private-artifact findings;
+  git diff --check passes. TOML parses with the bundled Python runtime. The initial
+  system-Python attempt lacked tomllib and did not pass; bundled retry succeeds.
+
 ## 11 October — secure invitations and first-time onboarding implementation
 
 - Final pnpm check passes102 application tests and49 contract checks; strict backend

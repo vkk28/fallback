@@ -1,5 +1,28 @@
 # Actual tooling — 2026-10-09
 
+## 12 October — hosted deployment preparation and database verification
+
+Used native Chrome/CUA for provider account/setup controls, actual Free-plan checks
+and compute settings; existing authenticated Netlify CLI/SDK for deployment account
+preflight; bundled Node24/pnpm/Python; local Netlify function bundling; PostgreSQL,
+Drizzle, private exact backups/restoration and sanitized source scanning.
+Pinned official Neon CLI8.3.5 runs with ignored task-local config and analytics off;
+project-scoped mint fails, so use the user-supplied private connection. No global
+skills/MCP/hooks/IDE settings or keyring changes. Browser copying returns no usable
+credential; user enters it privately. No secret or private row output/upload to Git.
+
+## 11 October — free demo hosting evaluation
+
+Used direct source/CLI reads, official provider documentation, CUA signed-in Google
+benefits/billing inspection, existing Vercel authentication for a sanitized read-only
+Hobby-plan API check, and Netlify CLI status. Read Sites compatibility guidance;
+no Site is created. Applied plugin-management to discover Neon; an existing recent
+suggestion prevents repetition. No connector connection is claimed. Used bundled
+Node24/pnpm for chain:verify. Docker web compilation/types/page generation finish,
+but the image build is cancelled after the user steers to demo hosts; no build/smoke
+pass. Added netlify.toml readiness configuration. No installed tool, global setting,
+hook, cloud resource or hosted adapter verification.
+
 ## 11 October — source stabilization tooling
 
 Used the pinned Node 24.19.0/pnpm 11.25.0 runtime, public npm advisory/release queries,

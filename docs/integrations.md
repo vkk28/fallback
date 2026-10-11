@@ -1,5 +1,26 @@
 # Integration evidence — 2026-10-09
 
+## 12 October — actual free database; hosted runtime still pending
+
+Actual Neon Free project, PostgreSQL18/direct TLS/0.25CU/suspension and exact12table/
+141row restore are verified. Limited application role supports transactions and
+advisory locks without schema creation/request deletion. Netlify Free and repository
+integration are connected; source function bundles build locally. Native website,
+scheduled/background execution, authentication origin and Envio Cloud remain open.
+Existing Privy/contract/Envio results are not replaced by these preparation checks.
+
+## 11 October — free demo hosting scope
+
+Read-only Vercel API confirms selected Hobby scope. Google benefits show unapplied
+monthly credits; linked billing has overdue verification and an expired trial. No
+resource, identity form, paid upgrade or credit redemption occurs. Netlify account
+authentication and Neon connection are unverified. netlify.toml/pricing do not prove
+hosted functionality. Netlify Free scheduled/background functions and temporary
+Envio Development (maximum30days) are a proposed route; bounded worker adaptation,
+remote state restoration and hosted verification remain open. Actual read-only
+chain:verify passes Monad10143/runtime/asset/immutables at17:35:58UTC. Existing plans,
+financial requests, accounts and local services are preserved.
+
 ## 11 October — invitation identity and optional delivery
 
 New claims reuse server-side Privy access-token verification, user lookup and the
