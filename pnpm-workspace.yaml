@@ -18,6 +18,7 @@ allowBuilds:
   unrs-resolver: false
   '@foundry-rs/cast': true
   '@embedded-postgres/darwin-arm64': true
+  '@embedded-postgres/linux-x64': true
   bun: true
   esbuild: true
   '@reown/appkit': false

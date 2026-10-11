@@ -12,6 +12,16 @@ Prepare a persistent VM/container deployment and verify free account capacity/ac
 before choosing it. Never represent a static or backend-disconnected page as the
 deployed complete product. Preserve original consented plans and request identities.
 
+The first real GitHub run failed during frozen dependency installation because the
+Linux x64 embedded-Postgres postinstall was absent from allowBuilds. Verify the
+published18.4.0-beta.17 archive against registry SHA-512 and inspect its only
+postinstall: rehydrate bundled relative symlinks, with no network request/hook/global
+setting. Allow that exact platform package; no dependency/version/financial change.
+Oracle signup is unavailable without the user's required payment card. Other free
+hosts must be checked for card requirements, sleep and persistent worker/storage
+limits before selecting them. Free source publication is complete; hosted backend
+completion is not claimed.
+
 ## 2026-10-11 — secure first-time invitation claims
 
 Start execution item 1 in progress.md. Reuse the canonical Privy account, authenticated
