@@ -181,6 +181,19 @@
   checks, keeping full-app routes, database credentials and wallet secrets local.
 - Verified CRE SDK behaviour, workflow builds and an authorized relay-only CLI simulation.
 
+### Free hackathon hosting
+
+- Published the reviewed source to the selected public repository and deployed the
+  Next.js app/API at fallbackk.netlify.app on Netlify Free.
+- Verified public HTTP access, private-endpoint authentication, database/RPC readiness
+  and the hosted Privy sign-in entry.
+- Restored and compared all private metadata and existing request identities on
+  Neon Free with certificate-validated TLS and a limited application role.
+- Cut over the preserved signer/journal to authenticated background batches and a
+  15-minute schedule; observed one completed native batch without errors.
+- Created the free Envio Development project and validated its root cloud config,
+  shared-handler code generation and types. Actual cloud sync remains unfinished.
+
 ### Verification already completed
 
 - Passed 90 application tests and 49 contract checks, including accounting invariants,
@@ -343,20 +356,12 @@ request identities. Each step builds on the previous one; final hosting comes la
 
 ### 9. Host the complete app and verify the deployed system
 
-- Current: Neon Free metadata database restores/verifies12tables/141records with
-  certificate-validated TLS and limited app-role transactions. Authenticated finite
-  Netlify worker and15-minute trigger pass107application/49contract tests, local-chain
-  checks and function packaging. Native app/worker cutover, origin/sign-in and hosted
-  Envio still need verification. User-selected name is fallbackk.
-- Latest scope: a free hackathon demo for three or four testers with the laptop off.
-  Vercel Hobby is verified; Netlify Free with a bounded scheduled/background worker,
-  Neon Free and temporary Envio Development is proposed. netlify.toml is prepared;
-  runtime adaptation, connections, private-state cutover and hosted journeys are open.
-- Choose and authorize compatible durable hosting for the full Next.js app/API,
-  metadata PostgreSQL, Envio/indexer storage, private GraphQL and independent worker.
-- Configure HTTPS, approved authentication origins, server-only secrets, least-privilege
-  database access and durable process supervision. Services must continue operating
-  when the development computer sleeps or disconnects.
+- Finish the connected Envio Development build, verify actual event histories and
+  sync coverage, and connect its real GraphQL endpoint to the hosted app.
+- Verify native scheduled trigger and eligible payment receipts, human hosted
+  sign-in/reload and the complete owner/supporter/payee journeys.
+- Retain the free-tier quotas and temporary indexer lifetime; keep all services
+  independent of the laptop, without enabling paid upgrades or recharge.
 - Enable health/lag/job monitoring and backup both application and indexer data with
   appropriate encryption, retention and a verified restore procedure.
 - Verify fresh-device owner/supporter/payee journeys, invitation links, sponsorship,

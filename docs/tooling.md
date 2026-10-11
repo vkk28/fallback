@@ -1,15 +1,23 @@
 # Actual tooling — 2026-10-09
 
-## 12 October — hosted deployment preparation and database verification
+## 12 October — native deployment, private migration and cloud configuration
 
-Used native Chrome/CUA for provider account/setup controls, actual Free-plan checks
-and compute settings; existing authenticated Netlify CLI/SDK for deployment account
-preflight; bundled Node24/pnpm/Python; local Netlify function bundling; PostgreSQL,
-Drizzle, private exact backups/restoration and sanitized source scanning.
-Pinned official Neon CLI8.3.5 runs with ignored task-local config and analytics off;
-project-scoped mint fails, so use the user-supplied private connection. No global
-skills/MCP/hooks/IDE settings or keyring changes. Browser copying returns no usable
-credential; user enters it privately. No secret or private row output/upload to Git.
+Used Chrome/CUA for actual Free-plan/account/repository/settings controls, public-site
+confirmation, Privy entry, native worker log and Envio Development creation. User
+installed the GitHub apps for fallback only. Used the official Netlify SDK with a
+specifically user-authorized task-local OAuth token; global CLI's different identity
+is untouched. All credential/config values stay ignored mode600, never in tool logs.
+Public RPC/app ID were recreated to correct ignored secret-flag updates; actual
+secret scanning and private credentials remain protected.
+
+Used bundled Node24/pnpm11/Python, exact PostgreSQL/Drizzle backup/restore checks,
+limited-role permission probes, native Netlify builds/functions and actual HTTPS
+health/auth reads. Official Envio3.14 root codegen and generated-handler typecheck
+pass; NPM metadata verifies the official cloud CLI contract without installation.
+Private local indexer snapshot checksum passes; restoration is unverified. Neon
+CLI8.3.5 scoped mint failed; the user's private connection replaces it. Offline
+Netlify dry-run fails stack overflow; native build is the actual evidence.
+No global skills/MCP/hooks/IDE or keyring changes; no unapproved account access.
 
 ## 11 October — free demo hosting evaluation
 

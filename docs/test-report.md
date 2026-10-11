@@ -1,26 +1,37 @@
 # Actual verification — 2026-10-09 (Asia/Kolkata)
 
-## 12 October — hosted worker and verified Neon restore
+## 12 October — actual hosted app and state-preserving worker cutover
 
-- pnpm check passes107application tests/49contract checks, types/fmt/lint/ABIs.
-- pnpm test:local-chain passes actual isolated deployed-contract split/refund/cap/
-  expiry/worker-race integration. Existing timestamp lint notices remain.
-- Focused hosted-worker/function lint and types pass. Local Netlify function bundling
-  creates worker-trigger.zip and worker-background.zip; this is not hosted execution.
-- Configured chain:verify passes actual Monad10143/asset/runtime/immutables at
-  18:17:20UTC11October. No contract implementation or user request identity changes.
-- First backup fails ECONNREFUSED because local database/web were stopped. Owned
-  startup preserves existing data; fresh snapshot/disposable restore verifies12tables/
-  141rows. Worker restart initially receives automatic denial; explicit human grant
-  then permits restart of the existing signer/database worker.
-- First remote restore attempt uses an incorrect snapshot path and stops during
-  configuration. Corrected restore commits private rows, then parser-format mismatch
-  affects created_at verification. Full-precision SQL timestamp equality fixes
-  verification without changing any stored value; exact other-field checks pass.
-- Neon restore at21:25:18UTC11October verifies12tables/141rows, certificate-validated
-  TLS, and limited-role transactions/advisory locks with no schema CREATE or request
-  DELETE. Secrets and rows are never emitted. Hosted worker remains disabled.
-- Native hosted app/worker, authentication origins and Envio are not yet verified.
+- Core pnpm check passes107app/49contract checks; actual local-chain integration,
+  focused worker lint/types and local function bundling pass. No contract edit.
+- Real GitHub203fcd6 and3525676 checks pass, including native Linux dependency/core/
+  local-chain/web/CRE/static-analysis checks. Later config/doc commits are recorded
+  only when their own checks complete.
+- Final owned-web/worker quiesced snapshot/disposable restore passes12tables/141rows
+  at21:52:06UTC; exact existing-Neon comparison passes21:54:09UTC. Timestamp equality
+  uses full-precision SQL; other fields compare by primary key. TLS certificates and
+  limited-role transactions/advisory locks pass. Approved setup cleanup is granted;
+  transaction-request DELETE remainsfalse. 39existing identities are preserved.
+- Native Netlify Next.js adapter5.16.2 deploy succeeds. App/health return200; health
+  databaseReady/rpcReady/accountsConfigured/deploymentConfigured=true. Anonymous
+  /api/plans returns401 SIGN_IN_REQUIRED. Privy dialog opens; human sign-in and
+  fresh hosted sponsor/financial journeys are not yet observed.
+- Worker-enabled deploy6acc07c5a3371bdb3ffa42c7 is ready, Node24, with authenticated
+  background execution and15-minute schedule. Actual invocation202 completes in
+  4102.93ms without errors. No currently due payment receipt is inferred from it.
+- Root Envio cloud config codegen, cloud-handler typecheck and whole-source types
+  pass. Source scan231files/6configured secrets has no findings; diff check passes.
+  Development project creation succeeds; cloud indexing/GraphQL remain pending.
+- Private indexer snapshot preserves16tables/45851rows and verifies checksum;
+  disposable restoration is not tested and is not claimed.
+- Read-only chain:verify passes actual10143/asset/runtime/immutables at22:11:03UTC.
+
+Initial raw .next publication served404 until the adapter was explicit. Runtime
+builds failed on a public RPC falsely marked secret; an ignored update was detected,
+then public RPC/app ID were recreated and verified. Actual secret scanning stays on.
+Offline Netlify dry-run fails stack overflow. Initial backup/CLI-mint/restore-path/
+timestamp-parser failures are resolved as recorded in decisions/HANDOFF; they are
+not substituted with claimed passes. No private rows or credentials are emitted.
 
 ## 11 October — free hackathon hosting evaluation
 

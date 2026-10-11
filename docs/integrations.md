@@ -1,13 +1,24 @@
 # Integration evidence — 2026-10-09
 
-## 12 October — actual free database; hosted runtime still pending
+## 12 October — actual free app, database and bounded worker
 
-Actual Neon Free project, PostgreSQL18/direct TLS/0.25CU/suspension and exact12table/
-141row restore are verified. Limited application role supports transactions and
-advisory locks without schema creation/request deletion. Netlify Free and repository
-integration are connected; source function bundles build locally. Native website,
-scheduled/background execution, authentication origin and Envio Cloud remain open.
-Existing Privy/contract/Envio results are not replaced by these preparation checks.
+Netlify's native Next.js adapter serves fallbackk.netlify.app with HTTP200. Actual
+health verifies database/RPC/account/deployment configuration; unauthenticated plans
+return401. Privy sign-in dialog opens on the exact HTTPS origin; human sign-in and
+hosted sponsored actions are separate unfinished checks. No new sponsor receipt is
+inferred from configuration.
+
+Neon Free/direct certificate-verified TLS/0.25CU/suspension and exact quiesced
+12-table/141-row restore pass. Limited role supports transactions/advisory locks and
+approved setup-draft cleanup, without financial-request deletion/schema creation.
+The preserved signer/journal is cut over to an enabled15-minute native Netlify worker;
+an authenticated batch returns202 and completes4102.93ms without error. Positive
+scheduled payment receipts remain a separate gate.
+
+Envio Development fallback exists, sourcevkk28/fallback/main, root config.yaml.
+Root codegen/cloud-handler types pass; cloud build/sync/GraphQL switch are pending.
+No paid upgrade, new mainnet transaction or external recipient email occurs.
+Existing Privy/contract/history evidence below is historical and remains distinct.
 
 ## 11 October — free demo hosting scope
 
