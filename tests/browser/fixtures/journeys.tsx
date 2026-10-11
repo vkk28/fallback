@@ -4,6 +4,8 @@ import { Plan } from '../../../apps/web/app/ui/plan';
 import { CreatePlan } from '../../../apps/web/app/ui/create-plan';
 import { Account } from '../../../apps/web/app/ui/account';
 import { Dashboard } from '../../../apps/web/app/ui/home';
+import { Invite } from '../../../apps/web/app/ui/invitation';
+import { InvitationManager } from '../../../apps/web/app/ui/invitation-manager';
 import type { API, PlanData } from '../../../apps/web/app/ui/core';
 const scenario = new URL(location.href).searchParams.get('scenario') || 'active';
 const who = new URL(location.href).searchParams.get('actor') || 'owner';
@@ -22,6 +24,18 @@ const api: API = async <T,>(path: string, body?: unknown) => {
   const input = body as Record<string, unknown> | undefined;
   let result: unknown;
   if (path === 'health') result = { deploymentConfigured: true, sponsorshipEnabled: true };
+  else if (path === 'invitation-delivery-status') result = { configured: false };
+  else if (path === 'plans/fixture-plan/invitations') result = JSON.parse(sessionStorage.getItem('fixture-invitations') || '[]');
+  else if (path === 'invitations') {
+    const rows = JSON.parse(sessionStorage.getItem('fixture-invitations') || '[]');
+    if (input!.replace) rows.find((r: { id: string }) => r.id === input!.replace).status = 'replaced';
+    const row = { id: rows.length === 0 ? 'c'.repeat(64) : 'd'.repeat(64), role: 'payee', contact: input!.email ? 'email' : 'link', intendedAddress: null, status: 'open', expiresAt: new Date(Date.now() + 86400_000).toISOString(), delivery: null, attempts: null, nextAttemptAt: null };
+    rows.push(row); sessionStorage.setItem('fixture-invitations', JSON.stringify(rows));
+    result = { ...row, token: 't'.repeat(43) };
+  } else if (path === 'invitations/revoke') {
+    const rows = JSON.parse(sessionStorage.getItem('fixture-invitations') || '[]'); rows.find((r: { id: string }) => r.id === input!.id).status = 'revoked'; sessionStorage.setItem('fixture-invitations', JSON.stringify(rows)); result = { revoked: true };
+  } else if (path === 'invitations/accept') result = { planId: 'fixture-plan' };
+  else if (path === 'invitations/decline') result = { declined: true };
   else if (path === 'plans/fixture-plan') result = structuredClone(p);
   else if (path === 'profile') result = { displayName: 'Saved fixture name' };
   else if (path === 'people' || path === 'requests') result = [];
@@ -48,4 +62,4 @@ const api: API = async <T,>(path: string, body?: unknown) => {
   return result as T;
 };
 const client = new QueryClient({ defaultOptions: { queries: { retry: false, staleTime: Infinity, refetchOnWindowFocus: false } } });
-createRoot(document.getElementById('app')!).render(<QueryClientProvider client={client}><main id="main"><p role="note">Isolated UI test fixture. All values are synthetic; no real account, provider or network transaction.</p>{scenario === 'create' ? <CreatePlan api={api} identity={who} online={true} /> : scenario === 'account' ? <Account api={api} identity={who} address={accountAddress} signOut={async () => {}} /> : scenario === 'home' ? <Dashboard api={api} identity={who} /> : <Plan api={api} id="fixture-plan" identity={who} online={true} walletId="fixture-wallet" />}</main></QueryClientProvider>);
+createRoot(document.getElementById('app')!).render(<QueryClientProvider client={client}><main id="main"><p role="note">Isolated UI test fixture. All values are synthetic; no real account, provider or network transaction.</p>{scenario === 'invite' ? <Invite api={api} address={accountAddress} /> : scenario === 'onboarding' ? <><h1>Isolated invitation management</h1><InvitationManager api={api} planId="fixture-plan" identity={who} role="payee" boundAddress={null} online={true} onJoined={async () => {}} /></> : scenario === 'create' ? <CreatePlan api={api} identity={who} online={true} /> : scenario === 'account' ? <Account api={api} identity={who} address={accountAddress} signOut={async () => {}} /> : scenario === 'home' ? <Dashboard api={api} identity={who} /> : <Plan api={api} id="fixture-plan" identity={who} online={true} walletId="fixture-wallet" />}</main></QueryClientProvider>);

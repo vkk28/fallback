@@ -112,6 +112,30 @@ describe('HTTP authorization/session/recovery matrix with local SQL and signed f
     expect((await call('plans')).data).toHaveLength(1);
     expect(await db.select().from(schema.plans)).toHaveLength(1);
   });
+  it('binds a first-time invitation through server-verified email without trusting client identity fields', async () => {
+    vi.stubEnv('INVITATION_TOKEN_KEY', 'http-invitation-fixture-only-'.repeat(2));
+    const original = await db.query.plans.findFirst({ where: eq(schema.plans.id, planId) });
+    const fresh = await db.transaction(tx => createDraft(tx, recipient!, { label: 'New-person HTTP fixture', payee: null, terms: original!.terms }));
+    const input = { planId: fresh.id, role: 'payee', email: 'new-person@example.invalid' };
+    const link = await call('invitations', recipient!, 'POST', input, { 'idempotency-key': 'new_person_invite_001' });
+    expect(link.status).toBe(200);
+    expect(await call('invitations', recipient!, 'POST', input, { 'idempotency-key': 'new_person_invite_001' })).toEqual(link);
+    const stored = await db.query.requestKeys.findFirst({ where: eq(schema.requestKeys.key, 'new_person_invite_001') });
+    expect(JSON.stringify(stored)).not.toContain(link.data.token);
+    expect((await call('requests', outsider!)).data).toEqual([]);
+    expect(await call('invitations/accept', outsider!, 'POST', { token: link.data.token })).toMatchObject({ status: 403, data: { error: 'INVITED_EMAIL_REQUIRED' } });
+    const user = provider.users.get(payee!.id) as { linked_accounts: unknown[] };
+    user.linked_accounts.push({ type: 'email', address: 'new-person@example.invalid', verified_at: 100 });
+    expect((await call('requests', payee!)).data).toHaveLength(1);
+    expect((await call('session', payee!)).data).not.toHaveProperty('verifiedEmailDigests');
+    expect(await call('invitations/accept', payee!, 'POST', { token: link.data.token, verifiedEmailDigests: ['client-forged'] })).toMatchObject({ status: 400 });
+    const joined = await call('invitations/accept', payee!, 'POST', { token: link.data.token }, { 'idempotency-key': 'new_person_accept_001' });
+    expect(joined).toMatchObject({ status: 200, data: { planId: fresh.id, onchainAcceptanceRequired: true } });
+    expect((await call(`plans/${fresh.id}`, payee!)).data.plan).toMatchObject({ payee: payee!.address, proposalHash: null, role: 'payee' });
+    expect(await call('invitations/revoke', recipient!, 'POST', { id: link.data.id }, { 'idempotency-key': 'new_person_revoke_001' })).toMatchObject({ status: 409 });
+    expect((await call(`plans/${planId}`)).data.plan.payee).toBe(original!.payee);
+    expect(await db.query.transactionRequests.findMany()).toEqual([]);
+  });
   it('does not acknowledge another session’s notification as read', async () => {
     expect(await call('notifications/read', supporter!, 'POST', { id: `notification-${recipient!.id}` })).toMatchObject({ status: 200 });
     expect((await db.query.notifications.findFirst({ where: eq(schema.notifications.id, `notification-${recipient!.id}`) }))?.readAt).toBeNull();

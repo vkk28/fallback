@@ -1,4 +1,4 @@
-import { and, desc, eq, gt, isNull, lt, ne, or } from 'drizzle-orm';
+import { and, desc, eq, lt, ne, or } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
 import { z } from 'zod';
 import type { Database } from './database.js';
@@ -7,6 +7,7 @@ import { ApiError } from './security.js';
 import type { Identity } from './plans.js';
 import { planSummarySnapshot } from '../../chain/src/client.js';
 import { outstandingRequest } from './transactions.js';
+import { invitationTarget, openInvitation } from './invitations.js';
 
 export const setupFields = z.object({ label: z.string().max(80), payee: z.string().max(42), amount: z.string().max(50), firstDue: z.string().max(30), days: z.string().max(12), count: z.string().max(3), grace: z.string().max(12), minimum: z.string().max(50), maximum: z.string().max(50), cap: z.string().max(50), percent: z.string().max(12) }).strict();
 export async function saveSetup(db: Database, actor: Identity, input: unknown) {
@@ -24,7 +25,7 @@ export async function connectedPeople(db: Database, actor: Identity) {
   return db.selectDistinct({ address: accounts.address, displayName: accounts.displayName }).from(mine).innerJoin(other, eq(mine.planId, other.planId)).innerJoin(accounts, eq(accounts.id, other.userId)).where(and(eq(mine.userId, actor.id), ne(other.userId, actor.id), or(eq(mine.role, 'recipient'), eq(other.role, 'recipient'), eq(other.role, 'payee')))).limit(50);
 }
 export async function requestInbox(db: Database, actor: Identity, now = new Date()) {
-  return db.select({ id: invitations.digest, planId: plans.id, label: plans.label, role: invitations.role, expiresAt: invitations.expiresAt, requestedBy: accounts.displayName }).from(invitations).innerJoin(plans, eq(invitations.planId, plans.id)).innerJoin(accounts, eq(plans.ownerId, accounts.id)).where(and(eq(invitations.intendedAddress, actor.address.toLowerCase()), isNull(invitations.consumedBy), gt(invitations.expiresAt, now))).orderBy(invitations.expiresAt, invitations.digest).limit(50);
+  return db.select({ id: invitations.digest, planId: plans.id, label: plans.label, role: invitations.role, expiresAt: invitations.expiresAt, requestedBy: accounts.displayName }).from(invitations).innerJoin(plans, eq(invitations.planId, plans.id)).innerJoin(accounts, eq(plans.ownerId, accounts.id)).where(and(invitationTarget(actor), openInvitation(now))).orderBy(invitations.expiresAt, invitations.digest).limit(50);
 }
 export async function activityFeed(db: Database, actor: Identity, cursor: string | null) {
   let boundary;

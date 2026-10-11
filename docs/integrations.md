@@ -1,5 +1,33 @@
 # Integration evidence — 2026-10-09
 
+## 11 October — invitation identity and optional delivery
+
+New claims reuse server-side Privy access-token verification, user lookup and the
+single canonical embedded Ethereum wallet. Email targeting accepts only linked email
+records with positive verified_at, checked from the server lookup. Current SDK/signed
+HTTP fixtures prove this path and reject forged/unverified/OAuth-email claims. Session
+responses omit contact digests. This is additional local verification, not a live
+first-time signup or observed provider outage. Existing sponsored request IDs and
+consented destinations are preserved; no new financial provider call is submitted.
+Privy's [documented linked-email records](https://docs.privy.io/guide/server/webhooks/verify)
+describe the verified_at field; installed Node SDK types are authoritative for the
+implementation shape.
+
+Optional Resend delivery uses [POST /emails](https://resend.com/docs/api-reference/emails/send-email)
+with an encrypted immutable envelope and fixed idempotency key. Its documented
+[24-hour retention](https://resend.com/docs/dashboard/emails/idempotency-keys) informs
+the 23-hour retry cutoff and invitation-expiry bound. A local HTTP fixture exercises
+lost responses and competing PostgreSQL retries with one body/key and one deduplicated
+message. Unit fixtures cover throttling, permanent rejection, revoked requests and
+retry bounds. These are controlled tests, not real Resend receipt/delivery evidence.
+Provider acceptance is deliberately shown as delivery unconfirmed; no mailbox or
+webhook result is claimed.
+
+Sender credentials, a verified sender, an owned reachable full-app HTTPS origin and
+consented external recipients remain required for actual delivery verification.
+No external messages or hosted app are created. This dependency keeps execution
+item1's external verification open before the later Alchemy/recovery/lifecycle work.
+
 ## 11 October — dependency-change integration verification
 
 After the decoder upgrade, actual signed-in Chrome Home resolves the canonical

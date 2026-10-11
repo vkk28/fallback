@@ -4,7 +4,9 @@ import { z } from 'zod';
 import { database } from '../../../../../packages/backend/src/database.js';
 import { authenticate } from '../../../../../packages/backend/src/auth.js';
 import { ApiError, body, checkOrigin, digest, idempotent, rateLimit, relayAuth, invitationToken } from '../../../../../packages/backend/src/security.js';
-import { createDraft, privatePlan, invitation, acceptInvitation, invite, bindAccount, inboxPreview, acceptInbox } from '../../../../../packages/backend/src/plans.js';
+import { createDraft, privatePlan, invitation, acceptInvitation, bindAccount, inboxPreview, acceptInbox } from '../../../../../packages/backend/src/plans.js';
+import { createInvitation, invitationInput, ownerInvitations, respondInvitation, revokeInvitation } from '../../../../../packages/backend/src/invitations.js';
+import { deliverInvitation, deliveryConfigured } from '../../../../../packages/backend/src/invitation-delivery.js';
 import { accounts, memberships, notifications, plans, setupDrafts } from '../../../../../packages/backend/src/schema.js';
 import { activityFeed, connectedPeople, planSummaries, requestInbox, saveSetup } from '../../../../../packages/backend/src/experience.js';
 import { submitSponsored, retrySponsored, executeSponsored, outstandingRequest, confirmedFundingApproval } from '../../../../../packages/backend/src/transactions.js';
@@ -61,10 +63,16 @@ async function handle(request: Request, context: { params: Promise<{ path: strin
       return json(await invitation(db, input.token));
     }
     const actor = await authenticate(request);
-    if (route === 'session' && request.method === 'GET') return json(actor);
+    if (route === 'session' && request.method === 'GET') return json({ id: actor.id, address: actor.address, walletId: actor.walletId, sessionId: actor.sessionId });
     const db = database();
     await rateLimit(db, `${actor.id}:${request.method === 'GET' ? 'read' : 'write'}`, request.method === 'GET' ? 90 : 20);
     await bindAccount(db, actor);
+    if (route === 'invitation-delivery-status' && request.method === 'GET') return json({ configured: deliveryConfigured() });
+    if (route === 'invitations/deliver' && request.method === 'POST') {
+      const i = z.object({ id: z.string().regex(/^[a-f0-9]{64}$/) }).strict().parse(await body(request));
+      return json(await deliverInvitation(db, actor, i.id));
+    }
+    if (path[0] === 'plans' && path.length === 3 && path[2] === 'invitations' && request.method === 'GET') return json(await ownerInvitations(db, actor, z.string().uuid().parse(path[1])));
     if (route === 'people' && request.method === 'GET') return json(await connectedPeople(db, actor));
     if (route === 'requests' && request.method === 'GET') return json(await requestInbox(db, actor));
     if (path[0] === 'requests' && path.length === 2 && request.method === 'GET') return json(await inboxPreview(db, actor, z.string().regex(/^[a-f0-9]{64}$/).parse(path[1])));
@@ -128,6 +136,11 @@ async function handle(request: Request, context: { params: Promise<{ path: strin
         return createDraft(tx, actor, setup.draft);
       }
       if (route === 'requests/accept') return acceptInbox(tx, actor, z.object({ id: z.string().regex(/^[a-f0-9]{64}$/) }).strict().parse(input).id);
+      if (route === 'invitations/decline' || route === 'requests/decline') {
+        const i = z.union([z.object({ token: z.string().regex(/^[a-zA-Z0-9_-]{43}$/) }).strict(), z.object({ id: z.string().regex(/^[a-f0-9]{64}$/) }).strict()]).parse(input);
+        return respondInvitation(tx, actor, i, true);
+      }
+      if (route === 'invitations/revoke') return revokeInvitation(tx, actor, z.object({ id: z.string().regex(/^[a-f0-9]{64}$/) }).strict().parse(input).id);
       if (route === 'plans') return createDraft(tx, actor, input);
       if (route === 'profile') {
         const profile = z.object({ displayName: z.string().trim().min(1).max(50) }).strict().parse(input);
@@ -136,9 +149,7 @@ async function handle(request: Request, context: { params: Promise<{ path: strin
       }
       if (route === 'invitations/accept') return acceptInvitation(tx, actor, z.object({ token: z.string().length(43) }).strict().parse(input).token);
       if (route === 'invitations') {
-        const i = z.object({ planId: z.string().uuid(), role: z.enum(['payee', 'supporter']), address: addressSchema }).strict().parse(input);
-        const { token: _, ...metadata } = await invite(tx, actor, i.planId, i.role, i.address, new Date(), linkToken);
-        return metadata; // Persist no usable invitation token, even in the idempotency table.
+        return createInvitation(tx, actor, invitationInput.parse(input), linkToken!); // No usable token in idempotency storage.
       }
       if (route === 'notifications/read') {
         const i = z.object({ id: z.string().max(300) }).strict().parse(input);

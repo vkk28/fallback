@@ -9,7 +9,7 @@ const esbuild = require(createRequire(require.resolve('tsx/package.json')).resol
 let bundle: string, css: string;
 test.beforeAll(async () => {
   css = await readFile('apps/web/app/globals.css', 'utf8');
-  const result = await esbuild.build({ entryPoints: ['tests/browser/fixtures/journeys.tsx'], bundle: true, write: false, format: 'iife', platform: 'browser', jsx: 'automatic', define: { 'process.env.NODE_ENV': '"test"', 'process.env.NEXT_PUBLIC_PRIVY_APP_ID': '"ui-fixture"' }, plugins: [{ name: 'isolated-ui-fixtures', setup(build) { build.onResolve({ filter: /^@privy-io\/react-auth$/ }, () => ({ path: resolve('tests/browser/fixtures/provider.ts') })); build.onResolve({ filter: /^next\/(link|navigation)$/ }, () => ({ path: resolve('tests/browser/fixtures/navigation.tsx') })); } }] });
+  const result = await esbuild.build({ entryPoints: ['tests/browser/fixtures/journeys.tsx'], bundle: true, write: false, format: 'iife', platform: 'browser', jsx: 'automatic', define: { 'process.env.NODE_ENV': '"test"', 'process.env.NEXT_PUBLIC_PRIVY_APP_ID': '"ui-fixture"' }, plugins: [{ name: 'isolated-ui-fixtures', setup(build) { build.onResolve({ filter: /^@privy-io\/react-auth$/ }, () => ({ path: resolve('tests/browser/fixtures/provider.ts') })); build.onResolve({ filter: /^\.\/account-gate$/ }, () => ({ path: resolve('tests/browser/fixtures/account-gate.tsx') })); build.onResolve({ filter: /^next\/(link|navigation)$/ }, () => ({ path: resolve('tests/browser/fixtures/navigation.tsx') })); } }] });
   bundle = result.outputFiles![0]!.text;
 });
 test.beforeEach(async ({ page }) => {
@@ -65,4 +65,47 @@ test('isolated role fixtures: payee/supporter cannot fund an active plan; zero r
   }
   await page.goto('/__ui-fixture?scenario=account');
   await expect(page.getByLabel('Display name')).toHaveValue('Saved fixture name');
+});
+test('isolated new-person invitation: no address needed, reload lists it, revocation and replacement remain separate from money', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto('/__ui-fixture?scenario=onboarding');
+  await expect(page.getByText(/Anyone holding this link can claim/)).toBeVisible();
+  await page.getByRole('button', { name: 'Prepare invitation', exact: true }).click();
+  await expect(page.getByText('Private link request · open')).toBeVisible();
+  await page.reload();
+  await expect(page.getByText('Private link request · open')).toBeVisible();
+  await page.getByRole('button', { name: 'Revoke invitation' }).click();
+  await expect(page.getByText('Private link request · revoked')).toBeVisible();
+  await page.getByRole('button', { name: 'Prepare replacement' }).click();
+  await page.getByRole('button', { name: 'Replace invitation', exact: true }).click();
+  await expect(page.getByText('Private link request · replaced')).toBeVisible();
+  await expect(page.getByText('Private link request · open')).toBeVisible();
+  await page.getByLabel('How to invite').selectOption('email');
+  await expect(page.getByLabel('Recipient’s sign-in email')).toBeVisible();
+  await expect(page.getByLabel(/The person agreed/)).toBeDisabled();
+  expect(await page.evaluate(() => window.fixtureAuthorizations)).toBe(0);
+  expect(await page.evaluate(() => window.fixtureCalls.some(c => c.startsWith('POST transactions')))).toBe(false);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+test('isolated invitation review: sign-in return/reload retain the token; decline does not join or authorize money', async ({ page }) => {
+  const tokens: string[] = [];
+  await page.route('**/api/invitations/preview', async route => {
+    tokens.push(route.request().postDataJSON().token);
+    await route.fulfill({ contentType: 'application/json', body: JSON.stringify({ planId: 'fixture-plan', label: 'Synthetic new-person request', requestedBy: 'Fixture owner', role: 'payee', payee: null, intendedAddress: null, requiresVerifiedEmail: false, expiresAt: new Date(Date.now() + 86400_000).toISOString(), terms: { amount: '1000000', minimumReserve: '1000000', maximumReserve: '3000000', perPaymentCap: '1000000', firstDue: String(Math.floor(Date.now() / 1000) + 172800), interval: '86400', grace: '3600', fundingDeadline: String(Math.floor(Date.now() / 1000) + 86400), count: 2, coverBps: 10000 } }) });
+  });
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto('/__ui-fixture?scenario=invite#' + 't'.repeat(43));
+  await expect(page.getByRole('button', { name: 'Join this plan', exact: true })).toBeDisabled();
+  await page.goto('/__ui-fixture?scenario=invite');
+  await expect(page.getByText('Synthetic new-person request', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Decline invitation' })).toBeVisible();
+  expect(tokens.length).toBeGreaterThanOrEqual(3); expect(tokens.every(t => t === 't'.repeat(43))).toBe(true);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  await page.getByRole('button', { name: 'Decline invitation' }).click();
+  await expect(page.getByRole('heading', { name: 'Invitation declined' })).toBeVisible();
+  expect(await page.evaluate(() => sessionStorage.getItem('fallback:invitation-intent'))).toBeNull();
+  expect(await page.evaluate(() => window.fixtureCalls.includes('POST invitations/accept'))).toBe(false);
+  expect(await page.evaluate(() => window.fixtureAuthorizations)).toBe(0);
 });

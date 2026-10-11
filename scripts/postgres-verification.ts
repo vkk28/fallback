@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
+import { createServer } from 'node:http';
+import { once } from 'node:events';
 import { writeFile } from 'node:fs/promises';
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
@@ -7,6 +9,9 @@ import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import * as schema from '../packages/backend/src/schema.js';
 import { createDraft, invite, acceptInvitation, privatePlan, acceptInbox } from '../packages/backend/src/plans.js';
 import { requestInbox, saveSetup } from '../packages/backend/src/experience.js';
+import { createInvitation, revokeInvitation, respondInvitation } from '../packages/backend/src/invitations.js';
+import { eq } from 'drizzle-orm';
+import { deliverInvitation } from '../packages/backend/src/invitation-delivery.js';
 import { idempotent, rateLimit } from '../packages/backend/src/security.js';
 import { enqueue, takeJob, processOne, type Gateway } from '../apps/worker/src/jobs.js';
 import { discoveryBatch, enqueueDiscoveryBatch } from '../apps/worker/src/discovery.js';
@@ -22,6 +27,75 @@ try {
   await migrate(db, { migrationsFolder: 'infra/migrations' });
   const owner = { id: 'did:fixture:recipient', address: '0x0000000000000000000000000000000000000100' }, payee = { id: 'did:fixture:payee', address: '0x0000000000000000000000000000000000000200' };
   const now = Math.floor(Date.now() / 1000), terms = { amount: '150000000', minimumReserve: '1000000', maximumReserve: '300000000', perPaymentCap: '150000000', firstDue: String(now + 100000), interval: '86400', grace: '3600', fundingDeadline: String(now + 50000), coverBps: 10000, count: 3 };
+  const outsider = { id: 'did:fixture:first-time', address: '0x0000000000000000000000000000000000000300' };
+  const issue = async (planId: string, extra = {}) => {
+    const token = randomBytes(32).toString('base64url');
+    const result = await db.transaction(tx => createInvitation(tx, owner, { planId, role: 'payee', ...extra }, token));
+    return { ...result, token };
+  };
+  const unbound = async () => (await db.transaction(tx => createDraft(tx, owner, { label: 'Secure onboarding race fixture', payee: null, terms }))).id;
+  const claimPlan = await unbound(), claim = await issue(claimPlan);
+  const firstClaims = await Promise.allSettled([payee, outsider].map(actor => db.transaction(tx => acceptInvitation(tx, actor, claim.token))));
+  assert.equal(firstClaims.filter(r => r.status === 'fulfilled').length, 1);
+  const bound = await db.query.plans.findFirst({ where: eq(schema.plans.id, claimPlan) });
+  const winner = firstClaims[0]!.status === 'fulfilled' ? payee : outsider;
+  assert.equal(bound?.payee, winner.address);
+  assert.equal((await privatePlan(db, winner, claimPlan)).role, 'payee');
+  const replacingPlan = await unbound(), original = await issue(replacingPlan);
+  const replacements = await Promise.allSettled([1, 2, 3].map(() => issue(replacingPlan, { replace: original.id })));
+  assert.equal(replacements.filter(r => r.status === 'fulfilled').length, 1);
+  const revokingPlan = await unbound(), revoking = await issue(revokingPlan);
+  await Promise.allSettled([db.transaction(tx => revokeInvitation(tx, owner, revoking.id)), db.transaction(tx => acceptInvitation(tx, payee, revoking.token))]);
+  const terminal = await db.query.invitations.findFirst({ where: eq(schema.invitations.digest, revoking.id) });
+  assert.equal(Number(!!terminal?.consumedBy) + Number(!!terminal?.revokedAt), 1);
+  const decliningPlan = await unbound(), declining = await issue(decliningPlan);
+  const responses = await Promise.allSettled([respondInvitation(db, payee, { token: declining.token }, true), acceptInvitation(db, payee, declining.token)]);
+  assert.equal(responses.filter(r => r.status === 'fulfilled').length, 1);
+  const final = await db.query.invitations.findFirst({ where: eq(schema.invitations.digest, declining.id) });
+  assert.equal(Number(!!final?.consumedBy) + Number(!!final?.declinedAt), 1);
+  const expiringPlan = await unbound(), expiring = await issue(expiringPlan);
+  let releaseReady!: () => void;
+  const locked = new Promise<void>(resolve => { releaseReady = resolve; });
+  const held = client.begin(async tx => {
+    await tx`SELECT id FROM plans WHERE id=${expiringPlan} FOR UPDATE`;
+    await tx`UPDATE invitations SET expires_at=now() + interval '100 milliseconds' WHERE digest=${expiring.id}`;
+    releaseReady(); await new Promise(resolve => setTimeout(resolve, 250));
+  });
+  await locked;
+  const queued = acceptInvitation(db, payee, expiring.token);
+  await held;
+  await assert.rejects(queued, { code: 'INVITATION_EXPIRED_OR_USED' });
+  assert.equal((await db.query.plans.findFirst({ where: eq(schema.plans.id, expiringPlan) }))?.payee, null);
+  // Controlled local HTTP fixture, not an external email-provider success.
+  process.env.INVITATION_TOKEN_KEY = randomBytes(32).toString('hex');
+  process.env.INVITATION_DELIVERY_KEY = randomBytes(32).toString('hex');
+  process.env.INVITATION_APP_ORIGIN = 'https://fallback.example.invalid';
+  process.env.INVITATION_EMAIL_FROM = 'invite@example.invalid';
+  process.env.RESEND_API_KEY = 'fixture-only-no-external-provider';
+  let networkCalls = 0;
+  const messages = new Map<string, string>();
+  const server = createServer(async (request, response) => {
+    const chunks: Buffer[] = [];
+    for await (const chunk of request) chunks.push(Buffer.from(chunk));
+    const body = Buffer.concat(chunks).toString(), key = String(request.headers['idempotency-key']);
+    networkCalls++;
+    if (messages.has(key)) assert.equal(messages.get(key), body);
+    else messages.set(key, body);
+    if (networkCalls === 1) { response.destroy(); return; } // Accepted by fixture, response lost.
+    response.writeHead(200, { 'content-type': 'application/json' }); response.end(JSON.stringify({ id: 'controlled-http-fixture' }));
+  });
+  server.listen(0, '127.0.0.1'); await once(server, 'listening');
+  try {
+    const port = server.address(); assert.ok(port && typeof port !== 'string');
+    const transport: typeof fetch = async (url, options) => { assert.equal(url, 'https://api.resend.com/emails'); return fetch(`http://127.0.0.1:${port.port}`, options); };
+    const mailingPlan = await unbound(), mail = await issue(mailingPlan, { email: 'first-time@example.invalid', deliveryConsent: true });
+    const at = new Date();
+    assert.equal((await deliverInvitation(db, owner, mail.id, at, transport)).status, 'retry');
+    const deliveryRace = await Promise.all([1, 2, 3].map(() => deliverInvitation(db, owner, mail.id, new Date(at.getTime() + 30_000), transport)));
+    assert.ok(deliveryRace.every(r => r.status === 'accepted' && !r.delivered));
+    assert.equal(networkCalls, 2); assert.equal(messages.size, 1);
+    assert.equal((await db.query.invitationDeliveries.findFirst({ where: eq(schema.invitationDeliveries.invitationId, mail.id) }))?.attempts, 2);
+  } finally { server.close(); await once(server, 'close'); }
   const rateNow = new Date();
   await rateLimit(db, 'postgres-rate-fixture', 2, rateNow);
   await rateLimit(db, 'postgres-rate-fixture', 2, rateNow);
@@ -76,6 +150,6 @@ try {
   assert.equal(inspections, 1); assert.deepEqual(results[0], results[1]); assert.deepEqual(results[1], results[2]);
   assert.equal(results[0]!.paid, false);
   const version = await client`SELECT version()`;
-  await writeFile('docs/evidence/postgres-verification.json', JSON.stringify({ runtime: String(version[0]?.version), migrations: 'passed through 0007', privateSetupRace: 'one revision-zero save wins; stale competing save rejected', inboxAcceptanceRace: 'one authenticated acceptance wins without a usable invitation token', rateWindow: 'passed: reject excess and reset at boundary with actual driver', concurrentIdempotency: 'one mutation', invitationRace: 'one acceptance', leaseRace: 'one lease', nonceReservationRace: 'two concurrent jobs reserve separate nonces before broadcast; lost-response retries never resign', discoveryRace: 'three observers share one frozen batch; three submissions inspect/enqueue/advance once with identical acknowledgements', privacyFixtures: 'locally generated identities, not live Privy sessions', observedAt: new Date().toISOString() }, null, 2));
-  console.log('Real PostgreSQL verified: migrations, rate window/reset, idempotency, invitation/lease races, and serialized discovery/acknowledgement races.');
+  await writeFile('docs/evidence/postgres-verification.json', JSON.stringify({ runtime: String(version[0]?.version), migrations: 'passed through 0008', secureInvitationRaces: 'one first-time canonical claimant; one replacement; accept/revoke and accept/decline serialize to one terminal outcome', deliveryFixture: 'controlled local HTTP with lost response and three concurrent retries: one immutable message/provider key, two HTTP calls, one accepted result; no real email sent', privateSetupRace: 'one revision-zero save wins; stale competing save rejected', inboxAcceptanceRace: 'one authenticated acceptance wins without a usable invitation token', rateWindow: 'passed: reject excess and reset at boundary with actual driver', concurrentIdempotency: 'one mutation', invitationRace: 'one acceptance', leaseRace: 'one lease', nonceReservationRace: 'two concurrent jobs reserve separate nonces before broadcast; lost-response retries never resign', discoveryRace: 'three observers share one frozen batch; three submissions inspect/enqueue/advance once with identical acknowledgements', privacyFixtures: 'locally generated identities, not live Privy sessions', observedAt: new Date().toISOString() }, null, 2));
+  console.log('Real PostgreSQL verified: migrations through 0008, first-time claims/replacement/revocation/decline races, rate windows, idempotency, lease/nonce and discovery races.');
 } finally { await client.end(); await admin.unsafe(`DROP DATABASE "${name}"`); await admin.end(); }

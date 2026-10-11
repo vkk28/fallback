@@ -68,6 +68,20 @@
 
 ### Backend, invitations and saved setup
 
+- Added address-free invitations for new payees/supporters, using an exact account,
+  a Privy-verified email or a private link claimed by the authenticated person.
+- Allowed an unbound preliminary payee draft, with financial preparation blocked
+  until a one-time claim binds the destination. Existing consented terms and request
+  identities are preserved.
+- Added owner revocation, invitee decline, expiry and atomic replacement with
+  serialized claims and safe retries. Accepted membership cannot be revoked.
+- Retained invitation intent through sign-in return/reload and added visible status,
+  expiry and management controls. Joining remains separate from financial consent.
+- Prepared optional consented email delivery with an encrypted immutable outbox,
+  exact provider retry identity, bounded backoff and truthful provider-acceptance
+  states. Verified controlled local HTTP failures/concurrency; actual external
+  delivery and new-account provider sign-in remain unverified.
+
 - Implemented persistent PostgreSQL storage for profiles, labels, memberships,
   invitations, setup drafts, requests, notifications, idempotency records and jobs.
 - Added expiring single-use invitations bound to the intended account, storing
@@ -225,15 +239,17 @@ request identities. Each step builds on the previous one; final hosting comes la
 
 ### 1. Finish secure invitations and new-person onboarding
 
-- Let an owner invite a new payee or supporter without manually obtaining their
-  account address. Bind a verified contact identity or secure invitation claim to
-  the authenticated person's canonical Privy account before financial consent.
-- Support someone signing in for the first time, returning to their invitation,
-  reviewing it and joining with the intended account without losing the request.
-- Add revocation, decline, clear expiry and safe resend/replacement, preserving
-  single-use acceptance, role checks and private visibility.
-- Complete consented email invitation delivery and failure/retry handling for the
-  chosen contact flow. Delivery, membership and onchain consent remain distinct.
+- Verify the implemented address-free flow with an actual newly created Privy account:
+  email sign-in, invitation return, review and one-time canonical-account claim.
+  Local authenticated HTTP, SQL races and isolated browser checks cover the
+  implementation; they are not a live first-time sign-in result.
+- Configure the optional sender credentials, verified sending identity and owned
+  reachable HTTPS application origin. Obtain consented recipients before sending
+  or testing external email; no messages have been sent by the implementation.
+- Complete actual email-provider delivery/failure/retry verification for the
+  implemented encrypted outbox. Keep provider acceptance, mailbox delivery,
+  membership and onchain consent distinct. Retain its tested revocation, decline,
+  exact expiry, atomic replacement, private visibility and immutable request identity.
 
 ### 2. Strengthen RPC access and complete the Alchemy integration
 

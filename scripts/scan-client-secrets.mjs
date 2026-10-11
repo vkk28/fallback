@@ -11,7 +11,7 @@ async function files(path) {
   return result;
 }
 const raw = existsSync('.env') ? await readFile('.env', 'utf8') : '';
-const privateValues = raw.split('\n').map(line => { const i = line.indexOf('='); return [line.slice(0, i), line.slice(i + 1).trim().replace(/^['"]|['"]$/g, '')]; }).filter(([k, v]) => k && /SECRET|PRIVATE_KEY|PASSWORD|TOKEN_KEY|DATABASE_URL/.test(k) && !k.startsWith('NEXT_PUBLIC_') && v && v.length > 16);
+const privateValues = raw.split('\n').map(line => { const i = line.indexOf('='); return [line.slice(0, i), line.slice(i + 1).trim().replace(/^['"]|['"]$/g, '')]; }).filter(([k, v]) => k && /SECRET|PRIVATE_KEY|PASSWORD|TOKEN_KEY|DELIVERY_KEY|API_KEY|DATABASE_URL/.test(k) && !k.startsWith('NEXT_PUBLIC_') && v && v.length > 16);
 const artifacts = await files('apps/web/.next/static');
 const leaked = new Set();
 for (const path of artifacts) { const text = await readFile(path, 'utf8'); for (const [key, value] of privateValues) if (text.includes(value)) leaked.add(key); }

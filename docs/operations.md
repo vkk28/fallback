@@ -5,7 +5,8 @@
 Run `node scripts/prepare-env.mjs`; edit ignored `.env` locally, permissions 600.
 `.env.example` documents names only. Server secrets: PRIVY_APP_SECRET, DATABASE_URL,
 ENVIO_GRAPHQL_SECRET/API_TOKEN, WORKER_PRIVATE_KEY, CRE_RELAY_SECRET and invitation
-HMAC key. NEXT_PUBLIC_PRIVY_APP_ID alone is public. Contract addresses/start block
+HMAC key. Optional email delivery also uses RESEND_API_KEY and
+INVITATION_DELIVERY_KEY. NEXT_PUBLIC_PRIVY_APP_ID alone is public. Contract addresses/start block
 are public verified deployment values. Prefer a host secret manager for remote use.
 Never copy `.env`, keystores, database data, browser sessions or broadcast sender
 metadata into source archives. The reviewed source has a private local Git baseline;
@@ -32,6 +33,36 @@ after PostgreSQL returns. It does not replace metadata or reset indexer tables.
 Verify `pnpm graphql:status` and a real query; a listening container alone is insufficient.
 
 ## Local startup and migrations
+
+Migration 0008 adds invitation claims/lifecycle and the encrypted delivery outbox;
+it preserves existing plans, accounts and transaction requests. Back up with
+`pnpm db:backup-local` before applying it. The backup helper includes the new table
+and restores into a disposable database, never over the application database.
+
+Optional email setup requires a verified Resend sender in INVITATION_EMAIL_FROM,
+server-only RESEND_API_KEY, a random 32-byte INVITATION_DELIVERY_KEY encoded as 64
+lowercase hex characters, and an owned reachable HTTPS INVITATION_APP_ORIGIN.
+Keep both invitation keys with private backups; changing the HMAC key invalidates
+email matching for existing invitations, and losing the encryption key prevents
+delivery retries. Do not change keys merely to recover an unresolved send.
+No sender is scheduled or started automatically. An owner selects verified email,
+records recipient contact consent, prepares the invitation, and explicitly chooses
+Send invitation email. Localhost email delivery is disabled. A shared email-bound
+link still works locally with the intended verified account.
+
+Delivery fixes the provider idempotency key and encrypted message across retries.
+Timeouts, throttling, conflicts and server errors remain unresolved/retryable with
+30-second exponential backoff, at most five attempts, invitation expiry and a
+23-hour first-attempt cutoff. Permanent rejection requires replacement; replacing
+revokes the old link atomically. A crash after sending can retry the same body/key
+within these bounds. Resend retains keys for 24 hours; see its
+[idempotency documentation](https://resend.com/docs/dashboard/emails/idempotency-keys).
+“Provider accepted” does not prove mailbox delivery. No delivery webhook or mailbox
+success is claimed. Obtain authorized recipients before external verification.
+
+Builds replace .next assets. Rebuild and restart the owned web process before
+browser checks; running an old server against newly built chunks invalidates those
+checks. Run chain:verify after Foundry/local-chain artifact generation has finished.
 
 Use Node 24.19.0/pnpm 11.25.0. `pnpm db:local` starts only port 54329 and keeps project
 data under ignored `infra/data/postgres`. `pnpm db:migrate` applies versioned Drizzle

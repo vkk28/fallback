@@ -57,8 +57,16 @@ from unknown/replaced/provider-error states.
 
 PostgreSQL stores offchain labels/optional profile names, memberships, invitation
 hashes, idempotent requests/notifications and leased jobs. Schema migrations are in
-`infra/migrations`. Invitations have high entropy, exact invited-account binding and
-bounded expiry; fragment links reveal terms, not dashboard or signing authority.
+`infra/migrations`. Invitations have high entropy and bounded expiry. Targets can be
+an exact account, a keyed digest of a server-verified Privy email, or a private link
+whose first authenticated claimant binds the account. A new preliminary plan can
+have no payee; financial preparation is blocked until its invitation is claimed.
+Only an unbound, unproposed, unpublished draft with no transaction request can gain
+that destination. Accepted destinations and consented terms never change.
+Plan-row locks serialize claims, decline, revocation and replacement. Fragment links
+reveal terms, not dashboard or signing authority. Email delivery is an optional,
+explicit owner action with a consented immutable envelope encrypted in a separate
+private outbox. Provider acceptance, membership and onchain consent remain distinct.
 Names are neither onchain nor independent identity verification. API responses are
 no-store, origin-protected, size/schema/rate bounded and membership scoped. Private
 cache is in memory, keyed by verified identity, cleared on logout.

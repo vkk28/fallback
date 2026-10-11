@@ -1,5 +1,53 @@
 # Actual verification — 2026-10-09 (Asia/Kolkata)
 
+## 11 October — secure invitations and first-time onboarding implementation
+
+- Final pnpm check passes102 application tests and49 contract checks; strict backend
+  types, formatting, contract lint and generated ABIs pass. Final targeted invitation
+  and signed HTTP tests pass24 checks. No contract implementation changes.
+- Real PostgreSQL migrations through0008 pass in disposable databases. Competing
+  first-time claims bind one canonical account; competing replacements yield one
+  new invitation. Claim/revoke and claim/decline races produce one terminal state.
+  A claim deliberately queued behind a plan lock across expiry is rejected with
+  no destination binding or membership mutation.
+- A controlled local HTTP server accepts a fixture message then drops its response.
+  Three concurrent retries preserve one body/key, perform two total HTTP calls,
+  and record one provider-accepted outcome. No request reaches an external email
+  provider. Unit fixtures also cover422 rejection, throttling, retry age, revocation,
+  wrong accounts, unverified/forged email and immutable destinations.
+- The additive migration preserves all39 transaction requests and existing plan
+  terms. Read-only before/after probes report the original active own250/reserve300,
+  paid0/used0, first due11Oct22:18UTC; completed B retains zero claims. No signing,
+  financial submission, replacement financial request or settlement enqueue.
+- Private backup/restore verifies141 exact rows in11 tables before migration and
+  12 afterward. Restores use new disposable databases, never the application database.
+- Local-chain lifecycle/split/refund/cap/expiry/race checks pass. Configured Monad
+  chain:verify validates test asset/runtime/factory immutables. This remains the
+  existing RPC, not a completed Alchemy integration.
+- Production build, web types, app lint and client/source secret scans pass. All13
+  browser tests pass, including isolated actual-component invitation preparation,
+  reload, revoke/replacement, account return/token recovery and decline; Axe and
+  mobile overflow checks cover these fixture states. Provider sign-in entry is
+  tested without entering credentials. Fixtures cannot create live app balances
+  or provider receipts.
+- Actual signed-in Chrome reloads the rebuilt Home with all three existing plans,
+  displays address-free new-person setup guidance and returns to Home with the same
+  session. No draft fields are edited/saved and no OTP, membership or financial
+  authorization is submitted in this inspection.
+
+Initial tests needed sandbox permission for loopback sockets; the permission-enabled
+suite passes. Initial chain verification raced a Foundry artifact rebuild; sequential
+verification passes. An initial browser run served old HTML with new build chunks;
+owned web restart restores all public/PWA checks. The isolated manager fixture also
+needed its own page heading; that fixture correction passes Axe. Existing optional
+Privy/Farcaster/Solana and viem/Tempo warnings remain.
+
+Actual first-time Privy signup/account creation and real email-provider delivery,
+failure or mailbox receipt remain unverified. A verified sender, server credentials,
+owned reachable HTTPS app and authorized recipients are still required. No external
+email is sent, no full app is published and no user OTP/financial confirmation is
+performed by the agent. See sanitized secure-invitations.json and HANDOFF.md.
+
 ## 11 October — source stabilization verification
 
 The local source baseline excludes private configuration, raw evidence, backups and

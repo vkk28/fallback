@@ -8,7 +8,7 @@ if (!paths.length) throw new Error('NO_SOURCE_FILES');
 const env = existsSync('.env') ? readFileSync('.env', 'utf8') : '';
 const secrets = env.split('\n').flatMap(line => {
   const match = line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/);
-  if (!match || match[1].startsWith('NEXT_PUBLIC_') || !/SECRET|PRIVATE_KEY|PASSWORD|TOKEN_KEY|DATABASE_URL/.test(match[1])) return [];
+  if (!match || match[1].startsWith('NEXT_PUBLIC_') || !/SECRET|PRIVATE_KEY|PASSWORD|TOKEN_KEY|DELIVERY_KEY|API_KEY|API_TOKEN|DATABASE_URL/.test(match[1])) return [];
   const value = match[2].trim().replace(/^['"]|['"]$/g, '');
   return value.length >= 16 ? [value] : [];
 });

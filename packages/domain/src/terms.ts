@@ -19,7 +19,7 @@ export const termsSchema = z.object({
     ctx.addIssue({ code: 'custom', message: 'Schedule or reserve limits are inconsistent' });
   }
 });
-export const draftSchema = z.object({ label: z.string().trim().min(1).max(80), payee: addressSchema, terms: termsSchema }).strict();
+export const draftSchema = z.object({ label: z.string().trim().min(1).max(80), payee: addressSchema.nullable(), terms: termsSchema }).strict();
 export type TermsInput = z.infer<typeof termsSchema>;
 
 export function contractTerms(t: TermsInput, metadataCommitment: `0x${string}`) {

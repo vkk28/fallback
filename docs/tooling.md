@@ -498,3 +498,29 @@ progress.md is a detailed completed/remaining capability checklist, including th
 redesign/About and verified checks. Dates, checkpoint balances and session history
 stay in dedicated evidence/HANDOFF files. This format is the user's preference.
 No financial/build suite or service-health probe reran for documentation edits.
+
+## 11 October — secure invitation execution
+
+Used project Graphify reflect, vocabulary-expanded query and source-verified memory,
+then code-only extraction with one AST worker and cluster-only . --no-label. Latest
+local graph covers the uncommitted invitation/schema/UI/test source above d92d68e:
+822 nodes,1963 edges,54 communities. Four self-loops remain; no missing/dangling
+endpoints or collapsed edges. Solidity/SQL parsers remain unavailable. No semantic
+model calls, hook installation, global graph, upload or package upgrade.
+
+Used existing Node24/pnpm, Privy SDK types/token verifier, Drizzle/PGlite, real local
+PostgreSQL, Fetch/AES-GCM, Foundry/Anvil, Playwright/Axe and authorized Chrome/CUA.
+Generated migration0008's snapshot with the existing drizzle-kit into an ignored
+scratch directory, preserving the prior snapshot identity chain and SQL constraint
+names. No application dependency or email SDK was installed; Resend uses its official
+HTTP endpoint. Primary Privy/Resend docs were consulted for verified email records
+and idempotency retention. Email transport tests use .invalid contacts and a local
+HTTP server; they never call Resend. No live mailbox/provider success is inferred.
+
+Socket-dependent tests require permission-enabled loopback access. Sequence
+Foundry artifact generation before chain:verify, and production build plus owned
+web restart before browser tests; concurrent replacement artifacts invalidate
+verification against the old server. Invitation envelope/HMAC/API keys are covered
+by source/client scanning and remain server-only; unconfigured email credentials
+are not invented for live tests. Public and isolated screenshots/results stay
+separate from authenticated UI and actual chain receipts.

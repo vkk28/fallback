@@ -3,6 +3,7 @@ import type { User } from '@privy-io/node/resources';
 import { ApiError } from './security.js';
 import { addressSchema } from '../../domain/src/terms.js';
 import type { Identity } from './plans.js';
+import { contactDigest } from './invitation-delivery.js';
 
 export type AuthenticatedIdentity = Identity & { walletId: string; sessionId: string };
 let client: PrivyClient | undefined;
@@ -34,9 +35,13 @@ export async function authenticate(request: Request): Promise<AuthenticatedIdent
     const claims = await privy.utils().auth().verifyAccessToken(token.slice(7));
     const user = await privy.users()._get(claims.user_id);
     if (user.id !== claims.user_id) throw new ApiError(401, 'AUTHENTICATION_FAILED');
-    return { ...canonicalAccount(user), sessionId: claims.session_id };
+    return { ...canonicalAccount(user), sessionId: claims.session_id, verifiedEmailDigests: verifiedEmailDigests(user) };
   } catch (error) {
     if (error instanceof ApiError) throw error;
     throw new ApiError(401, 'AUTHENTICATION_FAILED');
   }
+}
+export function verifiedEmailDigests(user: User) {
+  if (!process.env.INVITATION_TOKEN_KEY) return [];
+  return user.linked_accounts.flatMap(a => a.type === 'email' && a.verified_at > 0 ? [contactDigest(a.address)] : []);
 }

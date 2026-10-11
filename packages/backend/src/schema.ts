@@ -1,4 +1,5 @@
-import { pgTable, text, timestamp, integer, jsonb, primaryKey, uniqueIndex } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, integer, jsonb, primaryKey, uniqueIndex, check, index, foreignKey } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import type { DiscoveryBatch, DiscoveryResult } from '../../domain/src/scheduling.js';
 
 export const accounts = pgTable('accounts', {
@@ -8,11 +9,11 @@ export const accounts = pgTable('accounts', {
 });
 export const plans = pgTable('plans', {
   id: text().primaryKey(), ownerId: text('owner_id').notNull().references(() => accounts.id),
-  label: text().notNull(), payee: text().notNull(), terms: jsonb().$type<Record<string, string | number>>().notNull(),
+  label: text().notNull(), payee: text(), terms: jsonb().$type<Record<string, string | number>>().notNull(),
   salt: text().notNull(), chainId: integer('chain_id').notNull(),
   address: text(), proposalHash: text('proposal_hash'), proposalNonce: text('proposal_nonce'), consentExpires: text('consent_expires'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-}, t => [uniqueIndex('plans_chain_address').on(t.chainId, t.address)]);
+}, t => [uniqueIndex('plans_chain_address').on(t.chainId, t.address), check('bound_payee_before_proposal', sql`${t.payee} IS NOT NULL OR (${t.address} IS NULL AND ${t.proposalHash} IS NULL)`)]);
 export const memberships = pgTable('memberships', {
   planId: text('plan_id').notNull().references(() => plans.id), userId: text('user_id').notNull().references(() => accounts.id),
   role: text({ enum: ['recipient', 'supporter', 'payee'] }).notNull(),
@@ -26,10 +27,21 @@ export const setupDrafts = pgTable('setup_drafts', {
 });
 export const invitations = pgTable('invitations', {
   digest: text().primaryKey(), planId: text('plan_id').notNull().references(() => plans.id),
-  role: text({ enum: ['supporter', 'payee'] }).notNull(), intendedAddress: text('intended_address').notNull(),
+  role: text({ enum: ['supporter', 'payee'] }).notNull(), intendedAddress: text('intended_address'),
+  intendedEmailDigest: text('intended_email_digest'),
   expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(), consumedBy: text('consumed_by'),
   consumedAt: timestamp('consumed_at', { withTimezone: true }),
-});
+  revokedAt: timestamp('revoked_at', { withTimezone: true }), declinedAt: timestamp('declined_at', { withTimezone: true }),
+  replacedBy: text('replaced_by'),
+}, t => [index('invitation_contact_inbox').on(t.intendedEmailDigest, t.expiresAt)]);
+// Private encrypted, immutable delivery envelope. Never store a usable link in plaintext.
+export const invitationDeliveries = pgTable('invitation_deliveries', {
+  invitationId: text('invitation_id').primaryKey(),
+  envelope: text().notNull(), status: text().notNull().default('ready'),
+  attempts: integer().notNull().default(0), providerId: text('provider_id'),
+  firstAttemptAt: timestamp('first_attempt_at', { withTimezone: true }),
+  nextAttemptAt: timestamp('next_attempt_at', { withTimezone: true }).notNull().defaultNow(),
+}, t => [foreignKey({ name: 'invitation_deliveries_invitation_id_fkey', columns: [t.invitationId], foreignColumns: [invitations.digest] })]);
 export const notifications = pgTable('notifications', {
   id: text().primaryKey(), userId: text('user_id').notNull().references(() => accounts.id),
   planId: text('plan_id').notNull().references(() => plans.id), type: text().notNull(), transactionHash: text('transaction_hash'),

@@ -1,5 +1,52 @@
 # Decision record
 
+## 2026-10-11 — authorized source publication and free hosting
+
+User explicitly selected the public vkk28/fallback GitHub repository and granted
+deployment authority, then limited hosting to existing credits/free resources.
+Verify remote state, retain its existing visibility and publish scanned source only.
+Private env, wallets, database/backups, browser metadata and raw evidence stay local.
+No paid upgrade/provisioning is authorized. Sites' Worker runtime cannot run this
+Node/PostgreSQL/background-worker stack; keep the existing architecture intact.
+Prepare a persistent VM/container deployment and verify free account capacity/access
+before choosing it. Never represent a static or backend-disconnected page as the
+deployed complete product. Preserve original consented plans and request identities.
+
+## 2026-10-11 — secure first-time invitation claims
+
+Start execution item 1 in progress.md. Reuse the canonical Privy account, authenticated
+API/idempotency and private setup paths; add no account stack or contract mutation.
+Preliminary plans may have a null payee. transactions.ts rejects financial preparation
+until a claim binds it; a database constraint also prevents an unbound proposal or
+published plan. Claiming fills only an unbound draft with no proposal/deployment or
+transaction request. Existing destinations and consented terms stay immutable.
+
+invitations.ts accepts exact-account, verified-email and secure-link targets.
+Only email linked_accounts with positive verified_at from server-side Privy user
+lookup count; client claims, unverified email and OAuth email fields do not. Store
+keyed contact digests, and omit them from session/public responses. A private bearer
+link deliberately lets its first authenticated holder claim it; explain this in the
+owner UI rather than implying verified identity. Plan locks serialize first claims,
+replacement, revoke and decline; one target cannot be reused after a terminal state.
+Accepted membership is never removed by revocation. Same-account/email open requests
+require explicit replacement; different supporter link requests remain independent.
+
+Optional invitation-delivery.ts uses the documented Resend HTTP endpoint without
+adding dependencies. Contact consent is explicit before creating an encrypted,
+immutable delivery envelope. AES-GCM binds ciphertext to the invitation identity;
+no usable token or raw contact is in plaintext request/idempotency storage. No
+automatic sender is enabled. Owner-triggered attempts retain the same provider key
+and body; row/plan locks serialize them, bounded backoff/attempts/expiry and a
+23-hour cutoff stay inside documented 24-hour key retention. API acceptance is
+displayed separately from mailbox delivery, membership and financial consent.
+
+Migration 0008 and its generated schema snapshot are additive. The existing local
+application is backed up before/after migration and restored into disposable
+databases. New SQL/HTTP/browser tests use labelled local fixtures, never fabricated
+live provider evidence. Real first-time Privy sign-in and authorized external email
+delivery remain verification dependencies. No email, financial action, hosting,
+global settings, hooks or upload is authorized or performed by this implementation.
+
 ## 2026-10-11 — local source stabilization and dependency fix
 
 Established the reviewed private baseline (39da7d3), with an anonymous local commit

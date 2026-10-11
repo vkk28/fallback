@@ -41,4 +41,6 @@ docs/evidence/*
 !docs/evidence/source-stabilization.json
 
 .pnpm-store/
+.vercel/
+.railway/
 indexer/config.fixture.yaml

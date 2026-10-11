@@ -37,6 +37,7 @@ export async function confirmedFundingApproval(db: Database, actor: Authenticate
 export async function prepareAction(db: Database, actor: AuthenticatedIdentity, raw: unknown): Promise<{ to: Hex; data: Hex }> {
   const input = actionSchema.parse(raw);
   const plan = await privatePlan(db, actor, input.planId);
+  if (!plan.payee) throw new ApiError(409, 'PAYEE_CLAIM_REQUIRED');
   const c = chainClient();
   if (c.chain.id !== 10143 || await c.client.getChainId() !== 10143) throw new ApiError(409, 'MONAD_TESTNET_REQUIRED');
   const amount = input.amount ? BigInt(input.amount) : 0n;
