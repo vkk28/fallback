@@ -1,0 +1,32 @@
+name: Financial core
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.19.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm scan:source
+      - run: pnpm compiler:install
+      - run: pnpm check
+      - run: pnpm test:local-chain
+      - run: pnpm web:typecheck
+      - run: pnpm web:build
+      - run: pnpm cre:typecheck
+      - run: pnpm cre:test
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m venv .tools/security
+      - run: .tools/security/bin/python -m pip install -r infra/python-tools.lock
+      - run: pnpm contracts:slither
+      - run: git diff --exit-code -- packages/chain/src

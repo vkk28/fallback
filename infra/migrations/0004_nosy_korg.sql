@@ -1,0 +1,1 @@
+ALTER TABLE "transaction_requests" ADD COLUMN "wallet_id" text;

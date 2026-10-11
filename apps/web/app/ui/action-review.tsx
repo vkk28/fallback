@@ -1,0 +1,10 @@
+'use client';
+import { useEffect, useRef } from 'react';
+import { Terms, money } from './core';
+export type Review = { action: string; title: string; amount?: string; displayAmount?: string; detail: string; confirm: string };
+export function ActionReview({ review, terms, blocked, onClose, onConfirm }: { review: Review | null; terms: Record<string, string | number>; blocked: boolean; onClose: () => void; onConfirm: (review: Review) => void }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const dismissal = useRef<HTMLButtonElement>(null);
+  useEffect(() => { if (review && !dialog.current?.open) { dialog.current?.showModal(); dismissal.current?.focus(); } }, [review]);
+  return <dialog ref={dialog} className="review-dialog" aria-labelledby="review-title" onCancel={onClose} onClose={onClose}>{review && <><p className="eyebrow">Review this action</p><h2 id="review-title">{review.title}</h2>{(review.displayAmount || review.amount) && <p className="review-amount">{money(review.displayAmount || review.amount)} <small>FBTEST</small></p>}<p>{review.detail}</p>{review.action !== 'mintTestTokens' && <><div className="review-boundaries"><p>Backup for each payment: at most {money(String(terms.perPaymentCap))} FBTEST and {Number(terms.coverBps) / 100}%.</p><p>Starting locks money in this plan. Ending releases unused allocations for separate returns; completed payments stay final.</p></div><details><summary>Full agreed payment terms</summary><Terms terms={terms} /></details></>}<p className="field-help">Monad testnet · FBTEST test tokens have no real value. Your account will request authorization for this exact action. If sponsorship is unavailable, the action cannot proceed.</p><div className="buttons"><button ref={dismissal} type="button" className="secondary" onClick={() => { dialog.current?.close(); onClose(); }}>{review.action === 'cancel' ? 'Keep plan' : 'Go back'}</button><button type="button" disabled={blocked} onClick={() => { dialog.current?.close(); onConfirm(review); }}>{review.confirm}</button></div></>}</dialog>;
+}

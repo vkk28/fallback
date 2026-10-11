@@ -1,0 +1,4 @@
+{
+  "apiOrigin": "https://closer-joke-classification-related.trycloudflare.com",
+  "schedule": "0 */1 * * * *"
+}

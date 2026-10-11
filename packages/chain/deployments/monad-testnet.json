@@ -1,0 +1,25 @@
+{
+  "chainId": 10143,
+  "token": "0xb6cD9F9dCC2Ef475498d1D0D6E236Cf79D33008B",
+  "factory": "0x658eE9465274e74C179719A7cbb6402201c36023",
+  "asset": {
+    "symbol": "FBTEST",
+    "decimals": 6,
+    "testOnly": true,
+    "realValue": false
+  },
+  "receipts": [
+    {
+      "hash": "0xc06e1cfb78f81ff9567141c458c51d25d7cc7def12c47dd3a521fca442f68fac",
+      "address": "0xb6cD9F9dCC2Ef475498d1D0D6E236Cf79D33008B",
+      "block": "69077351"
+    },
+    {
+      "hash": "0xa0f32c4b186c89cff2d3513158e5ad721ede2f417657cb0a99baab947ca528ea",
+      "address": "0x658eE9465274e74C179719A7cbb6402201c36023",
+      "block": "69077360"
+    }
+  ],
+  "sourceVerification": "pending-explorer-verification",
+  "observedAt": "2026-10-07T22:03:00.831Z"
+}

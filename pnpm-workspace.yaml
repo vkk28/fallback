@@ -1,0 +1,43 @@
+packages:
+  - packages/*
+  - apps/*
+overrides:
+  use-sync-external-store: 1.7.0
+  express@4.19.2: 4.22.3
+  body-parser@<1.20.6: 1.20.6
+  path-to-regexp@<0.1.13: 0.1.13
+  serve-static@<1.16.0: 1.16.2
+  send@<0.19.0: 0.19.2
+  cookie@<0.7.0: 0.7.2
+  qs@<6.16.0: 6.16.0
+  ws@>=8.0.0 <8.21.0: 8.21.0
+  esbuild@<=0.24.2: 0.25.12
+  uuid@<11.1.1: 11.1.1
+allowBuilds:
+  unrs-resolver: false
+  '@foundry-rs/cast': true
+  '@embedded-postgres/darwin-arm64': true
+  bun: true
+  esbuild: true
+  '@reown/appkit': false
+  bufferutil: false
+  keccak: false
+  utf-8-validate: false
+  '@foundry-rs/forge': true
+  '@foundry-rs/anvil': true
+minimumReleaseAgeExclude:
+  - '@next/env@16.4.0'
+  - '@next/swc-darwin-arm64@16.4.0'
+  - '@next/swc-darwin-x64@16.4.0'
+  - '@next/swc-linux-arm64-gnu@16.4.0'
+  - '@next/swc-linux-arm64-musl@16.4.0'
+  - '@next/swc-linux-x64-gnu@16.4.0'
+  - '@next/swc-linux-x64-musl@16.4.0'
+  - '@next/swc-win32-arm64-msvc@16.4.0'
+  - '@next/swc-win32-x64-msvc@16.4.0'
+  - '@privy-io/js-sdk-core@0.78.1'
+  - '@privy-io/react-auth@3.48.0'
+  - next@16.4.0
+patchedDependencies:
+  braces@3.0.3: patches/braces@3.0.3.patch
+  decode-uri-component@0.2.2: patches/decode-uri-component@0.2.2.patch

@@ -1,0 +1,64 @@
+type Plan {
+  id: ID!
+  chainId: Int! @index
+  address: String! @index
+  recipient: String! @index
+  payee: String! @index
+  termsHash: String!
+  lifecycle: String! @index
+  own: BigInt!
+  reserve: BigInt!
+  used: BigInt!
+  paid: BigInt!
+  nextInstallment: Int!
+  frozenFunding: BigInt!
+  frozenReserve: BigInt!
+  closureReason: Int
+  lastBlock: BigInt!
+  lastTimestamp: BigInt!
+}
+type Timeline {
+  id: ID!
+  planId: String! @index
+  kind: String!
+  transactionHash: String! @index
+  logIndex: Int!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  actor: String
+  amount: BigInt
+  own: BigInt
+  support: BigInt
+  installment: Int
+}
+type Supporter {
+  id: ID!
+  planId: String! @index
+  address: String! @index
+  contribution: BigInt!
+  frozenContribution: BigInt!
+  prefix: BigInt!
+  claimed: BigInt!
+  entitlement: BigInt!
+}
+type Installment {
+  id: ID!
+  planId: String! @index
+  index: Int!
+  status: String!
+  due: BigInt
+  own: BigInt!
+  support: BigInt!
+  transactionHash: String!
+}
+type Terms {
+  id: ID!
+  amount: BigInt!
+  firstDue: BigInt!
+  interval: BigInt!
+  grace: BigInt!
+  count: Int!
+  recipient: String!
+  payee: String!
+  accepted: Boolean!
+}

@@ -1,0 +1,12 @@
+import { createRequire } from 'node:module';
+import { mkdir } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+const require = createRequire(import.meta.url);
+const sharp = createRequire(require.resolve('next/package.json'))('sharp');
+const directory = fileURLToPath(new URL('../apps/web/public/icons/', import.meta.url));
+const svg = fileURLToPath(new URL('../apps/web/public/icon.svg', import.meta.url));
+await mkdir(directory, { recursive: true });
+for (const size of [192, 512]) await sharp(svg).resize(size, size).png().toFile(`${directory}/${size}.png`);
+await sharp(svg).resize(180, 180).png().toFile(`${directory}/apple.png`);
+await sharp(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><rect width="512" height="512" fill="#242424"/><text x="176" y="325" fill="#ffffff" font-family="Arial,sans-serif" font-weight="600" font-size="240">f.</text></svg>')).png().toFile(`${directory}/maskable.png`);
+console.log('Rendered application icons from local vectors.');

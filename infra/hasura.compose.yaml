@@ -1,0 +1,51 @@
+name: fallback-graphql
+services:
+  metadata:
+    image: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_USER: fallback_hasura
+      POSTGRES_DB: fallback_hasura
+      POSTGRES_PASSWORD_FILE: /run/secrets/metadata_password
+    secrets: [metadata_password]
+    logging:
+      driver: none
+    labels:
+      io.fallback.graphql.owner: ${FALLBACK_GRAPHQL_OWNER:?Run graphql:prepare first}
+    volumes: ["hasura-metadata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U fallback_hasura -d fallback_hasura]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+  graphql:
+    image: hasura/graphql-engine:v2.50.3@sha256:521ace33b50ce9e65e7dc28e2c3311ae75ab8889c514510c647d486243ee0168
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on:
+      metadata:
+        condition: service_healthy
+    environment:
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: dynamic-from-file:///run/secrets/metadata_url
+      HASURA_GRAPHQL_DYNAMIC_SECRETS_ALLOWED_PATH_PREFIX: /run/secrets/
+      HASURA_GRAPHQL_ADMIN_SECRET: ${FALLBACK_HASURA_ADMIN_SECRET:?Run graphql:prepare first}
+      FALLBACK_INDEXER_READ_URL: ${FALLBACK_INDEXER_READ_URL:?Run graphql:prepare first}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+      HASURA_GRAPHQL_DEV_MODE: "false"
+      HASURA_GRAPHQL_ADMIN_INTERNAL_ERRORS: "false"
+      HASURA_GRAPHQL_DISABLE_CORS: "true"
+      HASURA_GRAPHQL_ENABLED_APIS: metadata,graphql
+      HASURA_GRAPHQL_ENABLE_TELEMETRY: "false"
+      HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup
+      HASURA_GRAPHQL_LOG_LEVEL: error
+    secrets: [metadata_url]
+    logging:
+      driver: none
+    labels:
+      io.fallback.graphql.owner: ${FALLBACK_GRAPHQL_OWNER:?Run graphql:prepare first}
+secrets:
+  metadata_password:
+    file: ../.tools/graphql/metadata-password
+  metadata_url:
+    file: ../.tools/graphql/metadata-url
+volumes:
+  hasura-metadata:

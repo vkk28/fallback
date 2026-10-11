@@ -1,0 +1,16 @@
+services:
+  database:
+    image: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_USER: fallback
+      POSTGRES_DB: fallback
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a local development password in ignored infra/.env}
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["fallback-db:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fallback -d fallback"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  fallback-db:

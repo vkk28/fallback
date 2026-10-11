@@ -1,0 +1,55 @@
+diff --git a/index.js b/index.js
+index 24e7db0cc55aa22d0f98358b73298067deb33b52..e2cd260cd6ccabc1e90f89a16eaa4c62c71550bd 100644
+--- a/index.js
++++ b/index.js
+@@ -3,7 +3,9 @@ var token = '%[a-f0-9]{2}';
+ var singleMatcher = new RegExp('(' + token + ')|([^%]+?)', 'gi');
+ var multiMatcher = new RegExp('(' + token + ')+', 'gi');
+ 
+-function decodeComponents(components, split) {
++function decodeComponents(components, split, budget, depth) {
++  depth = depth || 0;
++  if (depth > 128 || --budget.remaining < 0) return components;
+ 	try {
+ 		// Try to decode the entire string first
+ 		return [decodeURIComponent(components.join(''))];
+@@ -21,17 +23,17 @@ function decodeComponents(components, split) {
+ 	var left = components.slice(0, split);
+ 	var right = components.slice(split);
+ 
+-	return Array.prototype.concat.call([], decodeComponents(left), decodeComponents(right));
++	return Array.prototype.concat.call([], decodeComponents(left, undefined, budget, depth + 1), decodeComponents(right, undefined, budget, depth + 1));
+ }
+ 
+-function decode(input) {
++function decode(input, budget) {
+ 	try {
+ 		return decodeURIComponent(input);
+ 	} catch (err) {
+ 		var tokens = input.match(singleMatcher) || [];
+ 
+-		for (var i = 1; i < tokens.length; i++) {
+-			input = decodeComponents(tokens, i).join('');
++		for (var i = 1; i < tokens.length && budget.remaining > 0; i++) {
++			input = decodeComponents(tokens, i, budget, 0).join('');
+ 
+ 			tokens = input.match(singleMatcher) || [];
+ 		}
+@@ -41,6 +43,8 @@ function decode(input) {
+ }
+ 
+ function customDecodeURIComponent(input) {
++  if (input.length > 16384) return input;
++  var budget = { remaining: 4096 };
+ 	// Keep track of all the replacements and prefill the map with the `BOM`
+ 	var replaceMap = {
+ 		'%FE%FF': '\uFFFD\uFFFD',
+@@ -53,7 +57,7 @@ function customDecodeURIComponent(input) {
+ 			// Decode as big chunks as possible
+ 			replaceMap[match[0]] = decodeURIComponent(match[0]);
+ 		} catch (err) {
+-			var result = decode(match[0]);
++			var result = decode(match[0], budget);
+ 
+ 			if (result !== match[0]) {
+ 				replaceMap[match[0]] = result;

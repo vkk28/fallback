@@ -1,0 +1,6 @@
+# HTTP discovery/queue adapter. CLI validation also requires a public RPC entry.
+# All financial work remains Monad Testnet; no wallet key/native CRE write is used.
+staging-settings:
+  rpcs:
+    - chain-name: monad-testnet
+      url: https://testnet-rpc.monad.xyz

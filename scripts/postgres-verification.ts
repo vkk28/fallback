@@ -1,0 +1,81 @@
+import assert from 'node:assert/strict';
+import { randomBytes } from 'node:crypto';
+import { writeFile } from 'node:fs/promises';
+import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
+import * as schema from '../packages/backend/src/schema.js';
+import { createDraft, invite, acceptInvitation, privatePlan, acceptInbox } from '../packages/backend/src/plans.js';
+import { requestInbox, saveSetup } from '../packages/backend/src/experience.js';
+import { idempotent, rateLimit } from '../packages/backend/src/security.js';
+import { enqueue, takeJob, processOne, type Gateway } from '../apps/worker/src/jobs.js';
+import { discoveryBatch, enqueueDiscoveryBatch } from '../apps/worker/src/discovery.js';
+const configured = process.env.DATABASE_URL;
+if (!configured) throw new Error('Local database not configured');
+const url = new URL(configured);
+if (url.hostname !== '127.0.0.1' || url.port !== '54329') throw new Error('This verifier only uses the dedicated local cluster');
+const name = `fallback_verify_${randomBytes(6).toString('hex')}`;
+url.pathname = '/postgres'; const admin = postgres(url.toString(), { max: 1 });
+await admin.unsafe(`CREATE DATABASE "${name}"`);
+url.pathname = '/' + name; const client = postgres(url.toString(), { max: 5 }), db = drizzle(client, { schema });
+try {
+  await migrate(db, { migrationsFolder: 'infra/migrations' });
+  const owner = { id: 'did:fixture:recipient', address: '0x0000000000000000000000000000000000000100' }, payee = { id: 'did:fixture:payee', address: '0x0000000000000000000000000000000000000200' };
+  const now = Math.floor(Date.now() / 1000), terms = { amount: '150000000', minimumReserve: '1000000', maximumReserve: '300000000', perPaymentCap: '150000000', firstDue: String(now + 100000), interval: '86400', grace: '3600', fundingDeadline: String(now + 50000), coverBps: 10000, count: 3 };
+  const rateNow = new Date();
+  await rateLimit(db, 'postgres-rate-fixture', 2, rateNow);
+  await rateLimit(db, 'postgres-rate-fixture', 2, rateNow);
+  await assert.rejects(rateLimit(db, 'postgres-rate-fixture', 2, rateNow), { code: 'RATE_LIMIT' });
+  await rateLimit(db, 'postgres-rate-fixture', 2, new Date(rateNow.getTime() + 60_000));
+  let executions = 0;
+  const concurrent = await Promise.all([1, 2].map(() => idempotent(db, owner.id, 'concurrent_key_0001', 'same-payload', async tx => { executions++; return createDraft(tx, owner, { label: 'Housing fixture', payee: payee.address, terms }); })));
+  assert.equal(executions, 1); assert.equal(concurrent[0]!.id, concurrent[1]!.id);
+  const link = await invite(db, owner, concurrent[0]!.id, 'payee', payee.address);
+  const race = await Promise.allSettled([1, 2].map(() => db.transaction(tx => acceptInvitation(tx, payee, link.token))));
+  assert.equal(race.filter(r => r.status === 'fulfilled').length, 1);
+  assert.equal((await privatePlan(db, payee, concurrent[0]!.id)).role, 'payee');
+  const partial = { fields: { label: 'Private fixture', payee: '', amount: '', firstDue: '', days: '30', count: '3', grace: '48', minimum: '', maximum: '', cap: '', percent: '100' }, step: 0, version: 0 };
+  const setupRace = await Promise.allSettled([1, 2].map(() => db.transaction(tx => saveSetup(tx, owner, partial))));
+  assert.equal(setupRace.filter(r => r.status === 'fulfilled').length, 1);
+  assert.equal(setupRace.filter(r => r.status === 'rejected').length, 1);
+  const fresh = await db.transaction(tx => createDraft(tx, owner, { label: 'Inbox fixture', payee: payee.address, terms }));
+  await invite(db, owner, fresh.id, 'payee', payee.address);
+  const inbox = await requestInbox(db, payee);
+  assert.equal(inbox.length, 1);
+  const inboxRace = await Promise.allSettled([1, 2].map(() => db.transaction(tx => acceptInbox(tx, payee, inbox[0]!.id))));
+  assert.equal(inboxRace.filter(r => r.status === 'fulfilled').length, 1);
+  assert.equal(inboxRace.filter(r => r.status === 'rejected').length, 1);
+  await enqueue(db, { chainId: 31337, plan: owner.address, installment: 0, action: 'settleNext' });
+  // PG defaults have microsecond precision; JS Date truncates to milliseconds.
+  // Make the fixture certainly due before testing lease exclusivity.
+  const leaseAt = new Date(Date.now() + 1000);
+  const leases = await Promise.all([takeJob(db, leaseAt), takeJob(db, leaseAt)]);
+  assert.equal(leases.filter(Boolean).length, 1);
+  // Competing jobs must reserve separate nonces even before either broadcasts.
+  // Transport is deliberately local: this verifies PG locks, not a live receipt.
+  let preparations = 0;
+  const floors: number[] = [];
+  const gateway: Gateway = { signer: owner.address, inspect: async () => ({ allowed: true, terminal: false }), prepare: async (_, floor) => {
+    preparations++; floors.push(floor);
+    return { hash: `0x${String(floor + 1).repeat(64)}`, serialized: '0x1234', nonce: floor };
+  }, broadcast: async () => { throw new Error('CONTROLLED_LOST_RESPONSE'); }, receipt: async () => 'pending', notify: async () => { throw new Error('MUST_NOT_NOTIFY_UNCONFIRMED'); } };
+  for (const installment of [1, 2]) await enqueue(db, { chainId: 31337, plan: owner.address, installment, action: 'settleNext' });
+  await Promise.all([processOne(db, gateway, leaseAt), processOne(db, gateway, leaseAt)]);
+  assert.equal(preparations, 2); assert.deepEqual(floors, [0, 1]);
+  const reserved = await db.select().from(schema.jobs);
+  assert.equal(reserved.filter(j => j.transactionHash && j.signedTransaction && j.status === 'submitted').length, 2);
+  await Promise.all([processOne(db, gateway, new Date(leaseAt.getTime() + 6000)), processOne(db, gateway, new Date(leaseAt.getTime() + 6000))]);
+  assert.equal(preparations, 2);
+  const scanId = `10143:${owner.address}`;
+  let sourceCalls = 0, inspections = 0;
+  const page = { candidates: [{ chainId: 10143 as const, plan: payee.address, installment: 0, action: 'settleNext' as const }], scanned: 1, nextCursor: null };
+  const batches = await Promise.all([1, 2, 3].map(() => discoveryBatch(db, scanId, async () => { sourceCalls++; return page; })));
+  assert.equal(sourceCalls, 1); assert.deepEqual(batches[0], batches[1]); assert.deepEqual(batches[1], batches[2]);
+  const batch = batches[0]!;
+  const results = await Promise.all([1, 2, 3].map(() => enqueueDiscoveryBatch(db, scanId, { batchId: batch.batchId, candidates: batch.candidates }, async () => { inspections++; return { allowed: true }; })));
+  assert.equal(inspections, 1); assert.deepEqual(results[0], results[1]); assert.deepEqual(results[1], results[2]);
+  assert.equal(results[0]!.paid, false);
+  const version = await client`SELECT version()`;
+  await writeFile('docs/evidence/postgres-verification.json', JSON.stringify({ runtime: String(version[0]?.version), migrations: 'passed through 0007', privateSetupRace: 'one revision-zero save wins; stale competing save rejected', inboxAcceptanceRace: 'one authenticated acceptance wins without a usable invitation token', rateWindow: 'passed: reject excess and reset at boundary with actual driver', concurrentIdempotency: 'one mutation', invitationRace: 'one acceptance', leaseRace: 'one lease', nonceReservationRace: 'two concurrent jobs reserve separate nonces before broadcast; lost-response retries never resign', discoveryRace: 'three observers share one frozen batch; three submissions inspect/enqueue/advance once with identical acknowledgements', privacyFixtures: 'locally generated identities, not live Privy sessions', observedAt: new Date().toISOString() }, null, 2));
+  console.log('Real PostgreSQL verified: migrations, rate window/reset, idempotency, invitation/lease races, and serialized discovery/acknowledgement races.');
+} finally { await client.end(); await admin.unsafe(`DROP DATABASE "${name}"`); await admin.end(); }
