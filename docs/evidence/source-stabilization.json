@@ -1,0 +1,223 @@
+{
+  "observedAt": "2026-10-11T11:58:39.175990+00:00",
+  "scope": "Local source stabilization; no publication, new user signing or financial submission",
+  "baseline": "39da7d3",
+  "sourceControl": {
+    "baselineFilesScanned": 212,
+    "configuredSecretsChecked": 6,
+    "rawHistoricalEvidenceExcluded": true,
+    "adversarialProbes": [
+      "clean source accepted",
+      "configured secret rejected",
+      "forced private artifact rejected",
+      "binary-embedded secret rejected"
+    ],
+    "finalStagedFilesScanned": 214
+  },
+  "dependencies": {
+    "before": {
+      "info": 0,
+      "low": 0,
+      "moderate": 1,
+      "high": 1,
+      "critical": 0
+    },
+    "after": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 1,
+      "critical": 0
+    },
+    "production": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0
+    },
+    "decoder": "0.5.0",
+    "consumerPatch": "query-string@7.1.3 ESM default export",
+    "remaining": [
+      {
+        "package": "braces",
+        "advisory": "GHSA-vfj7-8cjw-p6xm",
+        "severity": "high",
+        "fixedRelease": null,
+        "scope": "development tooling",
+        "mitigation": "tracked parser/AST depth guard; installed hostile-input checks"
+      }
+    ],
+    "auditCleanClaim": false
+  },
+  "checks": [
+    {
+      "command": "pnpm install --frozen-lockfile --ignore-scripts --offline",
+      "scope": "Reproducible pinned installation",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm check",
+      "scope": "90 application tests, 49 contract checks, types/fmt/lint/ABIs",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm exec vitest run packages/domain/src/dependency-patches.test.ts",
+      "scope": "Two final installed-dependency regressions after frozen reinstall",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm test:local-chain",
+      "scope": "Disposable Anvil; real deployed exact splits/refunds/cap/expiry/race",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm web:build && pnpm web:typecheck && pnpm lint:app",
+      "scope": "Production app and modified source; existing optional SDK warnings",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm scan:client-secrets",
+      "scope": "Built client artifacts",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm test:browser",
+      "scope": "Eleven tests; isolated money-flow fixtures and public accessibility/cache checks",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm verify:live-actions",
+      "scope": "38 existing confirmed human actions; canonical receipts, bound wallets, sponsorship",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm chain:verify",
+      "scope": "Read-only configured Monad Testnet/runtime/token/immutables",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm indexer:verify",
+      "scope": "Fixture codegen, strict typed driver, real captured event replay/rebuild/refunds",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm indexer:typecheck",
+      "scope": "Production handlers after configured types restored",
+      "result": "passed"
+    },
+    {
+      "command": "strict tsc on scripts/graphql-local.ts",
+      "scope": "Modified local startup helper",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm graphql:start && pnpm graphql:status",
+      "scope": "Existing owned private source query and strict health",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm verify:indexer-live",
+      "scope": "Canonical historical reconciliation; runtime remains behind head",
+      "result": "passed"
+    },
+    {
+      "command": "pnpm verify:functionality",
+      "scope": "Preservation probe; no signing/submission/enqueue",
+      "result": "passed"
+    }
+  ],
+  "browser": {
+    "expected": 11,
+    "unexpected": 0,
+    "actualSignedInChromeHomeRecovered": true,
+    "realPlanSummariesVisible": 3
+  },
+  "sponsorship": {
+    "confirmedActionsChecked": 38,
+    "allExpectedReceiptsAndSponsorBindings": true,
+    "newSigningOrSubmission": false
+  },
+  "network": {
+    "chainId": 10143,
+    "blockNumber": "70099555",
+    "blockTimestamp": "1791718130",
+    "observedAt": "2026-10-11T11:28:50.564Z",
+    "assetVerified": true,
+    "deploymentVerified": true
+  },
+  "clientSecretScan": {
+    "artifactsChecked": 197,
+    "passed": true
+  },
+  "preservation": {
+    "observedAt": "2026-10-11T11:43:37.146Z",
+    "requestCountBefore": 39,
+    "requestCountAfter": 39,
+    "unresolvedRequests": 0,
+    "eligibleRegistryCandidates": 0,
+    "eligibleIndexedCandidates": 0,
+    "originalAndCompletedCaseAssertionsPassed": true,
+    "duePaymentVerified": false
+  },
+  "indexer": {
+    "fixtureCapturedEvents": 33,
+    "duplicateReplay": "passed",
+    "freshRebuild": "passed",
+    "historicalRegisteredPlans": "3",
+    "observedAt": "2026-10-11T11:43:08.317Z",
+    "rpcHead": "70102327",
+    "watermark": [
+      {
+        "chainId": 10143,
+        "processedBlock": 69994467,
+        "sourceBlock": 70099498,
+        "eventsProcessed": 28
+      }
+    ],
+    "caughtUpClaim": false
+  },
+  "repairedFailures": [
+    "Hasura cached source connection inconsistency repaired by reloading only the existing source",
+    "Production typecheck included the 31337 replay driver; separate strict fixture configuration and codegen repaired it",
+    "Initial indexer restart failed; bounded diagnostic and owned retry resumed preserved checkpoint",
+    "Patch formatting normalized; an uncached registry policy record prevented the immediate offline frozen check, so normal supply-chain verification was rerun before repeating it"
+  ],
+  "graph": {
+    "nodes": 776,
+    "edges": 1768,
+    "communities": 38,
+    "danglingEndpoints": 0,
+    "selfLoops": 3,
+    "mode": "project-only code-only; one worker; no model calls or uploads",
+    "unsupportedParsers": [
+      "Solidity",
+      "SQL"
+    ]
+  },
+  "limitations": [
+    "One high development-only advisory remains locally mitigated and visible",
+    "Indexer still catching up after downtime; historical reads are not a catch-up/lag/reorg proof",
+    "No new multi-role sign-in, live due payment, email delivery, Alchemy or deployed CRE claim"
+  ],
+  "sourceHashes": {
+    "package.json": "df7543104858606b9ee609d0ea8e3ae7cb3e3082ef0bdcb91338736fc1b71ca7",
+    "pnpm-workspace.yaml": "6cf139531e6f437c8ff5ced5a5fe991c98f4cf227bee5753f6a228185aca341d",
+    "pnpm-lock.yaml": "2973593360c6014258341165e357d4b8700ab9b6fd9b0e9793ab5952b51d1bc0",
+    "scripts/scan-source.mjs": "48441f20f97292155f5e2d723ef67991edad6d82b332e179dd79a511809a4102",
+    "scripts/graphql-local.ts": "d5da0931ef9d854ff587e874f0e073705337d2ff9a839193862a55bf65a5d208",
+    "indexer/tsconfig.json": "b08f81cf0d1b518b74c65ebb3b1c74f657191eefa4c83695d43fc832b97562c5",
+    "indexer/tsconfig.fixture.json": "f02d039d449e496d6dc5fea49607b9e94f3617c7641285b08194a32a3ee6c2e4",
+    "packages/domain/src/dependency-patches.test.ts": "34be7eaf421d602340363487be3a6a1b8f63eb14cabba15f4e049abccda7e703",
+    "patches/query-string@7.1.3.patch": "26035ca14cc168b9ee3ea4afabacacbd696efdbc92fc6842dad45899287b2003",
+    "patches/braces@3.0.3.patch": "49d1b6444e04ee8da9e67da54c73d871042d8ecf5c3f372f7e9009e96cf43f9d"
+  },
+  "runtime": {
+    "ownershipVerified": true,
+    "webListening": true,
+    "databaseListening": true,
+    "indexerListening": true,
+    "workerManaged": true,
+    "privateGraphQLStrictHealthy": true
+  }
+}

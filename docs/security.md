@@ -58,13 +58,24 @@ cache safe static/offline content only. Offline actions are disabled, never queu
 Four public browser/provider-dialog/axe/offline checks passed; authenticated journey isolation,
 recovery failures and all provider error/replacement cases need live verification.
 
-Tracked pnpm patches bound braces 3.0.3 parser/AST depth and decode-uri-component
-0.2.2 recursion/work while preserving existing CJS/ordinary input behavior. Tests
-load the actually installed patched dependencies with deep hostile inputs. Compatible
-published fixes address sixteen additional audit findings. The version-based audit
-still reports one high and one moderate advisory for the patched versions. They are
-locally mitigated, not suppressed or an audit-clean claim. Future dependency upgrades
-must retain or supersede the mitigation with meaningful regression checks.
+Dependency follow-up, 11 October: decode-uri-component is pinned to the published
+0.5.0 fix. A one-line query-string 7.1.3 patch selects its ESM default export for
+the existing CommonJS consumer; installed-consumer tests cover ordinary queries,
+UTF-8/BOM, malformed input and bounded work. The obsolete decoder patch is removed.
+Production audit reports zero advisories; the full audit retains one high braces
+3.0.3 development-tooling advisory. Upstream still publishes no fixed release.
+Its tracked parser/AST depth guard and hostile-input regressions remain enabled.
+Do not suppress that finding or claim audit cleanliness. Sources:
+[decoder advisory](https://github.com/advisories/GHSA-vcc3-ghjq-m6fr),
+[braces advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm).
+
+The local Git baseline excludes raw historical evidence, private configuration,
+backups and runtime artifacts. `pnpm scan:source --staged` checks the exact index
+before a commit; the default source scan also checks new files and runs in CI.
+It checks configured secret values, credential markers and personal machine paths,
+including binary content, without printing values. This is a focused local guard,
+not a comprehensive independent security assessment. Preserve offchain user data
+and raw verification privately; only the sanitized stabilization summary is tracked.
 
 The HTTP relay uses constant-time bearer authentication, bounded schema, fixed
 allowlisted actions, registry/current-index/deadline/preview RPC checks and unique

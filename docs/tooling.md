@@ -1,5 +1,19 @@
 # Actual tooling — 2026-10-09
 
+## 11 October — source stabilization tooling
+
+Used the pinned Node 24.19.0/pnpm 11.25.0 runtime, public npm advisory/release queries,
+reviewed pnpm overrides/patches, Git, direct source inspection, TypeScript/ESLint,
+Vitest/Foundry/Anvil, Envio fixture codegen/replay, existing owned service helpers,
+private Hasura metadata reload and authorized Chrome through CUA.
+
+Graphify uses the project-only CLI: reflect, vocabulary-expanded query, code-only
+extract with one worker, cluster-only --no-label and a source-verified query memory.
+Solidity/SQL optional parsers remain absent. No model calls, global settings,
+additional account stack, hooks, hosted upload or new development tool installation.
+Raw command logs remain ignored; the sanitized source-stabilization.json records
+actual outcomes and graph limits. The local baseline is 39da7d3; no remote exists.
+
 ## 11 October — documentation consolidation
 
 Used rg, direct Markdown reads and apply_patch to order the engineering checklist,

@@ -1,5 +1,21 @@
 # Integration evidence — 2026-10-09
 
+## 11 October — dependency-change integration verification
+
+After the decoder upgrade, actual signed-in Chrome Home resolves the canonical
+account and current plan summaries. Read-only reconciliation revalidates all 38
+existing confirmed human account actions, their expected inner receipts and Privy
+sponsorship; no signing/submission or replacement request occurs. Isolated browser
+money-flow fixtures remain distinct from those existing live receipts.
+
+Envio fixture codegen, typed driver and actual captured event replay pass after
+separating fixture types from production handlers. Existing live indexed histories
+reconcile with historical canonical RPC. The resumed indexer remains behind head;
+new due payments, full catch-up and notification reorg recovery are separate gates.
+Private Hasura startup now reloads its existing source after database recovery.
+Configured Monad Testnet runtime, token decimals/symbol and factory immutables pass
+read-only checks. This uses the configured RPC, not a new Alchemy integration.
+
 ## 11 October — authenticated bounty requirements inspected
 
 Current authenticated requirement research supersedes earlier statements that exact

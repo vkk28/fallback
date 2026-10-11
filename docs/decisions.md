@@ -1,5 +1,33 @@
 # Decision record
 
+## 2026-10-11 — local source stabilization and dependency fix
+
+Established the reviewed private baseline (39da7d3), with an anonymous local commit
+identity and no hooks or remote publication. Raw historical evidence stays ignored
+and intact; only a sanitized stabilization summary is tracked. Normalize personal
+machine paths and add a configured-secret/private-artifact source scan, including
+the exact staged index and CI. It is a focused guard, not a comprehensive audit.
+
+Upgrade decode-uri-component to 0.5.0 and select its ESM default from the existing
+query-string 7.1.3 CommonJS consumer using a one-line patch. Remove the obsolete
+0.2.2 patch. Pin the override/patch in the lockfile, prove installed ordinary and
+malformed query handling, and retain the existing braces 3.0.3 depth guards.
+Current npm audit: production zero; full audit one high development-only braces
+finding, with no published fix. No suppression or audit-clean claim.
+
+Observed Hasura retaining a connection inconsistency after PostgreSQL recovery.
+Reloading only the existing owned source restores queries. Add this reload to
+scripts/graphql-local.ts after ownership/credential checks, preserving metadata.
+Separate the 31337 replay driver's typecheck from production handler types;
+indexer:verify generates fixture types before checking/running that driver.
+Stop the owned indexer during fixture codegen; restore configured types afterward.
+
+Existing contracts, consented terms and request/provider identities are unchanged.
+Actual Chrome authentication, 38 existing sponsored receipts, 11 browser checks,
+local-chain accounting and historical indexed reconciliation pass. The indexer is
+catching up after being stopped; this does not complete later history/lag/reorg tasks.
+Progress now starts with secure invitations and new-person onboarding.
+
 ## 2026-10-11 — engineering-only priorities and documentation consolidation
 
 User explicitly requested an engineering-only progress checklist, dependency order

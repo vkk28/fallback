@@ -12,7 +12,7 @@ const secrets = env.split('\n').flatMap(line => {
   const value = match[2].trim().replace(/^['"]|['"]$/g, '');
   return value.length >= 16 ? [value] : [];
 });
-const forbidden = /^(?:\.env(?:$|\.)|\.aws\/|\.private\/|\.tools\/|\.cache\/|\.graphify\/|graphify-out\/|infra\/data\/|contracts\/(?:out|cache|broadcast)\/|indexer\/(?:generated|\.envio)\/)|(?:^|\/)\.next\/|\.(?:pem|key|keystore|dump|backup|sqlite(?:3)?)(?:$|-)/;
+const forbidden = /^(?:\.env(?:$|\.)|\.aws\/|\.private\/|\.tools\/|\.cache\/|\.graphify\/|graphify-out\/|infra\/data\/|contracts\/(?:out|cache|broadcast)\/|indexer\/(?:generated|\.envio)\/|indexer\/config(?:\.fixture)?\.yaml$|apps\/web\/public\/sw\.js)|(?:^|\/)\.next\/|\.(?:pem|key|keystore|dump|backup|sqlite(?:3)?)(?:$|-)/;
 const findings = [];
 for (const path of paths) {
   if ((path !== '.env.example' && forbidden.test(path)) || (path.startsWith('docs/evidence/') && path !== 'docs/evidence/source-stabilization.json')) {
@@ -21,7 +21,6 @@ for (const path of paths) {
   }
   if (!staged && !existsSync(path)) continue;
   const bytes = staged ? execFileSync('git', ['show', `:${path}`], { maxBuffer: 16 * 1024 * 1024 }) : readFileSync(path);
-  if (bytes.includes(0)) continue;
   const source = bytes.toString('utf8');
   if (secrets.some(value => source.includes(value))) findings.push({ path, kind: 'configured-secret' });
   if (/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bAKIA[A-Z0-9]{16}\b|\bgh[pousr]_[A-Za-z0-9]{36,}\b/.test(source)) findings.push({ path, kind: 'credential-material' });

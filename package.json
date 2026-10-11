@@ -38,7 +38,7 @@
     "graphql:stop": "node --import tsx scripts/graphql-local.ts stop",
     "indexer:codegen": "node --env-file-if-exists=.env node_modules/envio/bin.mjs -d indexer codegen",
     "indexer:typecheck": "tsc --noEmit -p indexer/tsconfig.json",
-    "indexer:verify": "node scripts/indexer-config.mjs --local-fixture && cd indexer && ENVIO_CONFIG=config.fixture.yaml node --import tsx src/verify.ts",
+    "indexer:verify": "node scripts/indexer-config.mjs --local-fixture && ENVIO_CONFIG=config.fixture.yaml node node_modules/envio/bin.mjs -d indexer codegen && tsc --noEmit -p indexer/tsconfig.fixture.json && cd indexer && ENVIO_CONFIG=config.fixture.yaml node --import tsx src/verify.ts",
     "cre:typecheck": "tsc --noEmit -p workflows/cre/tsconfig.json",
     "cre:test": "bun test workflows/cre/main.test.ts",
     "cre:simulate": "node --import tsx scripts/cre-simulate.ts",

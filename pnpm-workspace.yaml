@@ -13,6 +13,7 @@ overrides:
   ws@>=8.0.0 <8.21.0: 8.21.0
   esbuild@<=0.24.2: 0.25.12
   uuid@<11.1.1: 11.1.1
+  decode-uri-component@<0.5.0: 0.5.0
 allowBuilds:
   unrs-resolver: false
   '@foundry-rs/cast': true
@@ -40,4 +41,4 @@ minimumReleaseAgeExclude:
   - next@16.4.0
 patchedDependencies:
   braces@3.0.3: patches/braces@3.0.3.patch
-  decode-uri-component@0.2.2: patches/decode-uri-component@0.2.2.patch
+  query-string@7.1.3: patches/query-string@7.1.3.patch

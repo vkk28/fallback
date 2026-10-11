@@ -108,6 +108,10 @@ try {
       for (const table of source.tables) {
         if (!tracked.some((t: { table: { name: string; schema: string } }) => t.table.name === table.table.name && t.table.schema === 'public')) await metadata(admin, { type: 'pg_track_table', args: { source: source.name, ...table } });
       }
+      // Hasura can retain an inconsistent source after PostgreSQL was offline.
+      // Reconnect this owned source without replacing metadata or resetting data.
+      stage = 'reload_source';
+      await metadata(admin, { type: 'reload_metadata', args: { reload_sources: [source.name], reload_remote_schemas: false } });
       stage = 'query';
       const response = await fetch(origin + '/v1/graphql', { method: 'POST', headers: { 'content-type': 'application/json', 'x-hasura-admin-secret': admin }, body: JSON.stringify({ query: 'query Ready { Plan(limit: 1) { id } FallbackSync(limit: 1) { chainId processedBlock sourceBlock } }' }), signal: AbortSignal.timeout(10_000) });
       const data = await response.json();

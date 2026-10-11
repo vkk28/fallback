@@ -1,4 +1,6 @@
 import { createRequire } from 'node:module';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { describe, expect, it } from 'vitest';
 const require = createRequire(import.meta.url);
@@ -7,8 +9,10 @@ const plugin = createRequire(nextLint.resolve('@next/eslint-plugin-next'));
 const glob = createRequire(plugin.resolve('fast-glob'));
 const matcher = createRequire(glob.resolve('micromatch'));
 const braces = matcher('braces');
-const query = createRequire(process.cwd() + '/node_modules/.pnpm/query-string@7.1.3/node_modules/query-string/package.json');
-const decode = query('decode-uri-component');
+const queryPath = require.resolve('query-string', { paths: [process.cwd() + '/node_modules/.pnpm/node_modules'] });
+const query = createRequire(queryPath);
+const decode = query('decode-uri-component').default;
+const queryString = require(queryPath);
 
 describe('installed dependency security guards', () => {
   it('retains ordinary brace expansion but rejects deep input and direct ASTs before stack exhaustion', () => {
@@ -20,12 +24,15 @@ describe('installed dependency security guards', () => {
     for (const operation of [braces.compile, braces.expand, braces.stringify]) expect(() => operation(ast)).toThrow(/nesting depth/);
   });
   it('retains valid, space, UTF-8 and BOM decoding and bounds malformed work', () => {
-    expect(decode('hello+world')).toBe('hello world');
+    expect(JSON.parse(readFileSync(join(dirname(query.resolve('decode-uri-component')), 'package.json'), 'utf8')).version).toBe('0.5.0');
+    expect(queryString.parse('greeting=hello+world&snowman=%E2%98%83')).toEqual({ greeting: 'hello world', snowman: '☃' });
+    expect(queryString.stringify({ greeting: 'hello world', snowman: '☃' })).toBe('greeting=hello%20world&snowman=%E2%98%83');
     expect(decode('%E2%98%83')).toBe('☃');
     expect(decode('%FE%FF')).toBe('��');
     const start = performance.now();
     const malicious = '%E0%A4'.repeat(4000);
     expect(typeof decode(malicious)).toBe('string');
+    expect(queryString.parse('value=' + malicious).value).toBe(decode(malicious));
     expect(performance.now() - start).toBeLessThan(1000);
     expect(typeof decode('%E0%A4'.repeat(1000))).toBe('string');
   });

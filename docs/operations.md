@@ -8,7 +8,28 @@ ENVIO_GRAPHQL_SECRET/API_TOKEN, WORKER_PRIVATE_KEY, CRE_RELAY_SECRET and invitat
 HMAC key. NEXT_PUBLIC_PRIVY_APP_ID alone is public. Contract addresses/start block
 are public verified deployment values. Prefer a host secret manager for remote use.
 Never copy `.env`, keystores, database data, browser sessions or broadcast sender
-metadata into source archives. All current source is local/uncommitted.
+metadata into source archives. The reviewed source has a private local Git baseline;
+there is no remote publication. Run `pnpm scan:source --staged` before local commits.
+
+## Source and indexer verification
+
+Use the pinned Node 24 runtime and `pnpm install --frozen-lockfile`. The URI decoder
+override and query-string import patch are required together; retain the tested
+braces depth patch until a compatible upstream fix is verified.
+
+`pnpm indexer:typecheck` checks production handlers against the configured generated
+types. `pnpm indexer:verify` generates the separate 31337 fixture types, typechecks
+the fixture driver and replays actual captured local receipts. First run
+`pnpm test:local-chain` to refresh those receipts. Stop the owned indexer before
+fixture codegen using `node scripts/local-services.mjs stop indexer`; afterward
+`node scripts/local-services.mjs start indexer` regenerates the configured testnet
+types and resumes preserved storage. Then rerun `pnpm indexer:typecheck`.
+Do not regenerate a different configuration while the owned indexer is running.
+
+`pnpm graphql:start` now reloads only the existing `fallback_indexer` source after
+its ownership/credential checks. This repairs Hasura's cached connection error
+after PostgreSQL returns. It does not replace metadata or reset indexer tables.
+Verify `pnpm graphql:status` and a real query; a listening container alone is insufficient.
 
 ## Local startup and migrations
 

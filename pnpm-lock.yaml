@@ -16,10 +16,11 @@ overrides:
   ws@>=8.0.0 <8.21.0: 8.21.0
   esbuild@<=0.24.2: 0.25.12
   uuid@<11.1.1: 11.1.1
+  decode-uri-component@<0.5.0: 0.5.0
 
 patchedDependencies:
   braces@3.0.3: 49d1b6444e04ee8da9e67da54c73d871042d8ecf5c3f372f7e9009e96cf43f9d
-  decode-uri-component@0.2.2: db42d77dbb890fef414dd3e105d96ba7fd8b9127171ed62475ecf40fe091bae0
+  query-string@7.1.3: 26035ca14cc168b9ee3ea4afabacacbd696efdbc92fc6842dad45899287b2003
 
 importers:
 
@@ -3215,9 +3216,9 @@ packages:
     resolution: {integrity: sha512-z2S+W9X73hAUUki+N+9Za2lBlun89zigOyGrsax+KUQ6wKW4ZoWpEYBkGhQjwAjjDCkWxhY0VKEhk8wzY7F5cA==}
     engines: {node: '>=0.10.0'}
 
-  decode-uri-component@0.2.2:
-    resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
-    engines: {node: '>=0.10'}
+  decode-uri-component@0.5.0:
+    resolution: {integrity: sha512-1BiQVoK8C9gUbQU6NzAtO/tkz2qOFpEObMWpcFvhx4fYnj4Oc5yzaJN/LD36ihkVUdXyh5ZekzX+yM+ty/SrPg==}
+    engines: {node: '>=14.16'}
 
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
@@ -9715,7 +9716,7 @@ snapshots:
       '@walletconnect/window-metadata': 1.0.1
       bs58: 6.0.0
       detect-browser: 5.3.0
-      query-string: 7.1.3
+      query-string: 7.1.3(patch_hash=26035ca14cc168b9ee3ea4afabacacbd696efdbc92fc6842dad45899287b2003)
       uint8arrays: 3.1.0
       viem: 2.23.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
     transitivePeerDependencies:
@@ -9759,7 +9760,7 @@ snapshots:
       '@walletconnect/window-metadata': 1.0.1
       bs58: 6.0.0
       detect-browser: 5.3.0
-      query-string: 7.1.3
+      query-string: 7.1.3(patch_hash=26035ca14cc168b9ee3ea4afabacacbd696efdbc92fc6842dad45899287b2003)
       uint8arrays: 3.1.0
       viem: 2.23.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
     transitivePeerDependencies:
@@ -10327,7 +10328,7 @@ snapshots:
 
   decamelize@1.2.0: {}
 
-  decode-uri-component@0.2.2(patch_hash=db42d77dbb890fef414dd3e105d96ba7fd8b9127171ed62475ecf40fe091bae0): {}
+  decode-uri-component@0.5.0: {}
 
   deep-is@0.1.4: {}
 
@@ -12207,9 +12208,9 @@ snapshots:
       es-define-property: 1.0.1
       side-channel: 1.1.1
 
-  query-string@7.1.3:
+  query-string@7.1.3(patch_hash=26035ca14cc168b9ee3ea4afabacacbd696efdbc92fc6842dad45899287b2003):
     dependencies:
-      decode-uri-component: 0.2.2(patch_hash=db42d77dbb890fef414dd3e105d96ba7fd8b9127171ed62475ecf40fe091bae0)
+      decode-uri-component: 0.5.0
       filter-obj: 1.1.0
       split-on-first: 1.1.0
       strict-uri-encode: 2.0.0

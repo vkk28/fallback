@@ -193,6 +193,14 @@
 
 ### Local operations and project documentation
 
+- Established a private local version-control baseline, excluding credentials,
+  private evidence, backups and generated runtime state. Added source scans before
+  commits and in CI, and removed personal machine paths from setup instructions.
+- Upgraded the application URI decoder to its published security fix, with a narrow
+  compatibility patch and installed-consumer regression checks. The development-only
+  braces advisory remains visible, with tested local depth guards until an upstream fix.
+- Made private GraphQL startup recover its existing source after a database outage,
+  and separated production indexer typechecking from typed local-chain replay checks.
 - Added owned local service helpers that preserve unrelated listeners and signal
   only processes whose ownership markers match.
 - Configured local application/API, persistent metadata database, worker, indexer
@@ -215,16 +223,7 @@ substantive Privy, Envio and Chainlink CRE integrations, plus verified Alchemy R
 use. Complete the steps below in order, preserving existing consented plans and
 request identities. Each step builds on the previous one; final hosting comes last.
 
-### 1. Stabilize the source and dependencies
-
-- Review the current source and establish a local version-control baseline with
-  secrets, private metadata, backups and generated runtime state excluded.
-- Resolve the remaining dependency advisories that affect the application and
-  verify authentication, sponsorship, indexing and builds after any patch.
-- Keep the supported asset and network restricted to FBTEST on Monad Testnet.
-  Preserve the deployed contract settings and all existing plan terms.
-
-### 2. Finish secure invitations and new-person onboarding
+### 1. Finish secure invitations and new-person onboarding
 
 - Let an owner invite a new payee or supporter without manually obtaining their
   account address. Bind a verified contact identity or secure invitation claim to
@@ -236,7 +235,7 @@ request identities. Each step builds on the previous one; final hosting comes la
 - Complete consented email invitation delivery and failure/retry handling for the
   chosen contact flow. Delivery, membership and onchain consent remain distinct.
 
-### 3. Strengthen RPC access and complete the Alchemy integration
+### 2. Strengthen RPC access and complete the Alchemy integration
 
 - Configure a server-side Alchemy Monad Testnet endpoint for actual plan reads,
   receipt reconciliation and worker chain access through the existing RPC layer.
@@ -247,7 +246,7 @@ request identities. Each step builds on the previous one; final hosting comes la
 - Keep provider credentials out of browser bundles and logs. Retain Privy as the
   single account and sponsorship stack.
 
-### 4. Complete live account and transaction recovery
+### 3. Complete live account and transaction recovery
 
 - Walk through owner, supporter and payee sign-in, account switching, reconnect and
   role-specific visibility using the current interface and real bound accounts.
@@ -258,7 +257,7 @@ request identities. Each step builds on the previous one; final hosting comes la
 - Distinguish controlled failure tests from observed live provider failures and fix
   any uncovered recovery defect without changing immutable request payloads.
 
-### 5. Prove the complete conditional-payment lifecycle on testnet
+### 4. Prove the complete conditional-payment lifecycle on testnet
 
 - Verify the preserved active plan's scheduled payment when its actual due condition
   is reached, including the canonical receipt, exact payee amount and funding split.
@@ -271,7 +270,7 @@ request identities. Each step builds on the previous one; final hosting comes la
   checking exact rounding, conservation and zero remaining claims after completion.
 - Record actual live receipts separately from the already passing local-chain tests.
 
-### 6. Complete Envio history and notification correctness
+### 5. Complete Envio history and notification correctness
 
 - Follow the new funding, payment, missed-installment, closure and return events
   through Envio into the application timeline and supporter accounting.
@@ -284,7 +283,7 @@ request identities. Each step builds on the previous one; final hosting comes la
 - Keep readable config, schema, handlers and reproducible indexer setup with the
   integration evidence, showing Envio drives useful application behaviour.
 
-### 7. Harden worker delivery and restart recovery
+### 6. Harden worker delivery and restart recovery
 
 - Verify positive due-work delivery and live worker interruption/restart, preserving
   exact stored transaction bytes, hashes, nonce reservations and job identities.
@@ -295,7 +294,7 @@ request identities. Each step builds on the previous one; final hosting comes la
 - Add bounded operational health checks for RPC, worker heartbeat, failed jobs,
   unresolved broadcasts and indexer lag, with useful failure diagnostics.
 
-### 8. Complete meaningful CRE orchestration
+### 7. Complete meaningful CRE orchestration
 
 - Run a successful actual CRE CLI simulation with positive eligible work through
   discovery, authoritative RPC checks, durable enqueue and worker processing.
@@ -308,7 +307,7 @@ request identities. Each step builds on the previous one; final hosting comes la
 - Retain successful simulation evidence for the CRE integration. Network deployment
   of the CRE workflow is optional because the bounty accepts CLI simulation.
 
-### 9. Finish interface quality, PWA safety and integrated verification
+### 8. Finish interface quality, PWA safety and integrated verification
 
 - Complete authenticated mobile, keyboard, screen-reader, zoom/reflow, focus and
   touch checks across setup, invitations, funding, pending requests and returns.
@@ -321,10 +320,12 @@ request identities. Each step builds on the previous one; final hosting comes la
 - Run the full applicable checks: pnpm check, test:local-chain, chain:verify, real
   PostgreSQL/worker/indexer tests, CRE checks, web types/lint/build, browser checks
   and client-secret scanning. Record actual outcomes and remaining limitations.
+- Recheck upstream braces releases and replace its local guard with a verified
+  compatible security fix when one becomes available; keep its advisory visible.
 - Prepare reproducible build, migration, deployment and recovery instructions,
   contract-source verification inputs and technical evidence for each integration.
 
-### 10. Host the complete app and verify the deployed system
+### 9. Host the complete app and verify the deployed system
 
 - Choose and authorize compatible durable hosting for the full Next.js app/API,
   metadata PostgreSQL, Envio/indexer storage, private GraphQL and independent worker.

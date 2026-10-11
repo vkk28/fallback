@@ -1,5 +1,43 @@
 # Actual verification — 2026-10-09 (Asia/Kolkata)
 
+## 11 October — source stabilization verification
+
+The local source baseline excludes private configuration, raw evidence, backups and
+runtime files. Its 212 staged files passed the configured-secret/artifact scan.
+Adversarial probes accept clean source and reject configured-secret disclosure,
+a forced private file and binary-embedded disclosure. No secret values are emitted.
+
+- pnpm install --frozen-lockfile --ignore-scripts --offline: passes with the pinned fix.
+- pnpm check: 90 application and 49 contract checks, types/fmt/lint/ABIs pass.
+- Final installed-dependency regressions: two pass, including the actual CommonJS
+  query-string consumer of decoder 0.5.0 and the retained braces depth guards.
+- pnpm test:local-chain: exact payment splits/refunds, cap recovery, expiry/race pass.
+- Production build, web types, source lint and client-secret scan pass; existing
+  optional Privy/Farcaster/Solana and viem/Tempo warnings remain.
+- All 11 browser checks pass. Actual Chrome Home survives restart with the existing
+  signed-in account, three current summaries and no waiting invitations.
+- Read-only Privy reconciliation verifies 38 existing confirmed actions with expected
+  canonical receipt events, provider sponsorship and bound wallets.
+- pnpm chain:verify passes on chain 10143 with selected FBTEST/runtime/immutables.
+- Envio fixture codegen, strict fixture types, real event replay/rebuild and refunds
+  pass; production handlers typecheck after the configured indexer is restored.
+- Modified GraphQL helper strict types/lint and its actual start/query/status pass.
+  Initial startup failed because Hasura retained a connection inconsistency; a
+  source-only reload fixes it. Initial production indexer types failed on the 31337
+  fixture driver; separate configurations fix that mismatch without masking errors.
+- Existing indexed histories reconcile against canonical historical RPC; the runtime
+  watermark is still behind head after downtime. No new live scheduled payment,
+  lag/reorg proof, new role login or email-delivery proof is claimed.
+- Preservation probe: 39 requests remain 39, zero unresolved requests/jobs, original
+  active plan retains own 250/reserve 300/paid 0/used 0 and its consented first due;
+  completed cases remain closed with zero claims. No signing/submission/enqueue.
+
+Audit after the fix: production zero advisories; full graph one high development-only
+braces advisory with no upstream fixed release. Its local guard is tested, and the
+finding is neither suppressed nor presented as audit-clean. Full raw logs remain
+private. [Sanitized current evidence](evidence/source-stabilization.json) records
+commands, scopes and results; previous reports below retain their historical dates.
+
 ## Documentation maintenance — 11 October 2026
 
 UI and About verification records below were consolidated from their separate
