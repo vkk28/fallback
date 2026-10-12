@@ -1,5 +1,69 @@
 # Actual verification — 2026-10-09 (Asia/Kolkata)
 
+## 12 October — submission release checks and backed-up migration
+
+- Fresh pnpm check passes129application/49contract checks. Actual local-chain
+  lifecycle passes exact splits/returns, cap recovery, late refusal and worker race.
+- Actual worker gateway passes one settlement, durable pre-broadcast identity,
+  lost response and notification recovery through three SQL restarts. CRE types
+  and five SDK tests pass. These are controlled local checks, not new live payments.
+- Production web build, types, lint and client-secret scan pass. All13browser checks
+  pass with an owned server/new disposable DB, without starting the old local worker
+  or modifying retained metadata. Final rebuild includes the new readiness flag.
+- Fresh configured Alchemy chain/runtime/immutables check passes at block70440116.
+  Optimized live snapshot/summary match independent canonical reads at their pinned
+  block:6/4requests and591/331ms at one observation; no signing/submission.
+- Direct hosted-backup TCP connection times out; its HTTPS SQL probe also times out.
+  Signed-in Neon SQL console succeeds. Single-statement snapshot export restores
+  all12tables/145rows into a disposable local DB, preserving full timestamp values;
+  AES-GCM decrypted bytes match exactly. Raw export/backups remain private and ignored.
+- Guarded migration0009 commits. Fresh readback shows heartbeat present, migration
+  recorded, app SELECT/INSERT/UPDATE granted, request DELETE blocked and schema CREATE
+  blocked. Private visual evidence is retained. This is an additive schema change.
+- RPC secret setting is accepted, with other credentials/worker state preserved.
+  First readback check incorrectly expected an unmasked value and failed; official
+  Netlify secret semantics explain the masking. Runtime/provider/repeated-read and
+  new-user invitation verification remain pending the source deployment.
+
+## 12 October — read-only judge-readiness assessment
+
+- Public hosted landing page loads in the browser. Signed-in Chrome owner Home,
+  active-plan view, global Activity and indexed plan Activity are inspected.
+- Hosted /api/health returns accountsConfigured/databaseConfigured/databaseReady/
+  rpcReady/indexerConfigured/deploymentConfigured/sponsorshipEnabled all true.
+  Those readiness flags do not establish reliable complete contract snapshots.
+- Home refreshes intermittently report unavailable chain information for different
+  plans; the active plan also alternates between unavailable and actual100FBTEST
+  owner allocation/300FBTEST reserve. Unavailable reads disable financial controls.
+  This is a remaining hosted usability issue, not a claimed resolved failure.
+- Plan Activity displays the real150FBTEST first payment,150own/0backup, plus
+  funding/activation history. Global Activity includes payment and previous returns.
+  This inspection is not a new canonical receipt reconciliation or transaction.
+- Native Chrome confirms another prepared account is connected. The user confirms
+  all three accounts and supplies a screenshot. The connected browser tools expose
+  inconsistent profile coverage; no complete three-role journey is claimed.
+  Native navigation/reload of that account did not yield a usable Home view during
+  this inspection; its original landing URL is restored. Do not infer an app root
+  cause from this tooling-limited result.
+- Initial sandbox chain:verify fails with HttpRequestError. The network-enabled
+  read-only rerun passes at2026-10-12T15:20:30.794Z, chain10143/block70431696,
+  assetVerified=true/deploymentVerified=true. No raw provider error or URL is logged.
+- Existing application/contract/browser suite results retain their recorded scope;
+  they are not rerun by this assessment. No financial action, migration or release.
+- Source scan passes246files/9configured secrets with zero findings; documentation
+  diff whitespace check passes. Neither is an application journey test.
+
+## 12 October — documentation and local graph verification
+
+Updated progress/HANDOFF from the existing hosted results without rerunning service
+or financial checks. Code-only Graphify extraction and no-label clustering succeed:
+837nodes/2012edges/48communities. Current corpus comparison finds no excluded parsed
+sources; direct hosted worker/function reads validate the focused call relationships.
+Diagnostics retain4self-loops, with0missing/dangling endpoints or collapsed edges.
+Solidity/SQL parsing remains unavailable. Source scan passes231files/6configured
+secrets with no findings; git diff --check passes. Application/contract suites were
+not rerun for these documentation/derived-artifact changes.
+
 ## 12 October — final hosted checks
 
 Production health returns200 with database/RPC/indexer/account/deployment flags true.
@@ -677,3 +741,93 @@ public About at six widths, Axe/no overflow, navigation/anchors/skip-link focus 
 zero account requests. Configured read-only Monad check passes. Live Chrome verifies
 signed-in Home → About → Home. Financial suites were not rerun: no contract/backend
 changes. Final screenshots and command logs are evidence/about-*; see the About verification evidence above.
+
+## 12 October — sequential remaining-work verification
+
+Task 1: `vitest run packages/backend/src/invitations.test.ts` passes 12 tests,
+including shared clean-HTTPS sender readiness. Actual new Privy account and external
+email delivery remain pending; local sender credentials are absent. No email sent.
+Task 2: `vitest run packages/chain/src/client.test.ts` passes four controlled
+429/503/timeout/endpoint tests. Whole-source typechecking passes. Sandboxed
+`chain:verify` cannot reach RPC; authorized network retry passes at block70368511
+(chain10143, token runtime/decimals/symbol, factory runtime/immutables). No Alchemy
+credential is configured; this is public-RPC evidence only.
+Task 3: three receipt/backend/HTTP suites pass64 tests. Initial live receipt check
+fails with the project-local DB stopped; only that existing DB is restarted, leaving
+local web/worker stopped. Pending-request reconciliation passes with zero unresolved
+local requests. Hosted Chrome owner Home shows three real plans, zero claims for
+completed A/B and an unknown snapshot for the original; plan history shows ten real
+B events and unknown coverage. Money controls disable while current reads fail.
+Broader account/sponsored failure flows require human sessions and fresh consent.
+Task 3 completion of historical read-only verification: all38 preserved confirmed
+account actions match provider wallet/sponsorship and canonical expected events.
+No signing/submission. Task 4: actual deployed local-chain suite passes splits,
+rounding/returns, blocked-cap recovery, late expiry and worker races. Fresh canonical
+check of captured hosted installment journal passes150000000 own/0support and all
+transfer/window/identity assertions. Repaired current readiness passes: original
+own100000000/reserve300000000/paid150000000/used0, outcomes[1,0,0]; A/B closed with
+zero remaining attributed funds/claims,39request identities unchanged. Local queue
+is not the hosted journal. Task 5: sixteen focused indexer/notification/experience
+checks pass. Hosted reader verifies processing70370404/source70370406 against fresh
+RPC70370408 (4blocks). Three plans/23canonical plan events reconcile. A transient
+TypeScript narrowing error in the hosted parser is repaired; source types pass.
+Task 6:12focused worker/heartbeat/operational checks pass, including stale lease
+fencing, stale heartbeat completion, private aggregate diagnostics and dropped/
+underpriced identical-byte backoff. Migration0009 generated locally; not yet applied
+to hosted DB. Hosted restart/interruption and monitoring activation remain pending.
+Task6 actual worker-chain initially fails a fixture timing assertion after stronger
+pending backoff. The driver now schedules reopen checks using persisted nextAttempt;
+rerun passes one actual settlement, one signature/submission, three SQL reopenings,
+receipt/notification interruption and six idempotent messages. Backup/disposable
+restore passes12tables/141rows before local migration0009. Migration applies locally
+only; real PostgreSQL verification through0009 and heartbeat fencing passes.
+Task7: CRE types/five SDK tests/WASM build pass. Discovery/environment tests pass5;
+scheduler loopback test initially fails sandbox EPERM, then its authorized rerun
+passes1. Actual CLI hosted simulation succeeds3scanned/0accepted/0stale. No positive
+payment or network workflow deployment is inferred.
+Task8: full check passes123application tests/49contract checks before later snapshot
+optimization. Web types/lint pass; production build passes with existing optional
+Privy Farcaster/viem Tempo bundling warnings. Three snapshot tests pass, plus actual
+Monad Multicall3 factory/token verification and same-block Alchemy comparison.
+Client artifact scan passes. Envio replay/rebuild passes. Current private Alchemy
+chain/deployment check and captured hosted payment receipt recheck both pass.
+Final available checks: pnpm check passes129application/49contract checks. Web types
+and app lint pass. Browser suite passes13checks (six isolated actual-component
+journeys plus seven public/HTTP/PWA checks), distinct from live account actions.
+Actual Envio disposable-chain reorg rollback passes. Envio production codegen/types
+are restored and pass after fixture replay. Owned local restart verifier fails its
+preflight because no marker-owned indexer is running; no owned service is stopped
+or restarted and no fresh local restart pass is claimed.
+
+Operating safeguards: current local snapshot/exact app restore verifies13tables/
+141rows. AES-GCM seal/open tests and scheduled health diagnostic tests pass8checks;
+actual encrypted application/indexer bundle decrypts byte-exactly with authenticated
+hashes. Indexer data is the retained11October22:01UTC historical snapshot, not a fresh
+hosted export. No remote backup upload or schedule is enabled. Explorer standard JSON
+uses exact compiler0.8.30/settings/source hashes and recompiles all three runtimes to
+the selected artifacts; constructor inputs for token/factory are prepared privately.
+No explorer source upload or new hosted release is performed.
+
+New indexer restore helper initially exposes fixture ABI path, safe NUMERIC JSON
+representation and BYTEA parameter serialization issues in disposable databases.
+Repairs preserve integer exactness, decode binary bytes before insertion and compare
+canonical SQL representations; each failed attempt is recorded as failure, never a
+restoration pass. Source/client secret scanning now covers the private RPC URL/key
+suffix and backup encryption key. Nine configured private values/245source files
+pass the scan before the explorer helper addition; final count is recorded separately.
+Indexer restore final outcome: passes16tables/45,851rows with exact database values,
+checked safe integer export representations and one serial sequence reset. BYTEA
+inputs are decoded before parameter binding; timestamps compare through full-precision
+SQL casts rather than JavaScript Date conversion. Only newly created disposable DBs
+are modified/dropped; the retained snapshot and existing indexer remain unchanged.
+Final source/client scan passes246files/9configured private values, no findings.
+All three account connections are confirmed by the user's screenshot/native windows;
+no repeat sign-in is needed. Broader fresh financial/role-recovery checks remain
+manual, and no new onchain account action was signed/submitted in this session.
+Final production build succeeds, including service worker/page generation, with the
+recorded optional Privy/viem warnings. Final client-artifact scan and app lint pass.
+Explorer constructors for all three registered plans are prepared from same-block
+immutable reads at70424620; standard JSON still matches all selected runtimes.
+Final graph refresh produces875nodes/2153edges/52communities with no semantic calls;
+parser gaps remain explicit. No new hosted release, remote backup, email delivery,
+explorer upload or user financial signature/submission is claimed.

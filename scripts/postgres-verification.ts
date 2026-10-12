@@ -15,6 +15,7 @@ import { deliverInvitation } from '../packages/backend/src/invitation-delivery.j
 import { idempotent, rateLimit } from '../packages/backend/src/security.js';
 import { enqueue, takeJob, processOne, type Gateway } from '../apps/worker/src/jobs.js';
 import { discoveryBatch, enqueueDiscoveryBatch } from '../apps/worker/src/discovery.js';
+import { beginWorkerCycle, finishWorkerCycle } from '../apps/worker/src/heartbeat.js';
 const configured = process.env.DATABASE_URL;
 if (!configured) throw new Error('Local database not configured');
 const url = new URL(configured);
@@ -149,7 +150,15 @@ try {
   const results = await Promise.all([1, 2, 3].map(() => enqueueDiscoveryBatch(db, scanId, { batchId: batch.batchId, candidates: batch.candidates }, async () => { inspections++; return { allowed: true }; })));
   assert.equal(inspections, 1); assert.deepEqual(results[0], results[1]); assert.deepEqual(results[1], results[2]);
   assert.equal(results[0]!.paid, false);
+  const heartbeatAt = new Date();
+  const oldRun = await beginWorkerCycle(db, 'hosted', heartbeatAt);
+  const newRun = await beginWorkerCycle(db, 'hosted', heartbeatAt);
+  await finishWorkerCycle(db, 'hosted', oldRun, true, heartbeatAt);
+  assert.equal((await db.query.workerHeartbeat.findFirst())?.status, 'running');
+  await finishWorkerCycle(db, 'hosted', newRun, true, heartbeatAt);
+  assert.equal((await db.query.workerHeartbeat.findFirst())?.runId, newRun);
+  assert.equal((await db.query.workerHeartbeat.findFirst())?.status, 'succeeded');
   const version = await client`SELECT version()`;
-  await writeFile('docs/evidence/postgres-verification.json', JSON.stringify({ runtime: String(version[0]?.version), migrations: 'passed through 0008', secureInvitationRaces: 'one first-time canonical claimant; one replacement; accept/revoke and accept/decline serialize to one terminal outcome', deliveryFixture: 'controlled local HTTP with lost response and three concurrent retries: one immutable message/provider key, two HTTP calls, one accepted result; no real email sent', privateSetupRace: 'one revision-zero save wins; stale competing save rejected', inboxAcceptanceRace: 'one authenticated acceptance wins without a usable invitation token', rateWindow: 'passed: reject excess and reset at boundary with actual driver', concurrentIdempotency: 'one mutation', invitationRace: 'one acceptance', leaseRace: 'one lease', nonceReservationRace: 'two concurrent jobs reserve separate nonces before broadcast; lost-response retries never resign', discoveryRace: 'three observers share one frozen batch; three submissions inspect/enqueue/advance once with identical acknowledgements', privacyFixtures: 'locally generated identities, not live Privy sessions', observedAt: new Date().toISOString() }, null, 2));
-  console.log('Real PostgreSQL verified: migrations through 0008, first-time claims/replacement/revocation/decline races, rate windows, idempotency, lease/nonce and discovery races.');
+  await writeFile('docs/evidence/postgres-verification.json', JSON.stringify({ runtime: String(version[0]?.version), migrations: 'passed through 0009', heartbeatFencing: 'stale completion cannot overwrite a newer run', secureInvitationRaces: 'one first-time canonical claimant; one replacement; accept/revoke and accept/decline serialize to one terminal outcome', deliveryFixture: 'controlled local HTTP with lost response and three concurrent retries: one immutable message/provider key, two HTTP calls, one accepted result; no real email sent', privateSetupRace: 'one revision-zero save wins; stale competing save rejected', inboxAcceptanceRace: 'one authenticated acceptance wins without a usable invitation token', rateWindow: 'passed: reject excess and reset at boundary with actual driver', concurrentIdempotency: 'one mutation', invitationRace: 'one acceptance', leaseRace: 'one lease', nonceReservationRace: 'two concurrent jobs reserve separate nonces before broadcast; lost-response retries never resign', discoveryRace: 'three observers share one frozen batch; three submissions inspect/enqueue/advance once with identical acknowledgements', privacyFixtures: 'locally generated identities, not live Privy sessions', observedAt: new Date().toISOString() }, null, 2));
+  console.log('Real PostgreSQL verified: migrations through 0009, first-time claims/replacement/revocation/decline races, rate windows, idempotency, lease/nonce, discovery races and heartbeat fencing.');
 } finally { await client.end(); await admin.unsafe(`DROP DATABASE "${name}"`); await admin.end(); }

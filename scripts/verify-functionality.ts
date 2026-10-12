@@ -41,11 +41,22 @@ try {
       reports.push({ scenario: 'Manual B', lifecycle: 'Closed', remainingClaims: '0', requests: count });
     } else if (current.lifecycle === 1) {
       stage = 'original_requests';
-      assert.equal(count, 12); assert.equal(current.own, 250000000n); assert.equal(current.reserve, 300000000n);
+      assert.equal(count, 12);
       stage = 'original_preview';
-      assert.equal(current.totalPaid, 0n); assert.equal(current.used, 0n); assert.equal(current.preview.reason, 3); // PreviewReason.NotDue
+      assert.equal(current.terms.amount, 150000000n); assert.equal(current.terms.count, 3);
+      assert.equal(current.totalPaid % current.terms.amount, 0n);
+      assert.ok(current.totalPaid <= current.terms.amount * BigInt(current.terms.count));
+      const ownPaid = current.totalPaid < 250000000n ? current.totalPaid : 250000000n;
+      assert.equal(current.own, 250000000n - ownPaid);
+      assert.equal(current.used, current.totalPaid - ownPaid);
+      assert.equal(current.reserve + current.used, 300000000n);
+      const outcomes = [];
+      for (let i = 0; i < current.terms.count; i++) outcomes.push(await configured.client.readContract({ address: configured.plan, abi: FallbackPlanAbi, functionName: 'outcomes', args: [i], blockNumber: current.block }));
+      assert.equal(outcomes.filter(o => o === 1).length, Number(current.totalPaid / current.terms.amount));
+      assert.ok(outcomes.slice(0, current.preview.index).every(o => o !== 0));
+      assert.ok(outcomes.slice(current.preview.index).every(o => o === 0));
       assert.equal(new Date(Number(current.terms.firstDue) * 1000).toISOString(), '2026-10-11T22:18:00.000Z');
-      reports.push({ scenario: 'Original', lifecycle: 'Active', own: '250000000', reserve: '300000000', paid: '0', used: '0', requests: count, firstDueUtc: '2026-10-11T22:18:00Z', notDue: true });
+      reports.push({ scenario: 'Original', lifecycle: 'Active', own: current.own.toString(), reserve: current.reserve.toString(), paid: current.totalPaid.toString(), used: current.used.toString(), requests: count, firstDueUtc: '2026-10-11T22:18:00Z', nextInstallment: current.preview.index, previewReason: current.preview.reason, outcomes });
     } else {
       stage = 'closed_plan_assertions';
       assert.equal(current.lifecycle, 2); assert.equal(current.own, 0n); assert.equal(current.reserve, 0n);
@@ -57,13 +68,20 @@ try {
   assert.equal(reports.filter(r => r.scenario === 'Manual B').length, 1);
   stage = 'discovery';
   const registry = await discover(0), indexed = await discoverIndexed(null);
-  assert.equal(registry.length, 0); assert.equal(indexed.candidates.length, 0); assert.equal(indexed.scanned, 3); assert.equal(indexed.nextCursor, null);
+  assert.equal(indexed.scanned, 3); assert.equal(indexed.nextCursor, null);
+  // Discovery can legitimately find due work as time advances. Compare identities
+  // rather than preserving the obsolete assumption that every scan is empty.
+  const identities = (rows: typeof registry) => rows.map(c => `${c.chainId}:${c.plan.toLowerCase()}:${c.installment}:${c.action}`).sort();
+  assert.deepEqual(identities(registry), identities(indexed.candidates));
   stage = 'readiness';
   const c = chainClient(); assert.equal(await c.client.getChainId(), 10143);
   const workerKey = process.env.WORKER_PRIVATE_KEY; assert.ok(workerKey && /^0x[0-9a-f]{64}$/i.test(workerKey));
   const workerGasAvailable = await c.client.getBalance({ address: privateKeyToAddress(workerKey as Hex) }) > 0n;
   assert.equal(workerGasAvailable, true);
-  const health = await (await fetch('http://localhost:3000/api/health')).json();
+  const originArg = process.argv.indexOf('--app-origin');
+  const origin = new URL(originArg >= 0 ? process.argv[originArg + 1]! : process.env.APP_ORIGIN || 'http://localhost:3000');
+  assert.ok(origin.origin === 'https://fallbackk.netlify.app' || origin.origin === 'http://localhost:3000');
+  const health = await (await fetch(`${origin.origin}/api/health`, { redirect: 'error', signal: AbortSignal.timeout(15_000) })).json();
   assert.equal(health.databaseReady, true); assert.equal(health.rpcReady, true);
   const unresolved = (await db`SELECT count(*)::int AS n FROM transaction_requests WHERE status NOT IN ('confirmed','failed')`)[0]!.n;
   assert.equal(unresolved, 0);

@@ -1,5 +1,44 @@
 # Decision record
 
+## 2026-10-12 — execute the submission fixes with manual account handoffs
+
+User requests solving the major issues, prepares a fresh account and asks for clear
+manual instructions while independent work continues. Reuse the already authorized
+free testnet deployment, public repository and protected state; no extra production
+infrastructure or optional sender configuration. Review the existing local source
+and verify it before release. Add only a boolean alchemyConfigured readiness field
+to prove provider selection without exposing any URL or key.
+
+Direct Neon TCP and HTTPS SQL time out from this host, while the hosted app remains
+DB-ready. Use the signed-in Fallback project SQL console for one-statement snapshot
+export; exact local isolated restoration verifies12tables/145rows and authenticated
+encrypted recovery. Move the generated download into private ignored storage.
+Apply the exact0009 table/migration hash in a guarded transaction and retain only
+SELECT/INSERT/UPDATE for fallback_app. Fresh flags verify request DELETE/schema CREATE
+remain blocked. Set the verified Alchemy URL as a Netlify server secret; do not
+misinterpret masked secret readback as an incorrect provider value. Preserve all
+other credentials and enabled worker state, and verify actual runtime after deploy.
+
+## 2026-10-12 — judge usability supersedes full backlog completion
+
+User clarifies that submission and reliable judge use are the goal, with a few
+testers rather than production-scale operations, and authorizes Chrome verification
+using the three prepared accounts. Retain the nine engineering sections as backlog;
+do not treat every manual/time-dependent item as a release blocker. Prioritize
+new-person shared invitations, ordinary role financial/recovery/return journeys,
+reliable hosted reads, real backup-payment/history evidence and a tested hosted
+release. Optional invitation delivery, future original-plan installments, extended
+live failure campaigns and remote scheduled backup retention can wait. Preserve
+all financial and account-isolation rules regardless of scale.
+
+Chrome owner views expose intermittent unavailable chain reads, while the active
+plan sometimes loads its real100FBTEST allocation/300FBTEST reserve and history
+shows the verified150FBTEST own-funded first payment. Fresh configured Alchemy
+chain:verify passes10143/token/factory at block70431696. Keep provider/contract
+verification separate from hosted RPC reliability and completed judge journeys.
+Record this assessment locally; no deployment, migration, new user authorization,
+financial action, external email or entry submission occurs.
+
 ## 2026-10-12 — verified free database and bounded hosted worker
 
 Preserve user-selected fallbackk hosting name. Use verified Free Netlify/Neon,
@@ -843,3 +882,79 @@ and shared handlers. Preserve the configured start block69077351 (token deployme
 factory deployment is69077360), rollback/history settings and existing event logic.
 Use the public testnet RPC with the proved 100-block ceiling. Codegen and generated
 cloud-handler typecheck pass; actual cloud indexing remains a separate gate.
+
+## 12 October — align progress and the local code graph with hosted evidence
+
+Keep progress.md as completed/remaining capabilities without dated checkpoints.
+Record the verified first hosted installment, live reader/accounting, sign-in,
+functional-source CI and laptop-independent demo as completed. Future installments,
+fresh-device recovery, hosted watermark support and remote backup/monitoring remain
+explicit work; hosting completion does not imply full product or bounty completion.
+
+Refresh the existing Graphify0.9.79 installation with code-only extraction and one
+AST worker, then cluster-only --no-label. Derived artifacts stay ignored/local;
+track sanitized revision, hashes, source coverage and integrity evidence in docs.
+Four self-loops and unavailable Solidity/SQL parsers are disclosed. No application,
+financial, provider configuration or publication change follows from this request.
+
+## 12 October — sequential remaining engineering work
+
+User requests all nine remaining sections in order, progress updates after each,
+Graphify navigation, and clear manual browser/account handoffs without pausing
+independent work. Keep live account/provider/time dependencies pending rather than
+claiming completion. Local source only; retain existing hosted testnet ownership.
+
+Share strict invitation delivery-origin validation between readiness/preparation.
+Use one bounded server/worker HTTP transport (15s, one retry, no redirects/plaintext
+remote RPC). Alchemy stays a private MONAD_RPC_URL configuration within Privy stack.
+The preserved-plan verifier follows real accounting/outcome order after settlement;
+read-only reconciliation preserves all38confirmed actions and39request IDs.
+
+Envio history supports the installed3.14 hosted chain_metadata schema in the same
+page query. Invalid metadata remains unknown. Bounded actor-scoped notification
+receipt reconciliation demotes orphaned records, restores canonical re-mined events,
+and labels outages unavailable; no deletion or fabricated replacement event. A
+previously confirmed orphaned request reopens as submitted for canonical recovery.
+
+Worker migration0009 stores only owned-cycle heartbeat state. Completion is fenced
+by run identity; job completion/preparation is fenced by the acquired lease and row
+lock. Pending hashes back off5s to5min while retaining exact bytes/nonce/hash. There
+is no fee replacement or nonce clearing. Private scheduler/operations returns
+aggregate RPC/lag/heartbeat/queue diagnostics. Local snapshot/restore precedes local
+migration; no hosted migration or old local worker restart occurs. The actual worker
+fixture now follows persisted nextAttempt rather than obsolete fixed retry times.
+
+CRE local config uses the existing hosted HTTPS adapter rather than a stale tunnel.
+CLI simulation receives only the existing relay secret; empty work proves the
+adapter path, not positive payment orchestration. No native CRE Monad chain write
+or new financial consent is inferred from an HTTP acknowledgement.
+
+Monad Testnet's Multicall3 from pinned viem chain definitions is verified with actual
+factory/token reads before use. Snapshot/summary batches pin all contract reads to
+one canonical block and fail as a whole. Local31337 keeps direct reads. Actual
+Alchemy snapshot matches independent same-block accounting:6RPC requests/641ms,
+summary4requests/422ms at this one observation. These are API measurements, not
+user loading or Lighthouse scores. User configures the private Alchemy URL locally;
+chain/runtime verification succeeds on10143. Hosted RPC cutover remains separate.
+
+## 12 October — operating safeguards and verification artifacts
+
+Gate native scheduled health monitoring with HEALTH_MONITOR_ENABLED until hosted
+heartbeat migration/rollout succeeds. Checks return only fixed aggregate diagnostics;
+no external alert messages or recipient enrollment. AES-GCM envelope authenticates
+an application/indexer backup bundle with a fresh nonce, bounded size and a private
+persistent key. Hashes/decrypted bytes verify before success; no remote upload or
+scheduled retention is inferred. Local app restore now covers heartbeat state.
+
+The retained indexer export uses SQL-to-JSON representations. Restore into a newly
+named disposable schema, decode BYTEA before binding, reject unsafe numeric export
+numbers, preserve timestamp precision through SQL casts, compare every database value
+and reset serial sequences. Final16table/45,851row verification passes; source export
+is historical. Runtime configuration/schema/history are preserved without ingestion.
+
+Prepare explorer standard JSON from verified source hashes, exact0.8.30/cancun/
+optimizer200 settings, and compare all three compiled runtimes exactly. Inputs stay
+local/ignored; explorer submission and hosted source rollout remain separate gates.
+User-supplied Alchemy RPC and newly generated backup key remain server/private; scans
+now check both the private RPC URL/key suffix and backup encryption key. No secret,
+account email, private row or machine-specific path enters tracked source.

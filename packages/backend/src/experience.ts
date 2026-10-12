@@ -8,6 +8,7 @@ import type { Identity } from './plans.js';
 import { planSummarySnapshot } from '../../chain/src/client.js';
 import { outstandingRequest } from './transactions.js';
 import { invitationTarget, openInvitation } from './invitations.js';
+import { reconcileNotificationPage } from './notification-reconciliation.js';
 
 export const setupFields = z.object({ label: z.string().max(80), payee: z.string().max(42), amount: z.string().max(50), firstDue: z.string().max(30), days: z.string().max(12), count: z.string().max(3), grace: z.string().max(12), minimum: z.string().max(50), maximum: z.string().max(50), cap: z.string().max(50), percent: z.string().max(12) }).strict();
 export async function saveSetup(db: Database, actor: Identity, input: unknown) {
@@ -35,8 +36,9 @@ export async function activityFeed(db: Database, actor: Identity, cursor: string
     if (!row) throw new ApiError(404, 'ACTIVITY_CURSOR_UNAVAILABLE');
     boundary = or(lt(notifications.createdAt, row.createdAt), and(eq(notifications.createdAt, row.createdAt), lt(notifications.id, row.id)));
   }
-  const rows = await db.select({ id: notifications.id, planId: notifications.planId, type: notifications.type, transactionHash: notifications.transactionHash, createdAt: notifications.createdAt, readAt: notifications.readAt, label: plans.label }).from(notifications).innerJoin(plans, eq(notifications.planId, plans.id)).where(and(eq(notifications.userId, actor.id), boundary)).orderBy(desc(notifications.createdAt), desc(notifications.id)).limit(21);
-  return { items: rows.slice(0, 20), next: rows.length > 20 ? rows[19]!.id : null };
+  const rows = await db.select({ id: notifications.id, planId: notifications.planId, type: notifications.type, transactionHash: notifications.transactionHash, createdAt: notifications.createdAt, readAt: notifications.readAt, label: plans.label, address: plans.address, chainId: plans.chainId }).from(notifications).innerJoin(plans, eq(notifications.planId, plans.id)).where(and(eq(notifications.userId, actor.id), boundary)).orderBy(desc(notifications.createdAt), desc(notifications.id)).limit(21);
+  const verified = await reconcileNotificationPage(db, actor.id, rows.slice(0, 20));
+  return { items: rows.slice(0, 20).map(({ address: _address, chainId: _chainId, ...row }) => ({ ...row, ...verified.get(row.id) })), next: rows.length > 20 ? rows[19]!.id : null };
 }
 export async function planSummaries(db: Database, actor: Identity, offset: number) {
   const rows = await db.select({ id: plans.id, label: plans.label, address: plans.address, role: memberships.role, terms: plans.terms, proposalHash: plans.proposalHash }).from(memberships).innerJoin(plans, eq(memberships.planId, plans.id)).where(eq(memberships.userId, actor.id)).orderBy(desc(plans.createdAt), plans.id).offset(offset).limit(11);

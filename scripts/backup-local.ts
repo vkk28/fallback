@@ -15,6 +15,7 @@ const tables = [
   ['invitation_deliveries', ['invitation_id']],
   ['transaction_requests', ['id']], ['request_limits', ['key']], ['settlement_jobs', ['id']], ['scheduler_discovery', ['id']],
   ['setup_drafts', ['user_id']],
+  ['worker_heartbeat', ['mode']],
 ] as const;
 const root = fileURLToPath(new URL('../', import.meta.url));
 process.umask(0o077);
@@ -37,7 +38,7 @@ try {
       const metadata = await tx`SELECT column_name,data_type FROM information_schema.columns WHERE table_schema='public' AND table_name=${table} ORDER BY ordinal_position`;
       const columns = metadata.map(r => String(r.column_name));
       // Permit a pre-0007 snapshot before this additive migration is applied.
-      if ((table === 'setup_drafts' || table === 'invitation_deliveries') && columns.length === 0) continue;
+      if (['setup_drafts', 'invitation_deliveries', 'worker_heartbeat'].includes(table) && columns.length === 0) continue;
       const jsonColumns = metadata.filter(r => ['json', 'jsonb'].includes(String(r.data_type))).map(r => String(r.column_name));
       assert.ok(columns.length > 0);
       const rows = await tx`SELECT * FROM ${tx(table)} ORDER BY ${tx([...keys])} LIMIT 100001`;

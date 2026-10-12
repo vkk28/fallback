@@ -58,6 +58,19 @@
       "tag": "0007_private_setup",
       "breakpoints": true
     },
-    { "idx": 8, "version": "7", "when": 1791734400000, "tag": "0008_invitation_claims", "breakpoints": true }
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1791734400000,
+      "tag": "0008_invitation_claims",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791800022457,
+      "tag": "0009_worker_heartbeat",
+      "breakpoints": true
+    }
   ]
 }

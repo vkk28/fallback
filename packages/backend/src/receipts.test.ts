@@ -118,6 +118,14 @@ describe('durable request receipt and approval recovery (local SQL/provider fixt
     expect((await outstandingRequest(db, actor.id, planId))?.status).toBe('submitted');
     expect(await db.select().from(schema.notifications)).toHaveLength(0);
   });
+  it('reopens a previously confirmed orphaned request for canonical reconciliation', async () => {
+    await request({ status: 'confirmed', hash });
+    block.mockResolvedValueOnce({ hash: `0x${'33'.repeat(32)}` });
+    await expect(reconcileRequest(db, actor, id)).rejects.toMatchObject({ code: 'NONCANONICAL_RECEIPT_RECONCILE' });
+    expect((await outstandingRequest(db, actor.id, planId))?.id).toBe(id);
+    expect(await reconcileRequest(db, actor, id)).toMatchObject({ status: 'confirmed', hash });
+    expect(await db.query.transactionRequests.findMany()).toHaveLength(1);
+  });
   it('does not treat a successful receipt for another amount as the expected approval', async () => {
     await request(); receipt.mockResolvedValue(successReceipt([approvalLog(500000n)]));
     await expect(reconcileRequest(db, actor, id)).rejects.toMatchObject({ code: 'EXPECTED_EVENT_NOT_CONFIRMED' });

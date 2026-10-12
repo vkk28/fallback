@@ -15,8 +15,9 @@ export async function takeJob(db: Database, now = new Date()) {
     const available = or(isNull(jobs.leaseUntil), lte(jobs.leaseUntil, now));
     const [job] = await tx.select().from(jobs).where(and(lte(jobs.nextAttempt, now), or(eq(jobs.status, 'queued'), and(eq(jobs.status, 'submitted'), available), and(eq(jobs.status, 'leased'), available)))).orderBy(jobs.nextAttempt).limit(1).for('update', { skipLocked: true });
     if (!job) return null;
-    await tx.update(jobs).set({ status: 'leased', leaseUntil: new Date(now.getTime() + 60_000) }).where(eq(jobs.id, job.id));
-    return job;
+    const leaseUntil = new Date(now.getTime() + 60_000);
+    await tx.update(jobs).set({ status: 'leased', leaseUntil }).where(eq(jobs.id, job.id));
+    return { ...job, leaseUntil };
   });
 }
 export interface Gateway {
@@ -30,13 +31,14 @@ export interface Gateway {
 export async function processOne(db: Database, gateway: Gateway, now = new Date()) {
   const job = await takeJob(db, now);
   if (!job) return false;
+  const owned = and(eq(jobs.id, job.id), eq(jobs.leaseUntil, job.leaseUntil));
   try {
-    let stored = job;
+    let stored: typeof jobs.$inferSelect = job;
     let hash = job.transactionHash as Hex | null;
     if (!hash) {
       const state = await gateway.inspect(job);
       if (state.terminal) {
-        await db.update(jobs).set({ status: 'failed', leaseUntil: null }).where(and(eq(jobs.id, job.id), isNull(jobs.transactionHash)));
+        await db.update(jobs).set({ status: 'failed', leaseUntil: null }).where(and(owned, isNull(jobs.transactionHash)));
         return true; // Another caller resolved it; do not invent a receipt or a paid notification.
       }
       if (!state.allowed) throw new Error('NOT_CURRENTLY_PAYABLE');
@@ -45,9 +47,10 @@ export async function processOne(db: Database, gateway: Gateway, now = new Date(
       // then only retry those same bytes, never sign a second payment attempt.
       stored = await db.transaction(async tx => {
         await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${`worker:${job.chainId}:${gateway.signer.toLowerCase()}`}, 0))`);
-        const current = await tx.query.jobs.findFirst({ where: eq(jobs.id, job.id) });
+        const [current] = await tx.select().from(jobs).where(eq(jobs.id, job.id)).for('update');
         if (!current) throw new Error('JOB_NOT_FOUND');
         if (current.transactionHash) return current;
+        if (current.leaseUntil?.getTime() !== job.leaseUntil.getTime()) throw new Error('JOB_LEASE_CHANGED');
         const [reserved] = await tx.select({ nonce: sql<number>`coalesce(max(${jobs.nonce}), -1)::int` }).from(jobs).where(and(eq(jobs.chainId, job.chainId), eq(jobs.signer, gateway.signer.toLowerCase())));
         const prepared = await gateway.prepare(job, (reserved?.nonce ?? -1) + 1);
         const [saved] = await tx.update(jobs).set({ transactionHash: prepared.hash, signedTransaction: prepared.serialized, signer: gateway.signer.toLowerCase(), nonce: prepared.nonce, status: 'submitted' }).where(eq(jobs.id, job.id)).returning();
@@ -70,18 +73,18 @@ export async function processOne(db: Database, gateway: Gateway, now = new Date(
       receipt = await gateway.receipt(hash);
     }
     if (receipt === 'pending') {
-      await db.update(jobs).set({ status: 'submitted', leaseUntil: null, nextAttempt: new Date(now.getTime() + 5000) }).where(eq(jobs.id, job.id));
+      await db.update(jobs).set({ status: 'submitted', attempts: job.attempts + 1, leaseUntil: null, nextAttempt: new Date(now.getTime() + Math.min(300_000, 5000 * 2 ** Math.min(job.attempts, 6))) }).where(owned);
     } else if (receipt === 'success') {
       await gateway.notify(job.plan, hash); // Idempotent per log/user; retry after crash safely.
-      await db.update(jobs).set({ status: 'confirmed', leaseUntil: null }).where(eq(jobs.id, job.id));
+      await db.update(jobs).set({ status: 'confirmed', leaseUntil: null }).where(owned);
     } else {
-      await db.update(jobs).set({ status: 'failed', leaseUntil: null, attempts: job.attempts + 1 }).where(eq(jobs.id, job.id));
+      await db.update(jobs).set({ status: 'failed', leaseUntil: null, attempts: job.attempts + 1 }).where(owned);
     }
   } catch {
     const attempts = job.attempts + 1;
     // Existing submitted hashes must be reconciled, never replaced blindly.
     const row = await db.query.jobs.findFirst({ where: eq(jobs.id, job.id) });
-    await db.update(jobs).set({ attempts, status: row?.transactionHash ? 'submitted' : attempts >= 8 ? 'failed' : 'queued', leaseUntil: null, nextAttempt: new Date(now.getTime() + Math.min(300_000, 1000 * 2 ** attempts)) }).where(eq(jobs.id, job.id));
+    await db.update(jobs).set({ attempts, status: row?.transactionHash ? 'submitted' : attempts >= 8 ? 'failed' : 'queued', leaseUntil: null, nextAttempt: new Date(now.getTime() + Math.min(300_000, 1000 * 2 ** attempts)) }).where(owned);
   }
   return true;
 }

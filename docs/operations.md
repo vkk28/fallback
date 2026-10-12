@@ -1,5 +1,22 @@
 # Operations and deployment readiness
 
+## Submission release recovery checkpoint
+
+The fresh hosted pre-migration snapshot restores12tables/145rows exactly into an
+isolated local database and its authenticated encrypted recovery is verified.
+Raw downloads are moved into ignored private storage; files remain owner-only.
+Direct TCP/HTTPS SQL from this host times out, but the signed-in project SQL console
+works. One SELECT exports a consistent application snapshot; a guarded transaction
+applies0009 and stamps its exact source hash/created_at. Restricted heartbeat grants
+preserve financial request DELETE/schema CREATE denial. Existing plans, requests,
+signer and journal stay authoritative. A failed release can retain the additive
+table without replacing any financial state.
+
+Alchemy's verified URL is saved as a server secret. Netlify's API masks its value;
+use the deployed alchemyConfigured/rpcReady flags plus real contract reads to check
+the cutover. Environment changes need a fresh deploy. Keep monitoring disabled until
+the updated worker completes and its private aggregate health is verified.
+
 ## Safe configuration
 
 Run `node scripts/prepare-env.mjs`; edit ignored `.env` locally, permissions 600.
@@ -273,3 +290,66 @@ and full A/B history reconcile. Runtime normally trails the moving head by confi
 two blocks. verify:functionality uses only read-only preserved-plan/claim/discovery/
 health checks and does not enqueue/sign/submit. Local host sleep still interrupts
 worker liveness; durable hosting and alerting remain separate work.
+
+## Worker recovery and private operational health
+
+Migration0009 adds a one-row-per-mode worker heartbeat. Back up/migrate before
+rolling out updated app/worker code; grant the existing app role SELECT/INSERT/UPDATE
+on worker_heartbeat only. No deletion or signer permission is needed. Latest run IDs
+prevent old cycles from replacing newer health; last success remains distinct from
+started/failed cycles. `GET /api/scheduler/operations` requires the existing relay
+secret and returns only bounded aggregate diagnostics: RPC readiness, measured
+indexer lag, last worker success, status counts, failed/overdue jobs and unresolved
+broadcasts. Missing data is unknown, never healthy. Hosted stale threshold35minutes
+allows two15minute triggers; local threshold60seconds. Lag warning is100blocks.
+
+Dropped/underpriced transaction procedure:
+
+1. Keep job ID, nonce, signer, exact signed bytes and hash intact. An absent receipt,
+   timeout, nonce-too-low or underpriced error alone cannot prove failure.
+2. Reconcile the exact hash with current canonical RPC. Inspect nonce/pending status
+   privately and compare the contract's chronological outcome. A terminal plan
+   without this receipt does not prove this worker paid it.
+3. Let the worker rebroadcast only the stored bytes after read-only reconciliation.
+   Repeated pending outcomes back off5seconds to5minutes; no new signature or nonce
+   clearing is allowed. Stop/repair the RPC if its availability is the cause.
+4. If immutable fees remain unusable, retain the unresolved job and report manual
+   review. This implementation intentionally has no fee replacement operation.
+   Another fixed permissionless caller can advance the plan; continue reconciling
+   the original hash without claiming it paid or creating a duplicate notification.
+5. Restart only the owner of the active state store. Preserve leases/journal and
+   signer; apply backups/migrations before resuming. Do not restart the old local
+   worker alongside the hosted copy. A stale lease cannot finalize a newer job.
+
+Controlled Anvil/PGlite/real-PostgreSQL interruption evidence is separate from a
+hosted provider restart or observed live underpriced transaction. Operator monitoring
+must call the private endpoint from the selected hosted runtime before monitoring
+is described as enabled; adding the endpoint locally alone does not enable alerts.
+
+## Encrypted backup verification and hosted activation
+
+`pnpm db:seal-backup` authenticates the most recent verified local application
+snapshot together with the retained historical indexer snapshot using AES-256-GCM.
+It creates a private BACKUP_ENCRYPTION_KEY in ignored .env if absent; keep a protected
+independent recovery copy before moving archives off-device. Decrypted byte equality
+and per-artifact hashes are verified before success. Private restored JSON files
+remain mode600 in the owned backup folder. No remote upload or scheduling is implied.
+`pnpm db:test-indexer-restore [snapshot.json]` generates the pinned Envio schema in a
+new disposable local database, restores all saved entity/runtime/history tables,
+compares every row and resets serial sequences to restored maxima; it never starts
+indexing or overwrites the existing indexer. Historical snapshot provenance stays
+visible. Current app restoration remains `pnpm db:backup-local` (13tables after0009).
+
+Hosted sequence: fresh private application/indexer snapshots; isolated restores;
+additive0009 migration and limited table grant; reviewed app/worker source rollout;
+private Alchemy URL cutover; successful heartbeat; then HEALTH_MONITOR_ENABLED=true.
+The existing15-minute trigger reads the authenticated operational endpoint and
+fails with only fixed diagnostic categories on unhealthy/unknown data. Verify native
+invocation monitoring and provider notification settings manually. No app-delivered
+external alert recipient is configured. Keep the sole Envio release and free tiers.
+
+Remote storage/schedule must be selected and authorized before activating remote
+backup retention. Keep7daily/4weekly verified encrypted archives, their encryption
+key, and the last known recoverable baseline. Test restore into isolated databases
+and compare canonical accounting/watermark before any recovery cutover. A preserved
+historical local indexer export is not a fresh hosted indexer backup.

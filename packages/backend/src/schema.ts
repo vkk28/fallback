@@ -76,3 +76,11 @@ export const schedulerDiscovery = pgTable('scheduler_discovery', {
   batch: jsonb().$type<DiscoveryBatch>(),
   completed: jsonb().$type<{ batch: DiscoveryBatch; result: DiscoveryResult }>(),
 });
+// Latest owned worker cycle only; no signer/key, account or plan metadata.
+export const workerHeartbeat = pgTable('worker_heartbeat', {
+  mode: text({ enum: ['hosted', 'local'] }).primaryKey(), runId: text('run_id').notNull(),
+  startedAt: timestamp('started_at', { withTimezone: true }).notNull(),
+  finishedAt: timestamp('finished_at', { withTimezone: true }),
+  lastSuccessAt: timestamp('last_success_at', { withTimezone: true }),
+  status: text({ enum: ['running', 'succeeded', 'failed'] }).notNull(),
+});

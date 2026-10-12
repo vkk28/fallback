@@ -11,7 +11,12 @@ async function files(path) {
   return result;
 }
 const raw = existsSync('.env') ? await readFile('.env', 'utf8') : '';
-const privateValues = raw.split('\n').map(line => { const i = line.indexOf('='); return [line.slice(0, i), line.slice(i + 1).trim().replace(/^['"]|['"]$/g, '')]; }).filter(([k, v]) => k && /SECRET|PRIVATE_KEY|PASSWORD|TOKEN_KEY|DELIVERY_KEY|API_KEY|DATABASE_URL/.test(k) && !k.startsWith('NEXT_PUBLIC_') && v && v.length > 16);
+const privateValues = raw.split('\n').map(line => { const i = line.indexOf('='); return [line.slice(0, i), line.slice(i + 1).trim().replace(/^['"]|['"]$/g, '')]; }).filter(([k, v]) => k && /SECRET|PRIVATE_KEY|PASSWORD|TOKEN_KEY|DELIVERY_KEY|ENCRYPTION_KEY|API_KEY|DATABASE_URL|RPC_URL/.test(k) && !k.startsWith('NEXT_PUBLIC_') && v && v.length > 16).flatMap(([k, v]) => {
+  if (!k.endsWith('RPC_URL')) return [[k, v]];
+  if (v === 'https://testnet-rpc.monad.xyz' || /^http:\/\/(localhost|127\.0\.0\.1)/.test(v)) return [];
+  const key = new URL(v).pathname.split('/').at(-1);
+  return [[k, v], ...(key && key.length >= 16 ? [[k, key]] : [])];
+});
 const artifacts = await files('apps/web/.next/static');
 const leaked = new Set();
 for (const path of artifacts) { const text = await readFile(path, 'utf8'); for (const [key, value] of privateValues) if (text.includes(value)) leaked.add(key); }

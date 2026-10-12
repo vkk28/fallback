@@ -18,14 +18,19 @@ function deliveryKey() {
   if (!key || !/^[a-f0-9]{64}$/.test(key)) throw new ApiError(503, 'EMAIL_DELIVERY_NOT_CONFIGURED');
   return Buffer.from(key, 'hex');
 }
+function deliveryOrigin() {
+  let origin: URL;
+  try { origin = new URL(process.env.INVITATION_APP_ORIGIN || ''); } catch { throw new ApiError(503, 'REACHABLE_INVITATION_ORIGIN_REQUIRED'); }
+  if (origin.protocol !== 'https:' || origin.username || origin.password || origin.pathname !== '/' || origin.search || origin.hash) throw new ApiError(503, 'REACHABLE_INVITATION_ORIGIN_REQUIRED');
+  return origin.origin;
+}
 export function deliveryConfigured() {
-  try { deliveryKey(); return !!process.env.RESEND_API_KEY && emailSchema.safeParse(process.env.INVITATION_EMAIL_FROM).success && new URL(process.env.INVITATION_APP_ORIGIN || '').protocol === 'https:'; } catch { return false; }
+  try { deliveryKey(); deliveryOrigin(); return !!process.env.RESEND_API_KEY && emailSchema.safeParse(process.env.INVITATION_EMAIL_FROM).success; } catch { return false; }
 }
 export async function prepareDelivery(db: Database, id: string, email: string, token: string, role: string, expires: Date) {
-  const origin = new URL(process.env.INVITATION_APP_ORIGIN || 'http://localhost:3000');
-  if (origin.protocol !== 'https:' || origin.username || origin.password || origin.pathname !== '/' || origin.search || origin.hash) throw new ApiError(503, 'REACHABLE_INVITATION_ORIGIN_REQUIRED');
+  const origin = deliveryOrigin();
   const from = emailSchema.parse(process.env.INVITATION_EMAIL_FROM);
-  const envelope = envelopeSchema.parse({ from, to: [email], subject: 'Your Fallback invitation', text: `You were invited to ${role === 'payee' ? 'review scheduled payments' : 'review family backup'} in Fallback.\n\nSign in using this email and review: ${origin.origin}/invite#${token}\n\nExpires ${expires.toISOString()}. Joining does not move money or accept payment terms. Monad Testnet / FBTEST test tokens have no real value. Ignore this request if unexpected.` });
+  const envelope = envelopeSchema.parse({ from, to: [email], subject: 'Your Fallback invitation', text: `You were invited to ${role === 'payee' ? 'review scheduled payments' : 'review family backup'} in Fallback.\n\nSign in using this email and review: ${origin}/invite#${token}\n\nExpires ${expires.toISOString()}. Joining does not move money or accept payment terms. Monad Testnet / FBTEST test tokens have no real value. Ignore this request if unexpected.` });
   const nonce = randomBytes(12), cipher = createCipheriv('aes-256-gcm', deliveryKey(), nonce);
   cipher.setAAD(Buffer.from(id));
   const encrypted = Buffer.concat([cipher.update(JSON.stringify(envelope), 'utf8'), cipher.final()]);

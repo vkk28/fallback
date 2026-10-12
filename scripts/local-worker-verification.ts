@@ -90,12 +90,12 @@ try {
   await pg.close(); pg = new PGlite(directory); db = drizzle(pg, { schema });
   const interrupted = trackedGateway();
   // Actual receipt-backed messages persist, then acknowledgement is interrupted.
-  await processOne(db, { ...interrupted, notify: async (plan, hash) => { await interrupted.notify(plan, hash); throw new Error('INJECTED_NOTIFICATION_ACK_OUTAGE'); } }, new Date(processAt.getTime() + 9000));
+  await processOne(db, { ...interrupted, notify: async (plan, hash) => { await interrupted.notify(plan, hash); throw new Error('INJECTED_NOTIFICATION_ACK_OUTAGE'); } }, new Date((await db.query.jobs.findFirst())!.nextAttempt.getTime() + 1000));
   assert.equal((await db.query.jobs.findFirst())?.status, 'submitted');
   assert.equal((await db.select().from(schema.notifications)).length, 6);
   await pg.close(); pg = new PGlite(directory); db = drizzle(pg, { schema });
   const gateway = trackedGateway();
-  await processOne(db, gateway, new Date(processAt.getTime() + 20_000));
+  await processOne(db, gateway, new Date((await db.query.jobs.findFirst())!.nextAttempt.getTime() + 1000));
   job = await db.query.jobs.findFirst(); assert.equal(job?.status, 'confirmed'); assert.equal(job.transactionHash, submittedHash);
   assert.equal(signs, 1); assert.equal(broadcasts, 1);
   assert.equal(await client.readContract({ address: token, abi: FallbackTestTokenAbi, functionName: 'balanceOf', args: [payee.account.address] }), 150_000_000n);

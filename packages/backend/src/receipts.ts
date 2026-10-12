@@ -59,7 +59,10 @@ export async function reconcileRequest(db: Database, actor: AuthenticatedIdentit
   // An orphaned receipt is not proof of execution. Check before any plan/status
   // writes or notifications, including reverted outer transactions.
   const block = await c.client.getBlock({ blockNumber: receipt.blockNumber });
-  if (receipt.transactionHash.toLowerCase() !== hash.toLowerCase() || receipt.blockHash !== block.hash) throw new ApiError(409, 'NONCANONICAL_RECEIPT_RECONCILE');
+  if (receipt.transactionHash.toLowerCase() !== hash.toLowerCase() || receipt.blockHash !== block.hash) {
+    if (row.status === 'confirmed') await db.update(transactionRequests).set({ status: 'submitted' }).where(and(eq(transactionRequests.id, id), eq(transactionRequests.hash, hash)));
+    throw new ApiError(409, 'NONCANONICAL_RECEIPT_RECONCILE');
+  }
   const plan = await db.query.plans.findFirst({ where: eq(plans.id, row.planId) });
   if (!plan) throw new ApiError(404, 'PLAN_NOT_FOUND');
   const execution = receipt.status === 'success' && operationHash ? operationExecution(receipt, operationHash, actor.address) : null;

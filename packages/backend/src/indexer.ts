@@ -36,14 +36,37 @@ export async function history(chainId: number, address: string, offset: number) 
     data = await indexerQuery(`query History($id: String!, $offset: Int!, $chain: Int!) { ${fields} FallbackSync(where: {chainId: {_eq: $chain}}, limit: 1) { chainId processedBlock sourceBlock } }`, { id, offset, chain: chainId });
   } catch (error) {
     if (!(error instanceof Error) || error.message !== 'INDEXER_QUERY_FAILED') throw error;
-    // Compatible hosted schemas may not expose runtime metadata. Keep history, mark coverage unknown.
-    data = await indexerQuery(`query History($id: String!, $offset: Int!) { ${fields} }`, { id, offset });
+    try {
+      // Envio Cloud exposes its progress/source watermark as chain_metadata.
+      // Read it in the same query as the page, never from a plan's last event.
+      data = await indexerQuery(`query History($id: String!, $offset: Int!, $chain: Int!) { ${fields} chain_metadata(where: {chain_id: {_eq: $chain}}, limit: 1) { chain_id latest_processed_block block_height } }`, { id, offset, chain: chainId });
+    } catch (hostedError) {
+      if (!(hostedError instanceof Error) || hostedError.message !== 'INDEXER_QUERY_FAILED') throw hostedError;
+      data = await indexerQuery(`query History($id: String!, $offset: Int!) { ${fields} }`, { id, offset });
+    }
   }
   const parsed = indexedHistorySchema.parse(data);
   let sync: IndexerSync | null = null;
   try {
-    const [row] = z.array(indexerSyncSchema).max(1).parse(data.FallbackSync);
+    const hosted = data.chain_metadata === undefined ? undefined : z.array(z.object({ chain_id: z.number().int(), latest_processed_block: z.unknown(), block_height: z.unknown() })).max(1).parse(data.chain_metadata);
+    const [row] = z.array(indexerSyncSchema).max(1).parse(data.FallbackSync ?? hosted?.map(m => ({ chainId: m.chain_id, processedBlock: m.latest_processed_block, sourceBlock: m.block_height })));
     if (row?.chainId === chainId) sync = { ...row, observedAt: new Date().toISOString() };
   } catch { /* Legacy/hosted schemas may lack a watermark: expose unknown, never infer it from a plan event. */ }
   return { ...parsed, sync };
+}
+
+/** Operational read without loading any private plan or event history. */
+export async function processingWatermark(chainId: number): Promise<IndexerSync | null> {
+  let data: Record<string, unknown>;
+  try {
+    data = await indexerQuery('query Watermark($chain: Int!) { FallbackSync(where: {chainId: {_eq: $chain}}, limit: 1) { chainId processedBlock sourceBlock } }', { chain: chainId });
+    const [row] = z.array(indexerSyncSchema).max(1).parse(data.FallbackSync);
+    return row?.chainId === chainId ? { ...row, observedAt: new Date().toISOString() } : null;
+  } catch (error) {
+    if (!(error instanceof Error) || error.message !== 'INDEXER_QUERY_FAILED') throw error;
+  }
+  data = await indexerQuery('query Watermark($chain: Int!) { chain_metadata(where: {chain_id: {_eq: $chain}}, limit: 1) { chain_id latest_processed_block block_height } }', { chain: chainId });
+  const [m] = z.array(z.object({ chain_id: z.number().int(), latest_processed_block: z.unknown(), block_height: z.unknown() })).max(1).parse(data.chain_metadata);
+  const row = indexerSyncSchema.safeParse(m && { chainId: m.chain_id, processedBlock: m.latest_processed_block, sourceBlock: m.block_height });
+  return row.success && row.data.chainId === chainId ? { ...row.data, observedAt: new Date().toISOString() } : null;
 }

@@ -21,6 +21,7 @@ import { history } from '../../../../../packages/backend/src/indexer.js';
 import { discoverIndexed, inspectCandidate } from '../../../../worker/src/gateway.js';
 import { enqueue, queueHealth } from '../../../../worker/src/jobs.js';
 import { discoveryBatch, enqueueDiscoveryBatch } from '../../../../worker/src/discovery.js';
+import { operationalHealth } from '../../../../../packages/backend/src/operations.js';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -30,10 +31,10 @@ async function handle(request: Request, context: { params: Promise<{ path: strin
     const { path } = await context.params, route = path.join('/');
     if (request.method === 'POST') checkOrigin(request, process.env.APP_ORIGIN || 'http://localhost:3000');
     if (route === 'health') {
-      let databaseReady = false, rpcReady = false;
+      let databaseReady = false, rpcReady = false, alchemyConfigured = false;
       try { await database().execute(sql`SELECT 1`); databaseReady = true; } catch { /* expose flags only */ }
-      try { const c = chainClient(); rpcReady = await c.client.getChainId() === c.chain.id; } catch { /* config or RPC unavailable */ }
-      return json({ accountsConfigured: !!(process.env.NEXT_PUBLIC_PRIVY_APP_ID && process.env.PRIVY_APP_SECRET), databaseConfigured: !!process.env.DATABASE_URL, databaseReady, rpcReady, indexerConfigured: !!process.env.ENVIO_GRAPHQL_URL, deploymentConfigured: !!(process.env.FACTORY_ADDRESS && process.env.TOKEN_ADDRESS), sponsorshipEnabled: process.env.PRIVY_SERVER_SPONSORSHIP_ENABLED === 'true', verification: 'Actual sponsor receipt and recovery checks required' });
+      try { const c = chainClient(); alchemyConfigured = new URL(c.rpc).hostname === 'monad-testnet.g.alchemy.com'; rpcReady = await c.client.getChainId() === c.chain.id; } catch { /* config or RPC unavailable */ }
+      return json({ accountsConfigured: !!(process.env.NEXT_PUBLIC_PRIVY_APP_ID && process.env.PRIVY_APP_SECRET), databaseConfigured: !!process.env.DATABASE_URL, databaseReady, rpcReady, alchemyConfigured, indexerConfigured: !!process.env.ENVIO_GRAPHQL_URL, deploymentConfigured: !!(process.env.FACTORY_ADDRESS && process.env.TOKEN_ADDRESS), sponsorshipEnabled: process.env.PRIVY_SERVER_SPONSORSHIP_ENABLED === 'true', verification: 'Actual sponsor receipt and recovery checks required' });
     }
     if (route.startsWith('scheduler/')) {
       relayAuth(request, process.env.CRE_RELAY_SECRET);
@@ -55,6 +56,7 @@ async function handle(request: Request, context: { params: Promise<{ path: strin
         return json({ status: 'queued', paid: false });
       }
       if (route === 'scheduler/health') return json(await queueHealth(db));
+      if (route === 'scheduler/operations' && request.method === 'GET') return json(await operationalHealth(db));
       throw new ApiError(404, 'NOT_FOUND');
     }
     if (route === 'invitations/preview' && request.method === 'POST') {
@@ -90,7 +92,7 @@ async function handle(request: Request, context: { params: Promise<{ path: strin
     if (path[0] === 'transactions' && path.length === 2 && request.method === 'GET') return json(await reconcileRequest(db, actor, z.string().regex(/^[a-f0-9]{64}$/).parse(path[1])));
     if (path[0] === 'transactions' && path.length === 3 && path[2] === 'retry' && request.method === 'POST') return json(await retrySponsored(db, actor, request, z.string().regex(/^[a-f0-9]{64}$/).parse(path[1])), 202);
     if (path[0] === 'transactions' && path.length === 3 && path[2] === 'submit' && request.method === 'POST') return json(await executeSponsored(db, actor, z.string().regex(/^[a-f0-9]{64}$/).parse(path[1]), await body(request)), 202);
-    if (route === 'notifications' && request.method === 'GET') return json(await db.select().from(notifications).where(eq(notifications.userId, actor.id)).orderBy(notifications.createdAt).limit(50));
+    if (route === 'notifications' && request.method === 'GET') return json((await activityFeed(db, actor, null)).items.map(row => ({ ...row, userId: actor.id })));
     if (route === 'plans' && request.method === 'GET') return json(await db.select({ id: plans.id, label: plans.label, address: plans.address, role: memberships.role }).from(memberships).innerJoin(plans, eq(memberships.planId, plans.id)).where(eq(memberships.userId, actor.id)).limit(50));
     if (path[0] === 'plans' && path.length === 2 && request.method === 'GET') {
       const plan = await privatePlan(db, actor, z.string().uuid().parse(path[1]));

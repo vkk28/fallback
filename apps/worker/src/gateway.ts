@@ -1,6 +1,6 @@
-import { createWalletClient, encodeFunctionData, getAddress, http, keccak256, type Hex } from 'viem';
+import { createWalletClient, encodeFunctionData, getAddress, keccak256, type Hex } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { chainClient, registeredPlan } from '../../../packages/chain/src/client.js';
+import { boundedRpcTransport, chainClient, registeredPlan } from '../../../packages/chain/src/client.js';
 import { FallbackPlanAbi } from '../../../packages/chain/src/FallbackPlan.js';
 import { FallbackFactoryAbi } from '../../../packages/chain/src/FallbackFactory.js';
 import { receiptNotifications } from '../../../packages/backend/src/receipts.js';
@@ -25,7 +25,7 @@ export async function inspectCandidate(c: Candidate) {
 export function workerGateway(db: Database): Gateway {
   const c = chainClient(), key = process.env.WORKER_PRIVATE_KEY;
   if (!key || !/^0x[0-9a-f]{64}$/i.test(key)) throw new Error('DEDICATED_WORKER_KEY_REQUIRED');
-  const wallet = createWalletClient({ account: privateKeyToAccount(key as Hex), chain: c.chain, transport: http(c.rpc) });
+  const wallet = createWalletClient({ account: privateKeyToAccount(key as Hex), chain: c.chain, transport: boundedRpcTransport(c.rpc) });
   return {
     signer: wallet.account.address.toLowerCase(),
     inspect: inspectCandidate,

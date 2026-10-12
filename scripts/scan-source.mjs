@@ -8,8 +8,13 @@ if (!paths.length) throw new Error('NO_SOURCE_FILES');
 const env = existsSync('.env') ? readFileSync('.env', 'utf8') : '';
 const secrets = env.split('\n').flatMap(line => {
   const match = line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/);
-  if (!match || match[1].startsWith('NEXT_PUBLIC_') || !/SECRET|PRIVATE_KEY|PASSWORD|TOKEN_KEY|DELIVERY_KEY|API_KEY|API_TOKEN|DATABASE_URL/.test(match[1])) return [];
+  if (!match || match[1].startsWith('NEXT_PUBLIC_') || !/SECRET|PRIVATE_KEY|PASSWORD|TOKEN_KEY|DELIVERY_KEY|ENCRYPTION_KEY|API_KEY|API_TOKEN|DATABASE_URL|RPC_URL/.test(match[1])) return [];
   const value = match[2].trim().replace(/^['"]|['"]$/g, '');
+  if (match[1].endsWith('RPC_URL')) {
+    if (value === 'https://testnet-rpc.monad.xyz' || /^http:\/\/(localhost|127\.0\.0\.1)/.test(value)) return [];
+    const url = new URL(value), key = url.pathname.split('/').at(-1);
+    return [value, ...(key && key.length >= 16 ? [key] : [])];
+  }
   return value.length >= 16 ? [value] : [];
 });
 const forbidden = /^(?:\.env(?:$|\.)|\.aws\/|\.private\/|\.tools\/|\.cache\/|\.graphify\/|graphify-out\/|infra\/data\/|contracts\/(?:out|cache|broadcast)\/|indexer\/(?:generated|\.envio)\/|indexer\/config(?:\.fixture)?\.yaml$|apps\/web\/public\/sw\.js)|(?:^|\/)\.next\/|\.(?:pem|key|keystore|dump|backup|sqlite(?:3)?)(?:$|-)/;

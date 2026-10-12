@@ -1,5 +1,16 @@
 # Free hackathon deployment
 
+## Current submission-fix release preparation
+
+Fresh application/contract/local-chain/worker/browser/build checks pass. Hosted
+backup verifies12tables/145rows in an isolated local restore and encrypted recovery.
+Migration0009 is applied and the restricted heartbeat grant verified, without
+changing existing plan/request/job data or the deployed contracts. Netlify now stores
+the verified Alchemy URL as a server secret; the enabled worker and other secrets
+are preserved. Source deployment, runtime provider verification, repeated hosted
+reads and the new-person invitation remain pending. Monitoring stays disabled until
+the updated worker completes. Later sections retain historical cutover evidence.
+
 ## Actual services
 
 - App/API: https://fallbackk.netlify.app on the verified Netlify Free plan
@@ -78,3 +89,31 @@ obsolete2f8cfc0 deletion completes;978c44e is preserved. No paid static alias or
 Actual authenticated Activity displays10indexed rows without outage. Hosted schema
 has no FallbackSync view, so the app labels coverage unknown; independent metadata
 checks measure a2-block lag. No latest-completeness claim is fabricated in the UI.
+
+## Pending local engineering rollout
+
+Current source adds strict invitation sender readiness, bounded shared RPC transport,
+same-block Multicall3 snapshots, hosted watermark support, receipt notification reorg
+reconciliation, fenced worker leases/heartbeats, private operational health and gated
+scheduled monitoring. Migration0009 is applied to the local metadata copy only.
+Existing hosted release remains978c44e; source is uncommitted and unpublished.
+
+After a fresh private hosted backup, apply0009 with the schema owner and grant only
+SELECT/INSERT/UPDATE on worker_heartbeat to the existing application role. Preserve
+all journal/request/nonce/signature identities and the existing dedicated signer.
+Cut over Netlify's server-only MONAD_RPC_URL to the privately verified Alchemy
+Monad Testnet URL, classified as a secret. Deploy reviewed app/worker source, verify
+actual heartbeat/coverage, then set HEALTH_MONITOR_ENABLED=true. The existing
+15minute trigger reports fixed diagnostic failures through native invocation status.
+Keep free tiers and the sole Envio release; no automatic Envio release is required.
+
+`pnpm contracts:prepare-verification` prepares standard JSON/compiler settings and
+constructor arguments privately after source-hash and runtime compilation checks.
+Use that package for an authorized explorer source-verification submission. It does
+not upload code or change deployed bytecode. Runtime verification, prepared inputs
+and successful explorer publication are three separate results.
+
+Remote backup storage, scheduled encryption/retention and fresh hosted isolated
+restoration remain unconfigured. Local app/indexer/encrypted restore evidence is
+recorded in test-report.md; the indexer export is historical. Manual final gates and
+browser steps are in remaining-verification.md.

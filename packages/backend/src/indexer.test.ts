@@ -84,3 +84,22 @@ it('normalizes actual Hasura Int block heights while keeping monetary integers s
   expect(value.sync?.processedBlock).toBe('999'); expect(value.sync?.sourceBlock).toBe('1001');
   expect(indexerCoverage(value.sync, '1000')).toBe('behind');
 });
+it('reads hosted chain metadata with history and reports exact measured lag', async () => {
+  const fetcher = vi.fn().mockResolvedValueOnce(result({ errors: [{ message: 'Fixture has no FallbackSync' }] })).mockResolvedValueOnce(result({ data: { ...data(), FallbackSync: undefined, chain_metadata: [{ chain_id: 10143, latest_processed_block: 999, block_height: 1001 }] } }));
+  vi.stubGlobal('fetch', fetcher);
+  const value = await history(10143, address, 0);
+  expect(value.sync).toMatchObject({ chainId: 10143, processedBlock: '999', sourceBlock: '1001' });
+  expect(indexerCoverage(value.sync, '1001')).toBe('behind');
+  expect(JSON.parse(fetcher.mock.calls[1]![1].body).query).toContain('chain_metadata');
+  expect(fetcher).toHaveBeenCalledTimes(2);
+});
+it('bounds fallback for a schema without either watermark and rejects inconsistent metadata', async () => {
+  const fetcher = vi.fn().mockResolvedValueOnce(result({ errors: [{}] })).mockResolvedValueOnce(result({ errors: [{}] })).mockResolvedValueOnce(result({ data: { ...data(), FallbackSync: undefined } }));
+  vi.stubGlobal('fetch', fetcher);
+  expect((await history(10143, address, 0)).sync).toBeNull();
+  expect(fetcher).toHaveBeenCalledTimes(3);
+  for (const chain_id of [1, 10143]) {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(result({ errors: [{}] })).mockResolvedValueOnce(result({ data: { ...data(), FallbackSync: undefined, chain_metadata: [{ chain_id, latest_processed_block: 1002, block_height: 1001 }] } })));
+    expect((await history(10143, address, 0)).sync).toBeNull();
+  }
+});

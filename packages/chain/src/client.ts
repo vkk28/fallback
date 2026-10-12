@@ -1,6 +1,15 @@
 import { createPublicClient, defineChain, getAddress, http } from 'viem';
+import { monadTestnet } from 'viem/chains';
 import { FallbackFactoryAbi } from './FallbackFactory.js';
 import { FallbackPlanAbi } from './FallbackPlan.js';
+
+/** Server-only RPC URLs may contain a provider key. Never expose upstream errors. */
+export function boundedRpcTransport(rpc: string) {
+  let url: URL;
+  try { url = new URL(rpc); } catch { throw new Error('INVALID_RPC_ENDPOINT'); }
+  if ((url.protocol !== 'https:' && !(url.protocol === 'http:' && ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname))) || url.username || url.password || url.hash) throw new Error('INVALID_RPC_ENDPOINT');
+  return http(rpc, { timeout: 15_000, retryCount: 1, retryDelay: 250, fetchOptions: { redirect: 'error' } });
+}
 
 export function chainConfiguration() {
   const id = Number(process.env.CHAIN_ID || 10143);
@@ -12,7 +21,7 @@ export function chainConfiguration() {
 }
 export function chainClient() {
   const config = chainConfiguration();
-  return { ...config, client: createPublicClient({ chain: config.chain, cacheTime: 0, transport: http(config.rpc, { timeout: 15_000, retryCount: 1 }) }) };
+  return { ...config, client: createPublicClient({ chain: config.chain, cacheTime: 0, transport: boundedRpcTransport(config.rpc) }) };
 }
 export async function registeredPlan(address: string) {
   const c = chainClient(), plan = getAddress(address);
@@ -24,6 +33,20 @@ export async function planSnapshot(address: string, beneficiary?: string) {
   const c = await registeredPlan(address);
   const block = await c.client.getBlock();
   const read = <N extends 'terms' | 'recipient' | 'payee' | 'lifecycle' | 'recipientAllocated' | 'reserveRemaining' | 'supportUsed' | 'preview' | 'supporters'>(functionName: N) => c.client.readContract({ address: c.plan, abi: FallbackPlanAbi, functionName, blockNumber: block.number });
+  if (c.chain.id === 10143) {
+    const terms = await read('terms');
+    const target = { address: c.plan, abi: FallbackPlanAbi } as const;
+    const who = getAddress(beneficiary || '0x0000000000000000000000000000000000000000');
+    const [recipient, payee, lifecycle, own, reserve, used, preview, supporters, frozenFunding, frozenReserve, totalPaid, claimable, share] = await c.client.multicall({ multicallAddress: monadTestnet.contracts.multicall3.address, blockNumber: block.number, allowFailure: false, contracts: [
+      { ...target, functionName: 'recipient' }, { ...target, functionName: 'payee' }, { ...target, functionName: 'lifecycle' },
+      { ...target, functionName: 'recipientAllocated' }, { ...target, functionName: 'reserveRemaining' }, { ...target, functionName: 'supportUsed' },
+      { ...target, functionName: 'preview' }, { ...target, functionName: 'supporters' }, { ...target, functionName: 'frozenFunding' },
+      { ...target, functionName: 'frozenReserve' }, { ...target, functionName: 'totalPaid' },
+      { ...target, functionName: 'claimable', args: [who] }, { ...target, functionName: 'shares', args: [who] },
+    ] as const });
+    const outcomes = await c.client.multicall({ multicallAddress: monadTestnet.contracts.multicall3.address, blockNumber: block.number, allowFailure: false, contracts: Array.from({ length: terms.count }, (_, i) => ({ ...target, functionName: 'outcomes' as const, args: [i] as const })) });
+    return { terms, recipient, payee, lifecycle, own, reserve, used, preview, supporters, frozenFunding, frozenReserve, totalPaid, claimable: beneficiary ? claimable : 0n, share: beneficiary ? share : null, outcomes, block: block.number, timestamp: block.timestamp, observedAt: new Date().toISOString(), chainId: c.chain.id };
+  }
   const [terms, recipient, payee, lifecycle, own, reserve, used, preview, supporters] = await Promise.all([read('terms'), read('recipient'), read('payee'), read('lifecycle'), read('recipientAllocated'), read('reserveRemaining'), read('supportUsed'), read('preview'), read('supporters')]);
   const frozenFunding = await c.client.readContract({ address: c.plan, abi: FallbackPlanAbi, functionName: 'frozenFunding', blockNumber: block.number });
   const frozenReserve = await c.client.readContract({ address: c.plan, abi: FallbackPlanAbi, functionName: 'frozenReserve', blockNumber: block.number });
@@ -37,6 +60,14 @@ export async function planSnapshot(address: string, beneficiary?: string) {
 /** Bounded Home reads; no history, schedule arrays or refund arithmetic. */
 export async function planSummarySnapshot(address: string, beneficiary: string) {
   const c = await registeredPlan(address), block = await c.client.getBlock();
+  if (c.chain.id === 10143) {
+    const target = { address: c.plan, abi: FallbackPlanAbi } as const, who = getAddress(beneficiary);
+    const [lifecycle, own, reserve, totalPaid, preview, claimable, share] = await c.client.multicall({ multicallAddress: monadTestnet.contracts.multicall3.address, blockNumber: block.number, allowFailure: false, contracts: [
+      { ...target, functionName: 'lifecycle' }, { ...target, functionName: 'recipientAllocated' }, { ...target, functionName: 'reserveRemaining' },
+      { ...target, functionName: 'totalPaid' }, { ...target, functionName: 'preview' }, { ...target, functionName: 'claimable', args: [who] }, { ...target, functionName: 'shares', args: [who] },
+    ] as const });
+    return { lifecycle, own, reserve, totalPaid, preview, claimable, share, observedAt: new Date().toISOString() };
+  }
   const read = <N extends 'lifecycle' | 'recipientAllocated' | 'reserveRemaining' | 'totalPaid' | 'preview'>(functionName: N) => c.client.readContract({ address: c.plan, abi: FallbackPlanAbi, functionName, blockNumber: block.number });
   // Keep public-RPC bursts small while the indexer catches up. All summary
   // fields remain pinned to the same block.

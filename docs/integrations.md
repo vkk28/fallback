@@ -1,5 +1,39 @@
 # Integration evidence — 2026-10-09
 
+## 12 October — prepared hosted RPC and reader fixes
+
+Actual Alchemy chain/runtime checks pass at block70440116; optimized same-block
+reads match independent values with6snapshot/4summary requests. Netlify accepts
+the URL as a server secret and preserves the existing dedicated signer, metadata
+connection, invitation keys and enabled worker. Its [Secrets Controller](https://docs.netlify.com/build/environment-variables/secrets-controller/)
+masks non-development readback values; actual runtime selection is still pending
+deployment. The boolean health field reveals no URL/key. Current Envio source is
+unchanged; only the application's verified watermark reader will be rolled out.
+Fresh hosted backup/isolated restore and additive heartbeat migration are verified.
+No new live user payment, positive CRE work or fresh-user invitation is claimed yet.
+
+## 12 October — judge-readiness inspection
+
+Read-only Chrome inspection finds actual hosted payment/return notifications and
+indexed first-payment history. Hosted current financial reads are intermittently
+unavailable; final hosted role journeys and reliable reads remain required.
+Public hosted health reports its configured/readiness/sponsorship flags all true;
+that lightweight readiness check does not negate the observed snapshot failures.
+The configured private Alchemy endpoint passes fresh network/token/factory/runtime
+and immutable verification at chain10143/block70431696 on15:20:30UTC. This proves
+configured local provider access, not hosted provider cutover or bounty fulfillment.
+Positive CRE due work remains pending; optional invitation email and extended
+operations are deferred under the user's smaller submission scope in progress.md.
+Current authenticated competition terms were not reverified in this assessment.
+
+## 12 October — progress and navigation evidence synchronized
+
+progress.md and HANDOFF now reflect the verified hosted runtime/history/payment
+below and retain unfinished product checks. The local Graphify refresh includes
+hosting source at01c36c3; its source-verified worker relationships are navigation
+evidence only. No provider call, new integration result or financial transaction
+was performed for this documentation request.
+
 ## 12 October — verified hosted runtime and real history
 
 Privy exact-origin policy is corrected by the human; real hosted sign-in and three
@@ -461,11 +495,11 @@ No bounty is claimed complete. Exact signed-in Metropolis terms remain inaccessi
 
 | Provider | Capability and source | Implemented paths / actual checks | Missing proof |
 | --- | --- | --- | --- |
-| Monad | [Testnet](https://docs.monad.xyz/developer-essentials/testnet), official RPC chain 10143 | `contracts/`, `scripts/deployment-manifest.mjs`, `verify-network.mjs`; two successful deployment receipts, compiled runtime, token decimals/symbol, immutable token/chain reads; `packages/chain/deployments/monad-testnet.json`, `docs/evidence/monad-rpc.json` | Explorer source verification; scheduled consumer payment receipts (consent/funding receipts already verified) |
-| Privy | [Ethereum transactions](https://docs.privy.io/wallets/using-wallets/ethereum/send-a-transaction), [native user-wallet server submission](https://docs.privy.io/controls/authorization-keys/owners/configuration/user/server-transactions); Node0.35 client-bound signatures/server sponsorship | auth/transactions/receipts and consumer Privy gate; official account/TEE settings and two user-reported login cycles; real three-role consent/publication/mints/approvals,250 recipient allocation,300 supporter contribution and activation sponsorship/expected events verified at14:16:31UTC (`privy-live-actions.json`, `live-plan-funding.json`) | Live withdrawals/top-ups/cancellation/claims, recovery/failure and complete authenticated browser scenarios |
-| Envio | [Supported networks](https://docs.envio.dev/docs/HyperIndex/supported-networks) lists Monad Testnet10143; SDK3.14; [Hasura requirements](https://hasura.io/docs/2.0/deployment/postgres-requirements/) checked2026-10-08 | Actual33-event replay/rebuild reproduces450 paid/200 support/exact refunds; restricted reader/private Hasura; one real plan/seven events, historical accounting/five receipt-log reconciliation and actual controlled lag/restart verified; history field-selection defect fixed | Live RPC reorg edge cases, notification rollback and durable hosting |
-| Chainlink CRE | [Current TS supported networks](https://docs.chain.link/cre/supported-networks-ts): Monad Testnet minimum CLI1.30/TS1.19; installed1.37/1.23 and authenticated tenant list confirm support; [quotas](https://docs.chain.link/cre/service-quotas), checked2026-10-08 | Two-call durable discovery/batch and RPC-backed HTTP adapter; five SDK tests/WASM builds; exact-origin-approved replacement scheduler HTTPS/default-limit CLI simulation passes19:30:53UTC with scanned1/accepted0/stale0 (`cre-simulation.json`, `cre-staging-runtime.json`); no wallet/Privy/DB credential forwarded | Positive due payment receipt, deployed workflow entitlement/authorization and durable host; adapter bounty eligibility unverified; no native CRE EVM writes in this workflow |
-| Alchemy | [Monad API](https://www.alchemy.com/docs/reference/monad-api-quickstart) documents testnet RPC | Server-only `MONAD_RPC_URL` slot; current reads use official public Monad RPC | Alchemy key and actual provider-specific requests; no Alchemy integration success claimed |
+| Monad | [Testnet](https://docs.monad.xyz/developer-essentials/testnet), chain10143 | Deployed token/factory runtimes and immutables verify; actual hosted150FBTEST own-funded installment matches canonical transfer/window; exact explorer inputs and three plan constructors prepared | Explorer submission, future installments and fresh supported-payment lifecycle cases |
+| Privy | [Ethereum transactions](https://docs.privy.io/wallets/using-wallets/ethereum/send-a-transaction), client-bound server authorization/sponsorship | All38preserved confirmed account actions match current wallet/sponsorship/expected receipts; local role/recovery/invitation checks and three connected accounts verified | Actual new-person invitation claim, fresh-device recovery/failure cases and consented optional email |
+| Envio | [HyperIndex](https://docs.envio.dev/docs/quickstart), pinned3.14 hosted/runtime reader | Three hosted plans/23canonical events and accounting reconcile; hosted watermark adapter, replay/rebuild, controlled rollback and notification reconciliation verified; historical16table/45,851row restore passes | Updated app reader rollout, fresh live events, hosted restart/backup/retention and live reorg edge cases |
+| Chainlink CRE | [CRE](https://docs.chain.link/cre), CLI1.37/SDK1.23 HTTP/RPC adapter | Two-call frozen discovery/batch, five SDK checks/WASM build and actual hosted CLI simulation pass3scanned/0accepted/0stale; relay secret only | Positive eligible-work receipt/notification/history trace; current bounty requirements remain unverified; network deployment optional |
+| Alchemy | [Monad API](https://www.alchemy.com/docs/reference/monad-api-quickstart) documents testnet RPC | Privately configured local provider verifies10143, deployed runtimes/immutables, same-block snapshots and the preserved canonical payment receipt | Hosted RPC cutover and its provider-specific verification remain pending; Privy remains the account/sponsorship stack |
 | Competition | [Metropolis portal](https://hackathon.monad.xyz/) still exposes sign-in | Supplied Consumer Products & Payments rubric and All-tracks provider labels retained in `prompt.md`/phase status | Exact current bounty terms, submission and team eligibility; no entry submitted |
 
 Only Privy, Envio, CRE and optional Alchemy are pursued. No Dynamic/Mera/Agora/AUSD,
@@ -514,3 +548,36 @@ Local graph and progress documentation include the implemented UI/UX/About.
 progress.md now lists completed capabilities and detailed remaining work without
 operational history. No provider/network/payment verification ran for these edits;
 prior integration evidence keeps its original dates and scope in dedicated reports.
+
+## 12 October — remaining integrations implementation and fresh evidence
+
+Privy: all38 preserved confirmed user actions match current provider wallet,
+sponsorship and canonical expected contract events; no new signature/submission.
+Local invitation/recovery suites pass; live new-account and fresh-role failure tests
+remain separate dependencies. Optional Resend credentials/sender/recipient consent
+are not configured or supplied; no external invitation email has been sent.
+
+Alchemy: user supplies its Monad Testnet endpoint privately. Actual chain10143,
+token runtime/decimals/symbol, factory runtime/asset/chain verify at70373447. The
+shared RPC layer reads real plans and the existing hosted payment receipt through
+Alchemy. Snapshot/accounting matches independent same-block reads,6RPC requests in
+641ms; Home summary4requests in422ms at this observation. Credentials remain in
+ignored server configuration and client artifact scanning passes. The hosted app's
+server RPC still needs cutover; no Alchemy account/sponsorship stack is added.
+Primary endpoint/network reference: https://www.alchemy.com/rpc/monad-testnet and
+https://www.alchemy.com/docs/reference/monad-api-quickstart (checked12October2026).
+
+Envio: hosted chain_metadata adapter verifies runtime processed70370404 versus
+source70370406 and fresh RPC70370408. Actual hosted three-plan accounting and23plan
+receipt events reconcile. Source now supports measured UI coverage and orphaned
+notification rechecking/restoration; controlled reorg fixtures are not live reorg
+proof. Updated app source has not been rolled out. Installed3.14 InternalTable
+source defines progress_block/source_block backing fields; runtime query is verified.
+
+CRE: local config now uses the existing hosted HTTPS adapter. Actual CLI simulation
+with default limits/prebuilt WASM succeeds, scanning3plans/accepting0jobs/stale0.
+Only relay secret is forwarded. SDK/type/build and discovery/relay tests pass. This
+is an actual empty simulation, not positive eligible-work orchestration or CRE
+network deployment. Positive due-work receipt/notification/history trace remains
+pending. Independent hosted worker remains responsible for fixed permissionless
+calls; custom HTTP/RPC adapter is not a native CRE Monad chain capability.

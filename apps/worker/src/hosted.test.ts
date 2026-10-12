@@ -8,6 +8,7 @@ vi.mock('../../../packages/backend/src/database.js', () => ({ database: fixtures
 vi.mock('../../../packages/chain/src/client.js', () => ({ chainClient: () => ({ chain: { id: 10143 }, client: { getChainId: fixtures.getChainId, readContract: fixtures.readContract }, factory: '0x0000000000000000000000000000000000000001' }) }));
 vi.mock('./gateway.js', () => ({ discover: fixtures.discover, workerGateway: fixtures.gateway }));
 vi.mock('./jobs.js', () => ({ enqueue: fixtures.enqueue, processOne: fixtures.processOne }));
+vi.mock('./heartbeat.js', () => ({ beginWorkerCycle: async () => 'fixture-cycle', finishWorkerCycle: async () => {} }));
 import { runHostedBatch } from './hosted.js';
 import worker from '../../../netlify/functions/worker-background.js';
 import trigger from '../../../netlify/functions/worker-trigger.js';
@@ -22,6 +23,7 @@ beforeEach(() => {
   vi.stubEnv('HOSTED_WORKER_ENABLED', 'true'); vi.stubEnv('WORKER_TRIGGER_SECRET', fixtureSecret);
   vi.stubEnv('APP_ORIGIN', 'https://fallback-fixture.netlify.app');
   vi.stubEnv('URL', 'https://fallback-fixture.netlify.app');
+  vi.stubEnv('HEALTH_MONITOR_ENABLED', 'false');
 });
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
@@ -66,4 +68,17 @@ it('does not send the trigger credential to unapproved origins or redirects', as
   expect(fetcher.mock.calls[0]?.[1]).toMatchObject({ method: 'POST', redirect: 'error' });
   fetcher.mockRejectedValueOnce(new Error('private transport diagnostic'));
   await expect(trigger()).rejects.toThrow(/^WORKER_TRIGGER_FAILED$/);
+});
+it('monitors private aggregate health after scheduling and logs only fixed diagnostics', async () => {
+  vi.stubEnv('HEALTH_MONITOR_ENABLED', 'true'); vi.stubEnv('CRE_RELAY_SECRET', 'fixture-relay-secret-for-health-0001');
+  const fetcher = vi.fn().mockResolvedValueOnce(new Response(null, { status: 202 })).mockResolvedValueOnce(new Response(JSON.stringify({ healthy: true })));
+  vi.stubGlobal('fetch', fetcher);
+  await trigger();
+  expect(fetcher.mock.calls[1]![0].pathname).toBe('/api/scheduler/operations');
+  expect(fetcher.mock.calls[1]![1]).toMatchObject({ redirect: 'error', cache: 'no-store' });
+  fetcher.mockResolvedValueOnce(new Response(null, { status: 202 })).mockResolvedValueOnce(new Response(JSON.stringify({ healthy: false, diagnostics: ['INDEXER_BEHIND', 'private-provider-error-or-key'] })));
+  const log = vi.spyOn(console, 'error').mockImplementation(() => {});
+  await expect(trigger()).rejects.toThrow('HEALTH_MONITOR_FAILED');
+  expect(log.mock.calls.flat().join(' ')).toContain('INDEXER_BEHIND');
+  expect(log.mock.calls.flat().join(' ')).not.toContain('private-provider');
 });

@@ -1,5 +1,32 @@
 # Actual tooling — 2026-10-09
 
+## 12 October — submission release verification and provider controls
+
+Used one writer, direct source/diff review, pinned Node24/pnpm, full checks, disposable
+Anvil/SQL worker tests,13Playwright checks with an isolated web/database context,
+production build and secret scans. Existing old local worker/application metadata
+are untouched. Chrome accesses only the selected Fallback/Neon project. TCP/HTTPS
+SQL from this host times out; project SQL console performs the single-SELECT backup
+export and guarded additive migration. Private helpers restore/encrypt the export,
+and private evidence stays ignored with owner-only files. Project-owned Netlify SDK
+credentials apply the RPC secret and preserve existing credential/worker settings.
+Consulted official Netlify environment/Secrets Controller and Neon driver docs;
+non-development secret masking requires runtime proof instead of value readback.
+No new app dependency, plugin, subagent, graph rebuild, hook or global setting.
+
+## 12 October — focused judge-readiness review
+
+Used direct progress/manual-procedure/handoff/decision/source inspection, browser
+tools against the public app, connected Chrome and native Chrome, and the bundled
+Node24/pnpm runtime for a read-only chain:verify. Sandbox networking failed; the
+network-enabled rerun verifies10143/token/factory at block70431696. Chrome confirms
+owner views and another connected account, with inconsistent profile automation
+coverage and intermittent hosted chain-read failures. No complete three-role,
+fresh-user, financial, mobile or release verification is inferred. Official public
+competition pages still require sign-in; Envio's current Development pricing page
+confirms temporary hosting/deletion limits. No graph rebuild, subagents, hooks,
+global settings, account reset, package installation or deployment is performed.
+
 ## 12 October — final cloud runtime verification
 
 Reconnected the user-authorized Chrome session after its browser IDs changed; no
@@ -572,3 +599,59 @@ verification against the old server. Invitation envelope/HMAC/API keys are cover
 by source/client scanning and remain server-only; unconfigured email credentials
 are not invented for live tests. Public and isolated screenshots/results stay
 separate from authenticated UI and actual chain receipts.
+
+## 12 October — hosted progress and local Graphify refresh
+
+Used the project Graphify skill and existing0.9.79 wrapper; no package installation
+or upgrade. Ran extract . --code-only --max-workers1, then cluster-only . --no-label.
+Actual incremental result:38code files re-extracted,139unchanged,0deleted;
+837nodes/2012edges/48communities,0input/0output model tokens. Refreshed local JSON,
+report and interactive HTML. Source revision01c36c3 includes the hosting fixes.
+
+Compared parsed sources with the current exclusion-filtered corpus:136source files
+represented, no out-of-scope parsed source. Eight Solidity/nine SQL files lack optional
+parsers; twelve data/config JSON files have no graph nodes.27source-less reference
+placeholders retain the builder's legacy semantic marker without semantic calls.
+Read-only diagnostics find4self-loops, no missing/dangling endpoints, duplicates or
+collapsed edges. Focused hosted/batch navigation agrees with direct hosted worker
+and Netlify function source; it supplies navigation, not a safety verdict.
+
+Updated progress and handoff from existing hosted evidence. No browser session,
+provider setting, service, financial action, hooks, global graph or upload changed.
+No application/contract suites or live provider probes reran for documentation edits.
+Current coverage, hashes and diagnostics are in evidence/graphify-refresh.json.
+
+## 12 October — sequential remaining-work engineering
+
+Used the project Graphify skill for vocabulary-based invitation/RPC/history/worker/
+CRE navigation, then source/tests. Single writer; no subagents, package upgrade,
+hook, global setting, semantic model call or graph upload. Code-only extraction
+and cluster-only --no-label refresh cover local changes above01c36c3. Solidity/SQL
+parsers remain unavailable; actual Foundry/PostgreSQL/Envio verification is separate.
+
+Used bundled Node24/pnpm11, installed viem/Privy/Envio/CRE SDKs, Foundry/Anvil,
+Drizzle migration generation, PGlite and real PostgreSQL fixtures, Playwright/Axe,
+Next/Serwist build, native Chrome/CUA and official Alchemy/Envio/advisory references.
+Browser tab access exposes one profile; native Chrome and the user's screenshot
+confirm the other prepared sign-in sessions. Native navigation was inconsistent;
+no new financial click or live first-time-claim result is inferred. A requested
+375px override did not apply to the inspected tab (actual1440px); no authenticated
+phone-width pass is claimed. Automated320–1440px fixture/public checks pass.
+
+Added current same-block Multicall3 reads after actual chain verification; new
+backup/monitor scripts use existing Node crypto/PostgreSQL/Netlify runtime. Private
+Alchemy URL and backup key are local env values. Source/client scans include the
+private RPC URL/key suffix and encryption key. Backups/restoration data stay in
+ignored mode600 files. No external email, source publication, hosted migration,
+remote backup upload or paid upgrade is performed. Monitoring enablement is gated
+until hosted migration/rollout. Explorer input is compiled locally and bytecode
+compared; uploading source remains distinct from runtime verification.
+
+Final Graphify refresh:875nodes/2153edges/52communities;34code files re-extracted,
+158cached,0deleted in the last incremental scan. Report/JSON/HTML regenerated with
+no labels/model calls. Ten SQL/eight Solidity files lack optional parsers; the
+explorer helper has no extracted symbols. secrets.yaml stays excluded. Exact restore
+and compilation checks provide verification outside graph coverage.
+
+Final graph integrity:4self-loops remain,0missing endpoints. Graph is a navigation
+aid; parser gaps/self-loops are not treated as a contract safety result.

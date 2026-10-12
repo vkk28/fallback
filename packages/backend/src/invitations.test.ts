@@ -9,7 +9,7 @@ import * as schema from './schema.js';
 import type { Database } from './database.js';
 import { createDraft, privatePlan } from './plans.js';
 import { acceptInvitation, createInvitation, invitation, ownerInvitations, respondInvitation, revokeInvitation } from './invitations.js';
-import { contactDigest, deliverInvitation } from './invitation-delivery.js';
+import { contactDigest, deliverInvitation, deliveryConfigured } from './invitation-delivery.js';
 import { requestInbox } from './experience.js';
 import { verifiedEmailDigests } from './auth.js';
 import { prepareAction } from './transactions.js';
@@ -119,6 +119,13 @@ it('does not prepare email without contact consent and rejects unreachable origi
   vi.stubEnv('INVITATION_APP_ORIGIN', 'http://localhost:3000');
   await expect(issue({ email: 'invitee@example.invalid', deliveryConsent: true, replace: existing!.digest })).rejects.toMatchObject({ code: 'REACHABLE_INVITATION_ORIGIN_REQUIRED' });
   expect((await db.query.invitations.findFirst())?.revokedAt).toBeNull();
+});
+it('reports email readiness only for the same clean HTTPS origin accepted by preparation', () => {
+  expect(deliveryConfigured()).toBe(true);
+  for (const origin of ['', 'invalid', 'http://localhost:3000', 'https://user:password@example.invalid', 'https://example.invalid/path', 'https://example.invalid/?key=private', 'https://example.invalid/#token']) {
+    vi.stubEnv('INVITATION_APP_ORIGIN', origin);
+    expect(deliveryConfigured()).toBe(false);
+  }
 });
 it('encrypts delivery material and uses the exact same provider body/key after lost response; acceptance is not delivery', async () => {
   const link = await issue({ email: 'invitee@example.invalid', deliveryConsent: true });
