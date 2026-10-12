@@ -67,7 +67,7 @@
       ],
       "rpc": {
         "url": "https://testnet-rpc.monad.xyz",
-        "for": "sync",
+        "for": "fallback",
         "initial_block_interval": 100,
         "interval_ceiling": 100,
         "acceleration_additive": 10
