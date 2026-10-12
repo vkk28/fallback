@@ -11,6 +11,6 @@
     "resolveJsonModule": true,
     "noEmit": true
   },
-  "include": ["packages/**/*.ts", "apps/worker/**/*.ts", "netlify/functions/**/*.ts"],
+  "include": ["packages/**/*.ts", "apps/worker/**/*.ts", "netlify/functions/**/*.ts", "envio-env.d.ts"],
   "exclude": ["indexer/generated", "node_modules"]
 }

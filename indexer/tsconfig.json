@@ -1,5 +1,5 @@
 {
   "compilerOptions": { "target": "ES2022", "module": "NodeNext", "moduleResolution": "NodeNext", "strict": true, "skipLibCheck": true, "noEmit": true, "types": ["node"] },
-  "include": ["src/**/*.ts", "envio-env.d.ts"],
+  "include": ["src/**/*.ts", "envio-env.d.ts", "../envio-env.d.ts"],
   "exclude": ["src/verify.ts"]
 }
