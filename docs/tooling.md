@@ -1,5 +1,24 @@
 # Actual tooling — 2026-10-09
 
+## 13 October — completed hosted checks and mobile obstruction
+
+Scoped API verifies corrective source 5d68f55 ready; exact GitHub CI succeeds. Private
+health returns healthy=true and actual heartbeat/queue diagnostics with no unresolved
+broadcast. Read-only Alchemy checks verify exact terms/canonical publication, allowance
+before/after funding, actual reserve and Active lifecycle. Hosted Envio verifier now
+uses the bounded current registry: four plans/27 receipt events reconcile. An attempted
+local-indexer verifier fails because that independent local index is stopped; hosted
+verification passes separately, without restarting it or forwarding its secret.
+
+Chrome observes five plan/three Home refreshes, fresh indexed events and activation.
+The human reports correct supporter/payee reloads. Measured 375px authenticated owner
+navigation/overflow checks pass in a focused tab. Netlify's badge obscures Account/
+About; verify the intended site/team, disable only its supported project badge setting,
+reload and click both controls successfully. Official Netlify docs confirm Free-plan
+toggle/no redeploy. Initial background-tab override missed the intended width; only
+measured 375px checks count. Reset browser size and close owned verification tabs.
+No real-device/install/screen-reader or future payment pass is inferred.
+
 ## 13 October — live release and actual-driver correction
 
 Scoped Netlify SDK and GitHub checks confirm approved release 66f5e9f is published

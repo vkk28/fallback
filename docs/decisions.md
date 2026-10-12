@@ -1,5 +1,21 @@
 # Decision record
 
+## 2026-10-13 — judge flow verified; preserve the actual due time
+
+Corrective source 5d68f55 is published, exact CI succeeds, operational queue/heartbeat
+are healthy and repeated actual Home/plan reads pass. Human fresh payee consent,
+publication, supporter membership/exact permission/deposit and owner activation
+complete on the separate 10 FBTEST case. Canonical reads and four-plan/27-event
+Envio reconciliation verify actual accounting/history. Keep the due time at
+14 October 09:00 IST; future payment and positive CRE evidence remain pending.
+
+Actual 375px Chrome reveals Netlify's badge blocking mobile Account/About. Use the
+documented per-project Free-plan toggle instead of modifying product CSS or upgrading.
+Verify correct site/team, save, reload and test the previously blocked links. Restore
+temporary viewport. Keep scheduled health monitoring disabled: basic health and
+existing worker are sufficient for this submission scope. Do not expand to long-term
+retention or extensive live failure/device campaigns.
+
 ## 2026-10-13 — approved release and focused corrections
 
 The human explicitly overrides local-only publication for release 66f5e9f, including

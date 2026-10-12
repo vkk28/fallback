@@ -56,8 +56,9 @@ Record chain/runtime/immutables, canonical receipts, and dashboard method counts
 for the matching verification period as evidence of actual Alchemy requests.
 Use local controlled transport tests for timeouts/429/503; do not exhaust live quotas.
 Private Alchemy URL is verified locally and adopted by hosted release 66f5e9f.
-Hosted health confirms alchemyConfigured and rpcReady. Repeat actual Home/plan reads
-and new-action receipt reconciliation before claiming full judge readiness.
+Hosted health confirms alchemyConfigured and rpcReady. Corrective 5d68f55 passes five
+plan/three Home refreshes and four-plan/27-event canonical Envio reconciliation.
+Independent provider records for fresh actions remain a separate check.
 
 ## 3. Accounts and transaction recovery
 

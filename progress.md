@@ -285,20 +285,27 @@
 
 ## Hackathon submission target
 
-Execution status (13 October): release 66f5e9f is live on the existing free Netlify
+Execution status (13 October): application source 5d68f55 is live on the free Netlify
 app and its exact GitHub CI passes. Hosted health confirms database/RPC/Alchemy/
 sponsorship readiness. A fresh hosted snapshot restores 12 tables/145 rows exactly;
 encrypted recovery, migration 0009 and restricted grants are verified. A real updated
 scheduled worker heartbeat succeeds. The operational queue query exposed a real
 driver timestamp defect; its small correction and clearer draft message pass
-real PostgreSQL, web types/lint/build and 13 isolated browser checks, with corrective
-rollout still pending. Fresh hosted Home/plan reliability still needs repeated checks.
+real PostgreSQL, web types/lint/build and 13 isolated browser checks and are deployed.
+Protected operations is healthy with zero unresolved broadcasts/overdue jobs. Five
+plan refreshes and three four-plan Home refreshes show expected amounts without
+unavailable data. Four indexed plans/27 events reconcile with canonical receipts.
+Actual owner Chrome at 375px passes core navigation/overflow checks. Disabled the
+optional hosting badge that covered mobile Account/About controls and verified recovery.
 
 A genuinely new account signs in, joins an email-bound Home request and remains
 bound after owner reload. The human proposes and accepts terms; owner publication
 confirms onchain for a separate one-payment 10 FBTEST case. Supporter invitation is
-accepted without email delivery. Funding/activation/new payment remain pending;
-shared-link sign-in return has not been observed in this case.
+accepted without email delivery. Separate exact permission, actual 10 FBTEST deposit
+and activation are verified; supporter/payee reloads are reported correct by the human.
+The new backup-funded payment is due 14 October 09:00 IST, so its actual receipt is
+pending. Shared-link sign-in return has not been observed in this case. Existing
+end/return cases remain receipt/history verified; no future outcome is inferred.
 
 The latest user scope is a reliable hosted app for judges and a few testers, without
 production-scale operations. The nine sections below retain the broader engineering
@@ -319,7 +326,7 @@ Prioritize these checks on the actual hosted release:
 - Home and plan reads work reliably, and phone/desktop navigation and basic
   keyboard/reload/offline behaviour do not obstruct those journeys. Chrome
   inspection before rollout found intermittent unavailable chain information;
-  recheck the updated hosted release before describing it as judge-ready.
+  the updated release now passes repeated reads and actual 375px owner navigation.
 - Review and test the chosen source revision, take a fresh hosted backup before
   any migration, roll out the needed fixes, and recheck the actual app/worker/history.
   Confirm free-service capacity and indexer availability through judging.
@@ -463,8 +470,9 @@ overwrite newer state; unresolved signed transactions back off without changing
 bytes/hash/nonce. Twelve focused worker/operations checks and actual Anvil settlement
 with three SQL reopenings pass. Added migration0009 and private aggregate health
 endpoint/runbook. Hosted migration/rollout and actual updated heartbeat are verified.
-Queue timestamp correction rollout, extended interruption checks and monitoring
-activation remain; [worker procedure](docs/remaining-verification.md#6-worker-and-operations).
+Queue timestamp correction is deployed and protected operations reports healthy.
+Extended interruptions and optional scheduled monitoring remain;
+[worker procedure](docs/remaining-verification.md#6-worker-and-operations).
 
 - Extend the verified first hosted due-work delivery with live interruption/restart
   cases, preserving exact transaction bytes, hashes, nonce reservations and job identities.
@@ -501,8 +509,10 @@ checks,13browser journeys/accessibility/PWA checks, production build, web types/
 client-secret scan, real PostgreSQL through0009, actual worker restart fixtures and
 Envio replay/rebuild. Three snapshot checks and canonical Alchemy reads verify
 reduced request counts. Current braces advisory still has no upstream patched
-release. Three live account connections are confirmed; screen-reader/fresh-device/final-hosted
-update verification remains pending. [Quality procedure](docs/remaining-verification.md#8-interface-pwa-and-integrated-checks).
+release. Fresh live onboarding/funding/activation and reported role reloads pass;
+actual 375px owner core navigation passes after removing the hosting obstruction.
+Screen-reader/real-device/install and broader failure checks remain separate.
+[Quality procedure](docs/remaining-verification.md#8-interface-pwa-and-integrated-checks).
 
 - Complete authenticated mobile, keyboard, screen-reader, zoom/reflow, focus and
   touch checks across setup, invitations, funding, pending requests and returns.
@@ -527,8 +537,8 @@ current13-table/141-row application restore, authenticated encryption and byte-e
 archive recovery, historical16-table/45,851-row indexer restore with sequence reset,
 and exact explorer compiler/source/runtime inputs. Eight backup/monitor checks pass.
 Hosted migration/approved rollout/Alchemy cutover are verified, with a fresh exact
-12-table/145-row hosted backup and encrypted recovery. Focused corrections await
-rollout; remote retention, full fresh-device financial/PWA journeys and explorer
+12-table/145-row hosted backup and encrypted recovery. Focused corrections are
+deployed; remote retention, full fresh-device financial/PWA journeys and explorer
 submission remain manual/live gates. [Operating procedure](docs/remaining-verification.md#9-hosted-safeguards-and-final-rollout).
 
 - Finish the full fresh-device owner/supporter/payee financial and recovery journeys

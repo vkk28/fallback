@@ -1,5 +1,29 @@
 # Integration evidence — 2026-10-09
 
+## 13 October — corrective release, real funding and responsive navigation
+
+Production application source 5d68f55 publishes at 21:41:25 UTC 12 October; exact
+[CI](https://github.com/vkk28/fallback/actions/runs/38311968272) succeeds. Health
+confirms database/RPC/Alchemy/sponsorship readiness. Protected operations is healthy,
+lag 4 blocks, one confirmed job/zero overdue or unresolved broadcasts, successful
+21:30 UTC worker heartbeat. The actual driver queue defect is resolved.
+
+The fresh hosted case verifies exact allowance 10 before funding, reserve 0; human
+test-token mint/deposit then produce reserve 10 and allowance 0. Activation confirms;
+canonical snapshot shows Active/own 0/reserve 10/used 0/paid 0 with exact accepted
+terms/payee. Human supporter/payee reload checks pass. Actual hosted Envio verifies
+four plans/27 canonical events with matching historical accounting and a 2-block
+source lag at that observation; new creation/funding/frozen-share/activation appears
+in app history. Five plan and three Home refreshes show no unavailable amounts.
+New provider action records remain independently unreconciled; no new payment claimed.
+
+Actual authenticated owner Chrome at measured 375px passes Home/Account/About/
+Schedule/Terms navigation without overflow. Netlify's injected badge covers mobile
+controls; its supported per-project setting is disabled and fresh app reload proves
+the obstruction gone. No paid upgrade/redeploy needed. [Official badge documentation](https://docs.netlify.com/manage/projects/powered-by-netlify-badge/)
+was checked 13 October. Real devices/PWA installs and a complete failure matrix remain
+separate. The new backed payment is due 14 October 09:00 IST; positive CRE is pending.
+
 ## 13 October — approved hosted release and fresh onboarding
 
 Netlify production publishes exact commit 66f5e9f at 16:50:46 UTC 12 October; its
@@ -517,7 +541,7 @@ No bounty is claimed complete. Exact signed-in Metropolis terms remain inaccessi
 | --- | --- | --- | --- |
 | Monad | [Testnet](https://docs.monad.xyz/developer-essentials/testnet), chain10143 | Deployed token/factory runtimes and immutables verify; actual hosted150FBTEST own-funded installment matches canonical transfer/window; exact explorer inputs and three plan constructors prepared | Explorer submission, future installments and fresh supported-payment lifecycle cases |
 | Privy | [Ethereum transactions](https://docs.privy.io/wallets/using-wallets/ethereum/send-a-transaction), client-bound server authorization/sponsorship | All38preserved confirmed account actions match current wallet/sponsorship/expected receipts; local role/recovery/invitation checks and three connected accounts verified | Actual new-person invitation claim, fresh-device recovery/failure cases and consented optional email |
-| Envio | [HyperIndex](https://docs.envio.dev/docs/quickstart), pinned3.14 hosted/runtime reader | Three hosted plans/23canonical events and accounting reconcile; hosted watermark adapter, replay/rebuild, controlled rollback and notification reconciliation verified; historical16table/45,851row restore passes | Updated app reader rollout, fresh live events, hosted restart/backup/retention and live reorg edge cases |
+| Envio | [HyperIndex](https://docs.envio.dev/docs/quickstart), pinned3.14 hosted/runtime reader | Four hosted plans/27canonical events and accounting reconcile; deployed app reader shows fresh funding/activation; measured watermark, controlled rollback and notification reconciliation verified | New due-time payment/history, extended hosted restart/retention and live reorg cases |
 | Chainlink CRE | [CRE](https://docs.chain.link/cre), CLI1.37/SDK1.23 HTTP/RPC adapter | Two-call frozen discovery/batch, five SDK checks/WASM build and actual hosted CLI simulation pass3scanned/0accepted/0stale; relay secret only | Positive eligible-work receipt/notification/history trace; current bounty requirements remain unverified; network deployment optional |
 | Alchemy | [Monad API](https://www.alchemy.com/docs/reference/monad-api-quickstart) documents testnet RPC | Private provider verifies10143, runtimes/immutables, same-block reads and canonical payment; hosted66f5e9f confirms Alchemy/RPC readiness | Repeat hosted Home/plan reads and new-action reconciliation; Privy remains the account/sponsorship stack |
 | Competition | [Metropolis portal](https://hackathon.monad.xyz/) still exposes sign-in | Supplied Consumer Products & Payments rubric and All-tracks provider labels retained in `prompt.md`/phase status | Exact current bounty terms, submission and team eligibility; no entry submitted |

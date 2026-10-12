@@ -12,15 +12,16 @@ Single writer, no subagents. Account contacts, credentials and raw rows stay pri
 The user explicitly approved pushing release 66f5e9f (including 66e0441) to the
 existing public vkk28/fallback main branch and deploying the existing free Netlify
 app, overriding the local-only restriction for that release. Publication completed.
-Branch codex/source-stabilization has HEAD 66f5e9f. Netlify production is ready on
-that exact source; GitHub CI run 38279978230 succeeds. Public app:
+Follow-up application source 5d68f55 is now published and ready on Netlify; exact
+GitHub CI run 38311968272 succeeds. Documentation may advance without redeployment.
+Branch codex/source-stabilization. Public app:
 https://fallbackk.netlify.app. No competition entry, paid upgrade or mainnet work.
 
-Three small follow-up changes remain local: serialize operational queue timestamps
+Three small follow-up changes are deployed: serialize operational queue timestamps
 as ISO text with an explicit SQL cast; add its real PostgreSQL regression; explain
 that draft money can be reserved after creation. Targeted checks, real-driver
-verification, web types/lint/build and 13 browser checks pass. Prepare a reviewed,
-scanned corrective commit and verify its actual hosted rollout.
+verification, web types/lint/build and 13 browser checks pass. Source/index/client
+scans pass; credentials, contacts and private backups are excluded.
 
 ## Verified release and hosted state
 
@@ -39,12 +40,12 @@ scanned corrective commit and verify its actual hosted rollout.
   ignored. Migration 0009 and restricted grants are applied and freshly verified;
   request DELETE and schema CREATE remain denied.
 - Hosted health confirms databaseReady/rpcReady/alchemyConfigured/sponsorshipEnabled
-  true on 66f5e9f. Alchemy is a server secret; masked Netlify readback is expected.
+  true on 5d68f55. Alchemy is a server secret; masked Netlify readback is expected.
   Existing signer/database/invitation credentials are preserved.
-- Actual updated hosted heartbeat succeeds at 17:01 UTC 12 October. Private health
-  measures indexer lag 2 blocks but reports QUEUE_UNAVAILABLE: raw SQL Date binding
-  fails in postgres.js. The local correction fixes this actual driver defect.
-  HEALTH_MONITOR_ENABLED stays false pending corrected rollout.
+- Corrected protected operations reports healthy=true, no diagnostics, one confirmed
+  job, zero overdue jobs/unresolved broadcasts, measured lag 4 blocks and a successful
+  21:30 UTC 12 October worker heartbeat. Raw-SQL Date serialization is fixed.
+  HEALTH_MONITOR_ENABLED stays false; basic private health and scheduling are verified.
 
 Netlify Free serves Next.js/API plus an authenticated 15-minute trigger and bounded
 background worker. HOSTED_WORKER_ENABLED=true. Neon Free holds metadata using the
@@ -54,6 +55,7 @@ free quotas must cover judging. No extra account/sponsorship stack is installed.
 
 Do not restart the old local web/worker against its independent metadata journal.
 Only the owned loopback database was restarted for disposable regression checks.
+It is stopped again after verification; its data files remain preserved.
 A failed browser attempt while that DB was stopped was rerun successfully after
 restart; it is not evidence of an application defect. Temporary test DBs/server are
 cleaned by their harness. Retain the dedicated signer and exact broadcast journal.
@@ -74,8 +76,12 @@ The human proposed terms and the owner UI confirmed onchain. The fresh payee the
 accepted; owner reload shows Payment acceptance done. Human publication then
 confirms onchain and live balances show zero allocation/reserve. Existing supporter
 joins an email-bound request; owner invitation status confirms accepted. Human
-exact 10 FBTEST deposit-permission handoff is pending. Deposit/activation/new payment
-are not yet claimed. No external email sent.
+exact 10 FBTEST allowance is verified onchain before funding, with zero reserve.
+The human obtains test tokens and deposits 10; actual reserve becomes 10 and allowance
+becomes zero. Human activation confirms onchain; canonical snapshot at 70507523 shows
+Active, own 0/reserve 10/used 0/paid 0 and the unchanged accepted terms. Human reports
+supporter/payee reloads correct with active support funding/withdraw controls absent.
+No new payment or external invitation email is claimed.
 
 Private screenshots and role contacts are ignored. Browser tool exposes the owner
 profile; other signed-in roles use exact human instructions. Signing confirmations
@@ -93,7 +99,19 @@ watermark reader, actor-scoped canonical/orphaned/unavailable receipt notificati
 and persistent worker lease/heartbeat fences. Before rollout, three existing plans/
 23 canonical events reconciled and 38 confirmed user requests matched provider
 sponsorship/expected events. All 39 request identities were preserved. Fresh hosted
-UI read reliability and history still need rechecking.
+Envio verifies four plans/27 canonical events and matching accounting at measured
+height 70507401, source 70507403. The app displays creation, support change, frozen
+share and activation. Five plan refreshes and three four-plan Home refreshes show
+expected balances without unavailable data. One reload locator timed out while
+services connected; subsequent visible plan loads correctly. New provider-sponsored
+action records have not been independently re-exported/reconciled.
+
+Actual authenticated owner Chrome at measured 375px verifies Home/Account/About/
+Schedule/Terms navigation without horizontal overflow. Phone plan/activity layouts
+are inspected. Found Netlify's injected badge covering Account/About bottom controls;
+disabled it only on this verified project through Netlify's supported Free-plan
+setting. Reload confirms no badge and those links work. Browser size is restored.
+This is responsive Chrome verification, not a real-device/install/screen-reader pass.
 
 CRE SDK/type/build and actual CLI simulation pass 3 scanned/0 accepted/0 stale.
 Positive due-work orchestration is pending; independent worker provides ordinary
@@ -102,18 +120,14 @@ source inputs match deployed runtimes; source publication remains pending.
 
 ## Next steps
 
-1. Complete human owner creation, supporter invitation, separate exact approval/
-   deposit and owner activation for the fresh case; verify receipts and role reloads.
-   Never sign for the user or duplicate an ambiguous request.
-2. Commit/roll out the three verified corrections with truthful docs, verify exact
-   deploy/CI and operational queue, and repeat Home/plan/history reads.
-3. Verify phone/desktop usability where tools permit. A previous 375px override
-   stayed 1440px; no authenticated phone-width pass is claimed. Automated public/
-   fixture 320–1440px checks pass.
-4. Record actual backup-funded payment/history when due. Positive CRE evidence
-   matters for that bounty, not the existing independent worker.
-5. Keep progress, decisions, tooling and integration evidence synchronized. Do not
-   call every live item complete or promise nothing can ever fail.
+1. On/after 14 October 09:00 IST, verify the fresh scheduled backup-funded payment,
+   canonical split/transfer and Envio/notification history. The existing worker runs
+   every 15 minutes, but a future success is not claimed. Preserve these fixed terms.
+2. Positive CRE evidence matters for that bounty. Shared-link sign-in return and
+   independent provider records for the fresh actions remain broader verification.
+3. Keep free-tier/indexer availability through judging. Optional external invitation
+   email, remote retention and extensive live failure/device campaigns are deferred.
+4. Keep docs synchronized; do not call every live item complete or guarantee no failure.
 
 Graphify was optional for this release and was not refreshed. Prior local code-only
 graph is navigation with disclosed Solidity/SQL parser gaps and self-loops. Actual
