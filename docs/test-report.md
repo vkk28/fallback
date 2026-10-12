@@ -1,5 +1,49 @@
 # Actual verification — 2026-10-09 (Asia/Kolkata)
 
+## 12 October — final hosted checks
+
+Production health returns200 with database/RPC/indexer/account/deployment flags true.
+Anonymous plans return401; authenticated scheduler health returns1confirmed job.
+Actual hosted reload preserves3plan links; authenticated Activity displays10real
+history rows without outage. UI completeness stays unknown for the compatible hosted
+schema; actual provider metadata independently shows2-block lag.
+Human explicitly approves permanent duplicate2f8cfc0 deletion; exact confirmation
+is submitted and provider completion verifies deployment not found/removal from
+active list.978c44e is preserved.
+
+## 12 October — final cloud indexing and app connection
+
+-978c44e real CI38225443546 passes. Root codegen/types and unchanged shared handlers
+  retain the verified deployment/start/rollback/history settings. HyperSync catches
+  up in approximately1minute, replacing the very slow forced-RPC backfill.
+- Actual GraphQL reports3plans/29events, processed70357291/source70357293. Same-height
+  lifecycle/own/reserve/used/paid agree with all3contracts.23plan timeline receipt-log
+  identities, timestamps and numeric splits match canonical chain receipts. Three
+  actual backend history reads pass. No local Hasura secret is forwarded.
+- Native production deploy6acca0f563507c7fa760b260 is ready with the verified reader.
+  Static production alias is not included in Free; no upgrade is selected. Auto-deploy
+  is disabled so final documentation does not create redundant indexer instances.
+
+## 12 October — resumed hosted runtime verification
+
+- Privy public iframe policy initially excludes the Netlify origin, explaining the
+  failed handshake. Human adds the exact allowed origin; policy now permits it.
+  Actual hosted sign-in and Home display all three preserved plan links.
+- Native scheduled trigger completes22:15:26UTC in241.89ms. First due job retries
+  before signing, then commits its exact bytes/hash/nonce and submits. Fresh canonical
+  RPC verifies successful installment0/150FBTEST, own150/backup0, immutable amount/
+  payee, complete token transfer, own-first and exact grace. Hosted authenticated
+  queue health returns1confirmed job; no replacement nonce/signature is created.
+- Direct local Neon TCP checks now time out; hosted health still has DB/RPC ready.
+  Receipt check explicitly uses the previously captured exact journal plus fresh RPC;
+  it does not misrepresent a new direct SQL read. Initial direct verifier fails on SQL
+  connectivity; the successful helper uses proper grace conversion and the separate
+  immutable payee getter. No stored value was modified.
+- Envio39e1bf8 build succeeds4m31s, but runtime handler typechecking fails because
+  its project config omits root-generated declarations.2f8cfc0 fixes both TS contexts.
+  Cold handler types with local declaration temporarily absent, root types and real
+  CI38222196779 pass. Actual corrected cloud startup/sync remain pending.
+
 ## 12 October — actual hosted app and state-preserving worker cutover
 
 - Core pnpm check passes107app/49contract checks; actual local-chain integration,

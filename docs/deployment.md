@@ -11,10 +11,12 @@
   limited application connection is stored only in Netlify secrets.
 - Worker: enabled Node24 background function with an authenticated scheduled trigger
   every15minutes. One native invocation completes4102.93ms without error; scheduled
-  trigger and due-payment receipt verification remain separate gates.
+  trigger and actual due-payment receipt verification pass:150FBTEST entirely from
+  recipient allocation, no backup consumed. Hosted queue reports1confirmed job.
 - Indexer: Envio fallback Development project created for vkk28/fallback/main,
   directory., config.yaml. The approved free tier lasts up to30days and has resource
-  and inactivity limits. Actual cloud deployment/sync/GraphQL connection is pending.
+  and inactivity limits. 978c44e runs with HyperSync,29events/3plans and measured2-block lag. Its verified
+  release URL is connected to the app; Free has no static production alias.
 
 All selected services are free tiers. No paid upgrade, payment method or auto-recharge
 is configured. Quotas still apply; this does not promise unlimited permanent hosting.
@@ -37,7 +39,8 @@ Keep HOSTED_WORKER_ENABLED=false until the journal/signer/state cutover is verif
 Optional email delivery remains disabled; no sender or external recipient is configured.
 
 Root config.yaml uses existing schema/handlers/ABIs and the root pinned Envio3.14
-manifest. Public testnet RPC uses the verified100-block ceiling; configured start
+manifest. HyperSync handles historical/current sync with the public RPC retained as a bounded
+fallback using the verified100-block ceiling. Configured start
 69077351 is preserved, preceding factory deployment69077360. Native root codegen
 and cloud-handler types pass. Generated runtime/type outputs remain ignored.
 
@@ -57,10 +60,21 @@ A15-minute cadence can delay attempts; actual contract due/grace boundaries gove
 eligibility. No guarantee or fabricated receipt follows from HTTP202 acceptance.
 
 Application backup verifies exact disposable restoration; local indexer snapshot
-checksum is verified but its restoration is not. Hosted backups, live sign-in/recovery,
-cloud history/sync and scheduled positive-payment evidence remain unfinished checks.
+checksum is verified but its restoration is not. Hosted sign-in/three preserved plan reads, actual history/accounting/23receipt events
+and native scheduled/positive-payment checks pass. Full fresh-device financial and
+recovery journeys, remote backup retention/restore and optional email delivery remain
+separate product verification work. Envio deployments are manual after stabilization.
 Existing consented terms and refund liabilities are preserved.
 
 Primary references: [Netlify functions](https://docs.netlify.com/build/functions/overview/),
 [Neon Free](https://neon.com/docs/introduction/plans),
 [Envio Development](https://envio.dev/pricing/hosting).
+
+Final production health returns200 with DB/RPC/indexer/account/deployment readiness;
+anonymous private plans return401 and authenticated worker queue returns1confirmed.
+Hosted reload preserves3plan links and authenticated history loads. Human-approved
+obsolete2f8cfc0 deletion completes;978c44e is preserved. No paid static alias or upgrade.
+
+Actual authenticated Activity displays10indexed rows without outage. Hosted schema
+has no FallbackSync view, so the app labels coverage unknown; independent metadata
+checks measure a2-block lag. No latest-completeness claim is fabricated in the UI.

@@ -186,13 +186,15 @@
 - Published the reviewed source to the selected public repository and deployed the
   Next.js app/API at fallbackk.netlify.app on Netlify Free.
 - Verified public HTTP access, private-endpoint authentication, database/RPC readiness
-  and the hosted Privy sign-in entry.
+  and actual hosted Privy sign-in with three preserved plans.
 - Restored and compared all private metadata and existing request identities on
   Neon Free with certificate-validated TLS and a limited application role.
 - Cut over the preserved signer/journal to authenticated background batches and a
-  15-minute schedule; observed one completed native batch without errors.
+  15-minute schedule; verified its native runs, durable journal and actual first
+  consented testnet payment against a canonical receipt.
 - Created the free Envio Development project and validated its root cloud config,
-  shared-handler code generation and types. Actual cloud sync remains unfinished.
+  shared-handler code generation and types. HyperSync catches up, and all three
+  plans/accounting plus23canonical history events are verified through the live reader.
 
 ### Verification already completed
 
@@ -356,10 +358,8 @@ request identities. Each step builds on the previous one; final hosting comes la
 
 ### 9. Host the complete app and verify the deployed system
 
-- Finish the connected Envio Development build, verify actual event histories and
-  sync coverage, and connect its real GraphQL endpoint to the hosted app.
-- Verify native scheduled trigger and eligible payment receipts, human hosted
-  sign-in/reload and the complete owner/supporter/payee journeys.
+- Finish the full fresh-device owner/supporter/payee financial and recovery journeys
+  on the hosted app, beyond the verified sign-in/plans/history and scheduled payment.
 - Retain the free-tier quotas and temporary indexer lifetime; keep all services
   independent of the laptop, without enabling paid upgrades or recharge.
 - Enable health/lag/job monitoring and backup both application and indexer data with

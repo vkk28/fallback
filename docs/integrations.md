@@ -1,5 +1,24 @@
 # Integration evidence — 2026-10-09
 
+## 12 October — verified hosted runtime and real history
+
+Privy exact-origin policy is corrected by the human; real hosted sign-in and three
+preserved plan reads succeed. Native scheduled worker and canonical first payment
+verify150FBTEST from recipient allocation,0backup, immutable payee/amount, complete
+transfer and exact grace. Hosted journal summary reports1confirmed job.
+
+Envio978c44e runs3.14/HyperSync with RPC fallback, preserved start/handlers/schema,
+29events/3plans and measured2-block lag. All3plan accounting snapshots and23canonical
+receipt-log events reconcile; actual backend history pages pass. Netlify release
+6acca0f563507c7fa760b260 connects the real public GraphQL reader without local secrets.
+Current [supported-chain documentation](https://docs.envio.dev/docs/HyperIndex/supported-networks)
+confirms Monad Testnet10143/HyperSync. Forced-RPC2f8cfc0 works but backfills slowly;
+first39e1bf8 requires the generated-type correction. Free static-alias promotion is
+unavailable; no paid upgrade. Manual Envio release control preserves demo quota.
+
+These are technical demo results, not a new hosted sponsorship/recovery audit or
+bounty-completion claim. Separate current limitations remain in deployment.md.
+
 ## 12 October — actual free app, database and bounded worker
 
 Netlify's native Next.js adapter serves fallbackk.netlify.app with HTTP200. Actual

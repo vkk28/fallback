@@ -1,5 +1,22 @@
 # Actual tooling — 2026-10-09
 
+## 12 October — final cloud runtime verification
+
+Reconnected the user-authorized Chrome session after its browser IDs changed; no
+unrelated account access. Used actual Envio build/runtime logs to find missing
+root-generated declarations, then cold local types and real CI to validate the fix.
+Official current chain documentation plus unauthenticated height verifies HyperSync
+availability; actual cloud metrics show29events/100% sync in about1minute. Bounded
+private read-only helpers verify all3plan accounting states and23canonical receipts
+through the actual backend reader. Netlify SDK connects the public release URL and
+native production build passes. Free promotion is refused; no paid action occurs.
+
+Hosted authenticated HTTPS health replaces unavailable direct local Neon TCP reads;
+exact captured worker bytes and fresh canonical RPC verify the real consented payment.
+No journal reset, fee replacement, new signer, external email or mainnet mutation.
+Human-approved obsolete2f8cfc0 deletion is completed through its exact confirmation;
+current978c44e remains active. Authenticated reload and Activity verify real history.
+
 ## 12 October — native deployment, private migration and cloud configuration
 
 Used Chrome/CUA for actual Free-plan/account/repository/settings controls, public-site
