@@ -1,5 +1,24 @@
 # Actual tooling — 2026-10-09
 
+## 13 October — remaining-work split and requested graph refresh
+
+Read the project Graphify skill/relevant references and used installed 0.9.79, with
+no installation or upgrade. Extract . --code-only --max-workers 1 and cluster-only
+. --no-label refresh graph.json, GRAPH_REPORT.md and graph.html. Actual result:
+35 code files re-extracted/157 unchanged, 876 nodes/2157 edges/59 communities,
+zero input/output model tokens; documents/images are intentionally skipped.
+secrets.yaml is excluded as sensitive. Code corpus has 179 files/148 represented
+sources and no out-of-scope parsed source. Eight Solidity/ten SQL files lack optional
+parsers; thirteen data/config JSON files have no nodes. Four existing self-loops,
+zero missing/dangling/collapsed edges. operationalQueue is in the updated graph.
+
+Expanded exact graph vocabulary to docker/graphql/hosted/worker/trigger. Bounded BFS
+is truncated; direct source/Compose inspection independently confirms the optional
+local Docker setup versus hosted worker/database/RPC dependencies. Private sanitized
+hash/coverage/integrity evidence is ignored. No semantic calls, subagents, hooks,
+global graph, uploads or Docker/provider changes. Documentation/link/secret checks
+are separate from application checks; old suite outcomes are not claimed rerun.
+
 ## 13 October — completed hosted checks and mobile obstruction
 
 Scoped API verifies corrective source 5d68f55 ready; exact GitHub CI succeeds. Private

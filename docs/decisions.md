@@ -1,5 +1,21 @@
 # Decision record
 
+## 2026-10-13 — primary submission work and secondary proofs
+
+User explicitly separates remaining work: Primary contains functional work needed
+for a hosted judge demo plus useful bounty execution/entry materials; Secondary
+contains proofs, verification and other optional operating work. Keep already
+implemented features out of the missing-feature list. CRE useful execution remains
+a functional bounty task, while simulation/receipt/history proof is secondary.
+No new account stack or production-scale infrastructure is justified.
+
+The deployed Netlify/Neon/Envio/RPC/Privy stack is independent of the PC. Docker is
+optional for the local Hasura and PostgreSQL metadata containers in the project
+Compose file. Clarify this in README/architecture/progress; do not uninstall Docker,
+delete local volumes or alter hosted configuration. Refresh Graphify locally with
+code-only extraction/one worker and no-label clustering, keeping parser/integrity
+limits explicit. This request changes documentation and local graph artifacts only.
+
 ## 2026-10-13 — judge flow verified; preserve the actual due time
 
 Corrective source 5d68f55 is published, exact CI succeeds, operational queue/heartbeat

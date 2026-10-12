@@ -283,274 +283,170 @@
 - Passed the current 129 application and 49 contract checks, thirteen browser checks,
   actual local-chain/worker/PostgreSQL/indexer verification and secret scans.
 
-## Hackathon submission target
+## Primary remaining tasks — hackathon submission and bounties
 
-Execution status (13 October): application source 5d68f55 is live on the free Netlify
-app and its exact GitHub CI passes. Hosted health confirms database/RPC/Alchemy/
-sponsorship readiness. A fresh hosted snapshot restores 12 tables/145 rows exactly;
-encrypted recovery, migration 0009 and restricted grants are verified. A real updated
-scheduled worker heartbeat succeeds. The operational queue query exposed a real
-driver timestamp defect; its small correction and clearer draft message pass
-real PostgreSQL, web types/lint/build and 13 isolated browser checks and are deployed.
-Protected operations is healthy with zero unresolved broadcasts/overdue jobs. Five
-plan refreshes and three four-plan Home refreshes show expected amounts without
-unavailable data. Four indexed plans/27 events reconcile with canonical receipts.
-Actual owner Chrome at 375px passes core navigation/overflow checks. Disabled the
-optional hosting badge that covered mobile Account/About controls and verified recovery.
+The core app is implemented and online at https://fallbackk.netlify.app. Fresh-user
+joining, payee consent, plan publication, exact permission/deposit and activation
+work. The latest application release is 5d68f55. There is no known unfinished core
+feature from the submission issues just resolved. This section contains functional
+integration work, submission materials and judging availability; technical proofs
+and verification procedures are in Secondary below.
 
-A genuinely new account signs in, joins an email-bound Home request and remains
-bound after owner reload. The human proposes and accepts terms; owner publication
-confirms onchain for a separate one-payment 10 FBTEST case. Supporter invitation is
-accepted without email delivery. Separate exact permission, actual 10 FBTEST deposit
-and activation are verified; supporter/payee reloads are reported correct by the human.
-The new backup-funded payment is due 14 October 09:00 IST, so its actual receipt is
-pending. Shared-link sign-in return has not been observed in this case. Existing
-end/return cases remain receipt/history verified; no future outcome is inferred.
+### 1. Keep the complete demo online through judging
 
-The latest user scope is a reliable hosted app for judges and a few testers, without
-production-scale operations. The nine sections below retain the broader engineering
-backlog; completing every live/manual item is not the submission acceptance test.
-This is an engineering assessment, not confirmation of current competition rules.
+- [ ] Maintain the hosted app/API and scheduled worker on Netlify, metadata on Neon,
+  and the history/GraphQL pipeline on Envio Cloud through the judging period.
+- [ ] Keep the indexer within its temporary Development deployment lifetime. If that
+  lifetime does not cover judging, arrange a supported hosted continuation. The
+  fallback must remain online; a Docker process on the owner's laptop is unsuitable.
+- [ ] Keep the working app URL and free-tier configuration available to judges.
+  Production capacity for 100+ users and paid infrastructure are outside this scope.
 
-Prioritize these checks on the actual hosted release:
+These are ongoing availability tasks. Hosting, migrations, RPC cutover and the
+ordinary scheduled worker are already implemented; no migration off the PC remains.
 
-- A new person can sign in, follow a shared invitation, join the correct role and
-  return after reload. Optional invitation email delivery can wait; sign-in email
-  and secure invitation links must work.
-- Owner, supporter and payee can complete their ordinary journeys: consent,
-  publication, separate permission/deposit, activation, status recovery, ending
-  and independent returns. Preserve financial correctness even at small scale.
-- Demonstrate a real payment using family backup and its indexed history. A
-  judge can inspect a settled example without waiting for the original November
-  and December installments. New demo terms require fresh role consent.
-- Home and plan reads work reliably, and phone/desktop navigation and basic
-  keyboard/reload/offline behaviour do not obstruct those journeys. Chrome
-  inspection before rollout found intermittent unavailable chain information;
-  the updated release now passes repeated reads and actual 375px owner navigation.
-- Review and test the chosen source revision, take a fresh hosted backup before
-  any migration, roll out the needed fixes, and recheck the actual app/worker/history.
-  Confirm free-service capacity and indexer availability through judging.
+### 2. Finish meaningful CRE execution for the bounty
 
-| Existing section | Submission scope |
-| --- | --- |
-| 1. Invitations | New-user sign-in and shared links are essential; optional sender setup/delivery is deferred. |
-| 2. RPC / Alchemy | Reliable hosted reads are essential. Hosted Alchemy proof is needed if that integration is claimed. |
-| 3. Account recovery | Ordinary role, reload, approval/deposit and duplicate-action protection are essential; exhaustive live failure campaigns can wait. |
-| 4. Lifecycle | A real supported payment and working end/return journey are essential product evidence; waiting for every original installment is deferred. |
-| 5. Envio | Useful accurate hosted history and truthful lag/unavailable states are essential; additional live restart/reorg campaigns can wait. |
-| 6. Worker | Actual scheduling and safe persistent retries are essential; extended hosted interruption campaigns can wait. |
-| 7. CRE | Positive useful orchestration evidence is a priority when pursuing the CRE bounty; it does not block ordinary use of the existing independent worker. |
-| 8. Interface / PWA | Core phone/desktop journeys and applicable final checks are essential; a broad device/assistive-technology/install matrix can wait. |
-| 9. Operations | Tested release, migration backup, basic health and judging-period availability are essential; scheduled remote backup retention and long-term operations can wait. |
+- [ ] Use the implemented CRE cron/HTTP workflow to discover an actually eligible,
+  freshly consented plan and enqueue useful settlement work into the hosted durable
+  worker. An empty scan is working scaffolding, but it does not exercise the useful
+  orchestration path for judges.
+- [ ] Keep the workflow pointed at the hosted adapter, with only the relay credential.
+  Keep the independent hosted worker available for ordinary application liveness.
+- [ ] Present the actual CRE → hosted API → authoritative Monad reads → durable queue
+  → fixed contract call architecture. The HTTP/RPC adapter is not a native CRE Monad
+  write. Network deployment is not automatically required: the requirements inspected
+  on 11 October accepted CLI simulation; use the current portal rules for the entry.
 
-Explorer source publication remains useful reviewer evidence, with its necessity
-subject to the actual submission rules. Do not imply that pending optional work
-passed, disable consent/account isolation, fabricate demo data, or change existing
-plan terms to shorten testing. Account authorization and genuinely future outcomes
-remain separate from work the agent can complete locally.
+The implementation, SDK checks, WASM build and empty CLI execution already exist.
+The remaining functional step is useful execution with eligible work, not another
+account stack or a production CRE deployment. Receipt and simulation proof belongs
+in Secondary. Do not edit an accepted schedule to make a case eligible early.
 
-## Broader remaining engineering and verification work
+### 3. Prepare the sponsor-bounty entries
 
-All nine sections below have been addressed sequentially for available local work.
-Remaining live/manual/time-dependent gates are retained until actually verified.
+- [ ] Complete the entry descriptions and source links for the integrations actually
+  used. Explain how each helps this product, rather than listing installed packages.
+- [ ] Apply the current portal's entry requirements and select only eligible bounties
+  for this project. The linked requirements were last inspected while signed in on
+  11 October; no bounty award or completed eligibility claim is implied.
 
-The broader engineering target is a complete Consumer Products & Payments app with
-substantive Privy, Envio and Chainlink CRE integrations, plus verified Alchemy RPC
-use. Prioritize the submission target above, preserving existing consented plans
-and request identities. Free hackathon hosting is live; the remaining work extends
-product verification and operating safeguards beyond the verified demo.
+| Bounty | Functional implementation already present | Remaining primary submission work |
+| --- | --- | --- |
+| [Privy](https://hackathon.monad.xyz/tracks/privy) | Embedded accounts, account-bound consent, sponsored transactions, exact funding and independent returns beyond login | Explain these user journeys and link the relevant account/transaction source in the bounty entry. |
+| [Envio](https://hackathon.monad.xyz/tracks/best-use-of-envio) | Hosted indexer driving actual plan history, support accounting, frozen shares and returns | Link the public config, schema and handlers; explain the useful history feature and retain its hosted pipeline. |
+| [Alchemy](https://hackathon.monad.xyz/tracks/best-projects-using-alchemy) | Private Monad Testnet RPC used by server/worker reads, reconciliation and chain access | Explain the real RPC role and link its source; keep endpoint credentials server-only. |
+| [Chainlink CRE](https://hackathon.monad.xyz/tracks/best-workflow-with-cre) | Cron/HTTP discovery workflow and hosted enqueue/worker adapter | Complete useful execution from item 2 and explain the blockchain/external-system orchestration. |
 
-### 1. Finish secure invitations and new-person onboarding
+No additional Privy, Envio or Alchemy feature gap is currently identified from the
+requirements previously inspected. Their remaining work is entry preparation;
+additional integration evidence is listed separately below.
 
-Local engineering verified: sender readiness uses the same strict HTTPS-origin
-validation as encrypted outbox preparation; all 12 invitation tests pass. Fresh
-hosted email sign-in/inbox claim and canonical account binding now pass; shared-link
-sign-in return and optional provider delivery remain separate. Follow
-[the manual procedure](docs/remaining-verification.md#1-new-person-invitation-and-optional-email).
+### 4. Finish the main submission and judge walkthrough
 
-- Verify the implemented address-free flow with an actual newly created Privy account:
-  email sign-in, invitation return, review and one-time canonical-account claim.
-  Local authenticated HTTP, SQL races and isolated browser checks cover the
-  implementation; they are not a live first-time sign-in result.
-- Configure the optional sender credentials and verified sending identity, using
-  the hosted HTTPS application origin. Obtain consented recipients before sending
-  or testing external email; no messages have been sent by the implementation.
-- Complete actual email-provider delivery/failure/retry verification for the
-  implemented encrypted outbox. Keep provider acceptance, mailbox delivery,
-  membership and onchain consent distinct. Retain its tested revocation, decline,
-  exact expiry, atomic replacement, private visibility and immutable request identity.
+- [ ] Prepare the actual competition entry: hosted app URL, public repository,
+  product explanation and the demo materials requested by the submission form.
+- [ ] Give judges a short walkthrough for owner, supporter and payee: email sign-in,
+  invitation, consent, test-token permission/deposit, activation and where to find
+  schedule, activity and returns. Explain that future-dated payments execute only
+  inside their agreed windows and that FBTEST has no real value.
+- [ ] Explain the distinctive mechanism clearly: own allocated money first, bounded
+  family backup only for a complete shortfall, and separate unused-money returns.
+  Show the actual UI and current state; never present an expected payment as paid.
 
-### 2. Strengthen RPC access and complete the Alchemy integration
+Prepare these materials without waiting for every Secondary item. Completing a
+competition entry is separate from deploying the app; no entry has been submitted.
 
-Local engineering verified: shared server/worker transport now bounds timeouts and
-retries and refuses redirects, credential-bearing URLs and remote plaintext RPC.
-Four controlled transport tests and source typechecking pass. Actual public-RPC
-chain/runtime/token/factory verification passes at block 70368511. Alchemy-specific
-configuration is now supplied privately by the user. Alchemy chain/runtime/immutables
-verification passes at block70373447; actual same-block plan snapshots and preserved
-payment receipt reconciliation also pass through that provider. Hosted release
-66f5e9f confirms Alchemy selection and actual RPC access; repeated UI reliability
-checks remain. [Setup procedure](docs/remaining-verification.md#2-alchemy-rpc).
+## Secondary remaining tasks — verification, proofs and optional hardening
 
-- Apply the verified private Alchemy Monad Testnet endpoint to the hosted server
-  for plan reads, receipt reconciliation and worker chain access.
-- Repeat provider chain/runtime/immutable and application-read verification after
-  hosted RPC cutover; local provider-specific requests and receipts are verified.
-- Exercise timeouts, throttling and unavailable responses. Preserve unknown states,
-  bounded retries and disabled money actions until authoritative reads recover.
-- Keep provider credentials out of browser bundles and logs. Retain Privy as the
-  single account and sponsorship stack.
+These items retain the broader engineering backlog. They provide confidence or
+stronger evidence and may help bounty reviewers, but they are not additional missing
+core features. Prioritize targeted checks for any new defect; an exhaustive campaign
+is unnecessary for a few judges/testers. Full procedures remain in
+[docs/remaining-verification.md](docs/remaining-verification.md).
 
-### 3. Complete live account and transaction recovery
+### 1. Payment and lifecycle proofs
 
-Local recovery/role verification passes 64 receipt/backend/HTTP checks; actual local
-pending-request reconciliation finds zero unresolved requests. Hosted owner Home
-and real history are inspected, including safe disabled actions during unavailable
-RPC reads. Full new-session owner/supporter/payee and live authorization-failure
-journeys remain pending; [role procedure](docs/remaining-verification.md#3-accounts-and-transaction-recovery).
-All 38 preserved confirmed account actions also reconcile against current provider
-sponsorship and canonical expected events, without signing or submission.
+- [ ] Reconcile the new 10 FBTEST backup-funded payment when it is actually due:
+  **14 October 2026, 09:00 IST**. Check its canonical payee transfer, own/backup split,
+  closure, notifications and indexed history. The case is active with own 0/reserve 10;
+  no payment receipt exists yet at the last recorded observation.
+- [ ] Collect further live partial-backup, cap-blocked/top-up, exact-expiry, ordered
+  missed-payment, cancellation and independent-return evidence where useful.
+- [ ] Observe the original November/December installments only when due. Do not wait
+  for them to prepare the submission or change their immutable terms.
 
-- Walk through owner, supporter and payee sign-in, account switching, reconnect and
-  role-specific visibility using the current interface and real bound accounts.
-- Verify exact approval followed by deposit, sponsored authorization, rejection,
-  interrupted/expired challenges, known reverts and missing-hash recovery.
-- Reconcile stored requests before permitting fresh financial actions. Verify that
-  reloads, retries and provider/RPC failures cannot create duplicate deposits or claims.
-- Distinguish controlled failure tests from observed live provider failures and fix
-  any uncovered recovery defect without changing immutable request payloads.
+The existing 150 FBTEST own-funded hosted payment and separate end/return cases are
+verified. Local-chain financial accounting tests already cover the core invariants.
 
-### 4. Prove the complete conditional-payment lifecycle on testnet
+### 2. Invitation, account and transaction recovery checks
 
-Local deployed-chain lifecycle verification passes exact splits/rounding/returns,
-cap/top-up recovery, late expiry and worker races. The existing hosted installment
-is freshly reverified against its captured journal and canonical receipt:150 FBTEST
-own,0 backup, exact payee transfer/window. Readiness verification now follows current
-accounting and chronological outcomes. Future installments and fresh consented live
-cases remain pending; [lifecycle procedure](docs/remaining-verification.md#4-live-conditional-lifecycle).
+- [ ] Observe a genuinely fresh shared-link → sign-in → return → claim journey, plus
+  consumed-link, wrong-account, revoke/decline/replacement and expiry cases live.
+  Fresh email-bound Home joining and canonical binding already work.
+- [ ] Independently reconcile provider sponsorship/request records for the newest
+  actions. The preserved 38 confirmed actions were reconciled previously.
+- [ ] Extend live rejection, interrupted/expired authorization, revert, missing-hash,
+  reconnect and duplicate-action checks. Preserve the original request and reconcile
+  it before a fresh attempt; do not provoke unrelated-account failures.
 
-- Follow the preserved plan's remaining installments as their actual due conditions
-  arise, reconciling each canonical receipt, exact payee amount and funding split.
-  Its first own-funded installment is verified; later outcomes are not inferred.
-- Use separate freshly consented cases to verify own-funded, partly backup-funded
-  and fully backup-funded payments within the agreed caps. Never change the original
-  plan's terms or fast-forward live network time.
-- Verify blocked payments move no funds, owner top-ups recover within the payment
-  window, expired installments remain unpaid and later installments process in order.
-- Complete cancellation/natural closure and independent owner/supporter returns,
-  checking exact rounding, conservation and zero remaining claims after completion.
-- Record actual live receipts separately from the already passing local-chain tests.
+### 3. RPC, Envio, worker and CRE evidence
 
-### 5. Complete Envio history and notification correctness
+- [ ] Add targeted outage/throttling and slow-RPC evidence while retaining unknown
+  amounts, bounded retries and safe disabled actions. Hosted Alchemy adoption and
+  repeated successful plan/Home reads are already verified.
+- [ ] Follow further payment/closure/claim events through Envio, compare exact amounts
+  and frozen entitlements with receipts, and extend hosted restart/lag/reorg checks.
+  Four plans/27 events and measured processing coverage already reconcile.
+- [ ] Extend hosted worker interruption, lost-response, competing-lease and receipt/
+  notification recovery checks without changing signed bytes, nonce or job identity.
+- [ ] Capture a successful positive CRE simulation/execution result and trace its job
+  through canonical receipt, notification and Envio history. Check duplicate/stale
+  batch and HTTP/restart cases. Keep evidence distinct from empty scans and fixtures.
 
-Implemented and verified locally: hosted chain_metadata coverage, bounded legacy
-fallback, invalid-watermark handling, canonical/orphaned/unavailable notification
-states and idempotent restoration after re-mining. Sixteen focused checks and source
-types pass. Actual hosted history reconciles all three plans and 23 canonical events;
-the new reader measures a four-block lag against a fresh RPC head. Updated source is
-deployed in release 66f5e9f; fresh live event/UI and live restart checks remain.
+### 4. Device, PWA, accessibility and release checks
 
-- Follow the new funding, payment, missed-installment, closure and return events
-  through Envio into the application timeline and supporter accounting.
-- Reconcile indexed amounts, frozen weights and entitlements against canonical
-  receipts, and measure processing lag instead of inferring completeness from a log.
-- Roll out the verified hosted processing-watermark reader so the hosted interface
-  shows measured coverage; keep unknown on invalid/unavailable watermark reads.
-- Verify restart/backfill and recovery from unavailable or stale GraphQL data;
-  current chain state must continue governing financial actions.
-- Correct receipt-derived in-app notifications after reorgs. Verify orphaned events
-  cannot leave false payment records or duplicate notifications after reconciliation.
-- Keep readable config, schema, handlers and reproducible indexer setup with the
-  integration evidence, showing Envio drives useful application behaviour.
+- [ ] Extend actual-device install/update, screen-reader, touch, keyboard, zoom,
+  offline/stale-tab and fresh-device role/recovery checks. Authenticated owner Chrome
+  navigation at measured 375px and fixture/public 320–1440px checks already pass.
+- [ ] Run the applicable build, application/contract/local-chain/network, SQL/worker/
+  indexer, CRE, browser and secret checks when relevant source changes justify them.
+  The current deployed revision's CI and targeted browser/driver checks already pass.
+- [ ] Measure slower account initialization and loading only where it obstructs a
+  judge's journey; fix observed defects rather than pursuing production benchmarks.
 
-### 6. Harden worker delivery and restart recovery
+### 5. Explorer publication and supporting artifacts
 
-Local engineering verified: stale job leases and heartbeat completions cannot
-overwrite newer state; unresolved signed transactions back off without changing
-bytes/hash/nonce. Twelve focused worker/operations checks and actual Anvil settlement
-with three SQL reopenings pass. Added migration0009 and private aggregate health
-endpoint/runbook. Hosted migration/rollout and actual updated heartbeat are verified.
-Queue timestamp correction is deployed and protected operations reports healthy.
-Extended interruptions and optional scheduled monitoring remain;
-[worker procedure](docs/remaining-verification.md#6-worker-and-operations).
+- [ ] Publish exact testnet contract source using the prepared compiler inputs and
+  constructor arguments, if desired or required by an entry. Runtime comparison is
+  already verified; it does not establish explorer source publication.
+- [ ] Curate receipt links, screenshots, logs with credentials/contacts removed and
+  integration evidence for reviewer inspection. Do not fabricate proof or claim audit.
 
-- Extend the verified first hosted due-work delivery with live interruption/restart
-  cases, preserving exact transaction bytes, hashes, nonce reservations and job identities.
-- Check competing workers and interrupted receipt/notification processing cannot
-  pay twice, strand acknowledged jobs or overwrite newer broadcast state.
-- Apply the locally tested dropped/underpriced recovery runbook in hosted operations.
-  Ambiguous broadcasts remain unresolved; immutable bytes/hash/nonce are retained.
-- Deploy and enable the implemented private RPC/heartbeat/job/broadcast/lag health
-  checks after migration0009 and verify actual native scheduled diagnostics.
+### 6. Optional delivery and longer-term operations
 
-### 7. Complete meaningful CRE orchestration
+- [ ] Configure the optional invitation-email sender/domain and consented delivery;
+  test provider acceptance, actual mailbox delivery and immutable retries. Secure
+  links and the Home Requests inbox already work; external email is unnecessary for
+  the present submission scope.
+- [ ] Enable extended scheduled health diagnostics if needed. Basic private health,
+  queue visibility and the hosted scheduled worker already work.
+- [ ] Add encrypted remote backups, scheduled retention and an independently protected
+  recovery-key copy if longer-term operation needs them. Exact restore/encryption
+  checks already pass; remote retention is not currently claimed.
+- [ ] Continue dependency/security maintenance when compatible fixes become available.
+  Broad production-scale operating safeguards remain deferred.
 
-Workflow types, five SDK checks, WASM build and six discovery/relay/environment
-checks pass. Actual CRE CLI simulation through the hosted HTTPS adapter succeeds:
-three plans scanned, zero eligible jobs, zero stale candidates. This verifies the
-current adapter path; positive due-work receipt/notification/history orchestration
-remains pending an eligible consented plan. [CRE procedure](docs/remaining-verification.md#7-positive-cre-orchestration).
+### Docker and local tools
 
-- Run a successful actual CRE CLI simulation with positive eligible work through
-  discovery, authoritative RPC checks, durable enqueue and worker processing.
-- Trace the resulting canonical receipt into notifications and Envio history;
-  an empty scan does not demonstrate payment orchestration.
-- Verify repeated runs, stale candidates, external HTTP failure and restart recovery
-  preserve the frozen discovery batch and cannot enqueue or pay twice.
-- Document the actual cron/HTTP/RPC adapter architecture and reproducible workflow
-  configuration. Keep relay secrets and wallet/database credentials separated.
-- Retain successful simulation evidence for the CRE integration. Network deployment
-  of the CRE workflow is optional because the bounty accepts CLI simulation.
+**Judges do not need Docker, and Docker on this PC is not part of the hosted app.**
+The live frontend/API and worker run on Netlify, metadata is on Neon, indexing/GraphQL
+is on Envio Cloud, and contracts/RPC/accounts use their online testnet/provider
+services. The PC can be off while judges use https://fallbackk.netlify.app.
 
-### 8. Finish interface quality, PWA safety and integrated verification
-
-Available engineering verification passes: final full check129application/49contract
-checks,13browser journeys/accessibility/PWA checks, production build, web types/lint,
-client-secret scan, real PostgreSQL through0009, actual worker restart fixtures and
-Envio replay/rebuild. Three snapshot checks and canonical Alchemy reads verify
-reduced request counts. Current braces advisory still has no upstream patched
-release. Fresh live onboarding/funding/activation and reported role reloads pass;
-actual 375px owner core navigation passes after removing the hosting obstruction.
-Screen-reader/real-device/install and broader failure checks remain separate.
-[Quality procedure](docs/remaining-verification.md#8-interface-pwa-and-integrated-checks).
-
-- Complete authenticated mobile, keyboard, screen-reader, zoom/reflow, focus and
-  touch checks across setup, invitations, funding, pending requests and returns.
-- Refine any confusing amount, lock, limit, schedule, approval or recovery state
-  uncovered by those engineering checks. Keep technical account details optional.
-- Verify offline transitions, stale tabs and application updates preserve drafts
-  and request identity, isolate accounts and never replay money actions offline.
-- Measure authenticated loading/provider initialization and slow-network behaviour;
-  fix material delays, unnecessary RPC work and layout instability.
-- Run the full applicable checks: pnpm check, test:local-chain, chain:verify, real
-  PostgreSQL/worker/indexer tests, CRE checks, web types/lint/build, browser checks
-  and client-secret scanning. Record actual outcomes and remaining limitations.
-- Recheck upstream braces releases and replace its local guard with a verified
-  compatible security fix when one becomes available; keep its advisory visible.
-- Prepare reproducible build, migration, deployment and recovery instructions,
-  contract-source verification inputs and technical evidence for each integration.
-
-### 9. Finish hosted operating safeguards and integrated verification
-
-Local safeguards are implemented and verified: gated scheduled health monitoring,
-current13-table/141-row application restore, authenticated encryption and byte-exact
-archive recovery, historical16-table/45,851-row indexer restore with sequence reset,
-and exact explorer compiler/source/runtime inputs. Eight backup/monitor checks pass.
-Hosted migration/approved rollout/Alchemy cutover are verified, with a fresh exact
-12-table/145-row hosted backup and encrypted recovery. Focused corrections are
-deployed; remote retention, full fresh-device financial/PWA journeys and explorer
-submission remain manual/live gates. [Operating procedure](docs/remaining-verification.md#9-hosted-safeguards-and-final-rollout).
-
-- Finish the full fresh-device owner/supporter/payee financial and recovery journeys
-  on the hosted app, beyond the verified sign-in/plans/history and scheduled payment.
-- Retain the free-tier quotas and temporary indexer lifetime; keep all services
-  independent of the laptop, without enabling paid upgrades or recharge.
-- Enable health/lag/job monitoring and backup both application and indexer data with
-  appropriate encryption, retention and a verified restore procedure.
-- Verify invitation links, hosted sponsorship, payment notifications and recovery
-  together with the already verified scheduled settlement and indexed history.
-- Verify installation and update behaviour on the final HTTPS app, and execute the
-  applicable CI checks as source changes. Existing functional-source CI passes.
-- Complete authorized explorer source verification and deployment checks without
-  changing deployed bytecode or immutable settings. Record the final hosted
-  configuration, integration evidence and operating/recovery instructions.
+Docker Desktop is optional for reproducing the older local Hasura GraphQL setup:
+`infra/hasura.compose.yaml` runs Hasura plus its PostgreSQL metadata container;
+`scripts/graphql-local.ts` manages that project-owned environment. Keep Docker if you
+want those local development/debugging tests. You can quit it during judging. Its
+local volumes are development data, not the hosted Neon/Envio state; uninstalling or
+deleting volumes is unnecessary for submission.

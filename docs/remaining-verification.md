@@ -2,8 +2,9 @@
 
 The latest scope prioritizes reliable judge use and a few testers. These nine
 procedures retain the broader verification backlog; their entire completion is not
-a submission prerequisite. Use the submission target in progress.md to select the
-essential hosted journeys. Optional invitation delivery, future original-plan
+a submission prerequisite. These procedures belong to progress.md's Secondary
+section; its Primary section holds functional submission/bounty work. Optional
+invitation delivery, future original-plan
 installments, extensive failure campaigns and scheduled remote backup retention
 can remain explicitly deferred. CRE/Alchemy evidence depends on the bounties
 actually pursued and the current official requirements.

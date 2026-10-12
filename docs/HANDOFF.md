@@ -3,8 +3,11 @@
 ## Scope, authorization and source
 
 The user wants reliable hosted judge use for a few testers, not completion of every
-production-oriented item in the nine-section backlog. Prioritize progress.md's
-submission target. Optional invitation email, extended hosted failure campaigns,
+production-oriented item in the nine-section backlog. The latest user requests two
+remaining-work sections in progress.md: Primary for functional submission/bounty
+work, Secondary for proofs, verification and optional hardening. Prioritize Primary;
+do not move receipt/test tasks there merely because they can strengthen a bounty.
+Optional invitation email, extended hosted failure campaigns,
 remote scheduled backup retention and the original future installments are deferred.
 Preserve financial correctness, account isolation and immutable consented terms.
 Single writer, no subagents. Account contacts, credentials and raw rows stay private.
@@ -129,6 +132,22 @@ source inputs match deployed runtimes; source publication remains pending.
    email, remote retention and extensive live failure/device campaigns are deferred.
 4. Keep docs synchronized; do not call every live item complete or guarantee no failure.
 
-Graphify was optional for this release and was not refreshed. Prior local code-only
-graph is navigation with disclosed Solidity/SQL parser gaps and self-loops. Actual
-source, financial and database checks are authoritative.
+## Latest documentation and Graphify refresh
+
+Reorganized progress.md into the two requested remaining-work sections. Core feature
+gaps are not invented: the primary list covers judging availability, meaningful CRE
+execution, sponsor entries and main submission materials. All receipt/recovery/
+device/CLI proof work is secondary. README and architecture now explain the hosted
+stack and optional local Docker Hasura environment. Docker need not run for judges;
+no Docker process, volume, provider setting or deployed application changed.
+
+Used the project Graphify skill and existing 0.9.79 wrapper. Code-only/one-worker
+extraction and cluster-only --no-label regenerate JSON/report/HTML: 876 nodes,
+2157 edges, 59 communities, zero model tokens. 35 files re-extracted/157 unchanged.
+179 code-corpus files include 148 represented source files, with no out-of-scope
+source; eight Solidity/ten SQL files lack optional parsers and thirteen data/config
+JSON files have no nodes. Four pre-existing self-loops remain; no missing/dangling/
+collapsed endpoints. The new operationalQueue function is present. Markdown changes
+are outside this intentionally code-only graph. No hooks, uploads or global settings.
+Actual source, financial and database checks remain authoritative. Latest docs and
+ignored graph artifacts are local; application tests were not rerun for doc edits.

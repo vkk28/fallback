@@ -1,8 +1,12 @@
 # Architecture and trust boundaries
 
-Fallback runs locally as a Next.js PWA/API, PostgreSQL metadata/job store, Envio read
-model and independent permissionless worker. Contracts are deployed on Monad testnet
-10143. FBTEST is a six-decimal unrestricted-mint test asset with no real value.
+The hosted Fallback demo runs as a Next.js PWA/API and bounded scheduled worker on
+Netlify, a PostgreSQL metadata/job store on Neon and an Envio Cloud read model/GraphQL
+service. Its operation does not depend on the owner's PC or Docker. Local development
+tools include an optional Docker-based Hasura/metadata setup; they remain separate
+from hosted state. Contracts are deployed on Monad Testnet 10143. FBTEST is a
+six-decimal unrestricted-mint test asset with no real value. Current release/evidence
+status is in HANDOFF.md; older local checkpoints below describe their recorded scope.
 
 ## Contracts and current state
 

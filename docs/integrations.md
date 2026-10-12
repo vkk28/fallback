@@ -1,5 +1,21 @@
 # Integration evidence — 2026-10-09
 
+## 13 October — submission priorities clarified without new integration claims
+
+Primary remaining work now covers actual useful CRE execution, sponsor/main entry
+materials and hosted judging availability; technical proof/recovery/device/operating
+checks are Secondary. Privy, Envio and Alchemy's already implemented capabilities
+are retained, not relisted as missing features. Portal requirement references retain
+their 11 October authenticated inspection date; public web access could not refresh
+those signed-in pages in this documentation task. No completed bounty claim is added.
+
+Direct source/Compose inspection confirms Docker is local development tooling only.
+The hosted Netlify worker/API uses configured Neon/RPC, and hosted Envio supplies the
+read model; this does not require local Docker. Local code-only Graphify is refreshed
+but provides no new provider/payment evidence. No live service/configuration,
+financial operation, sender or competition entry changed. Prior actual integration
+results keep their original observation dates and limitations.
+
 ## 13 October — corrective release, real funding and responsive navigation
 
 Production application source 5d68f55 publishes at 21:41:25 UTC 12 October; exact

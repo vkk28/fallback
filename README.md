@@ -4,13 +4,16 @@ A mobile-first PWA for temporary family backup of recurring payments to a consen
 person. The contract spends the recipient's allocated money first, uses only agreed
 backup, pays complete installments and independently refunds unused contributions.
 
-The consumer app/backend, Envio handlers and independent worker are implemented.
-Contracts are deployed and verified against compiled runtime on Monad testnet.
-FBTEST has six decimals and **no real value**. Sponsored three-role consent/funding and
-recipient activation are verified:250 own/300 frozen backup. Open withdrawals, active top-up/ending/returns and historical indexed accounting
-are verified in separate live cases. Scheduled conditional-payment proof and durable
-full-app hosting remain open. Actual private GraphQL and authorized scheduler-only
-HTTPS CRE CLI simulation pass; positive CRE due-work evidence remains open. Accurate status:
+The live app is [fallbackk.netlify.app](https://fallbackk.netlify.app). Netlify hosts
+the frontend/API and scheduled worker, Neon holds metadata, and Envio Cloud provides
+indexed history/GraphQL. Judges do not need the owner's PC or Docker running.
+Contracts are deployed and checked against compiled runtime on Monad Testnet.
+FBTEST has six decimals and **no real value**. Fresh onboarding, three-role consent,
+exact funding and activation work; an actual 150 FBTEST own-funded hosted payment
+and separate end/return cases are verified. The fresh 10 FBTEST backup-funded case
+is active and due 14 October 2026 at 09:00 IST; its payment is not yet claimed.
+The CRE workflow uses the hosted HTTPS adapter; positive useful execution remains
+open. Current primary submission/bounty work and secondary checks are separated in
 [progress.md](progress.md) and [docs/HANDOFF.md](docs/HANDOFF.md).
 
 ## Local development
@@ -79,18 +82,20 @@ for live history. `pnpm worker` requires a funded dedicated testnet signer; the
 contracts limit it to permissionless fixed-destination actions. Read operational
 steps in [docs/operations.md](docs/operations.md).
 
-Local GraphQL/reader verification and actual Hasura runtime now work with user-installed
-Docker Desktop. Run graphql:prepare / graphql:verify-reader / graphql:status;
-graphql:stop/start preserve metadata volume and the existing indexer.
+Docker Desktop is optional for the local GraphQL/Hasura development environment,
+not a dependency of the hosted app. For those local checks, run graphql:prepare /
+graphql:verify-reader / graphql:status; graphql:stop/start preserve the local metadata
+volume and indexer data. Docker can be closed while judges use the online app.
 Secrets are generated in ignored mode600 files; app GraphQL is enabled only after a
 real query. CRE simulation requires login plus an explicitly authorized HTTPS origin;
-the cre:simulate helper passes only the relay credential. User-authorized temporary
-scheduler-only HTTPS and actual default-limit simulation pass; full app/DB/source stay
-local, and no paid receipt/workflow deployment is inferred. See provider-setup for exact steps.
+the cre:simulate helper passes only the relay credential. The current configuration
+uses the hosted adapter; earlier temporary tunnel checks are historical. No positive
+payment/workflow deployment is inferred from an empty simulation. See provider-setup.
 
 Contracts/source manifest: `packages/chain/deployments/monad-testnet.json`.
 Architecture/custody: `docs/architecture.md`. Accounting: `docs/state-machine.md`.
 Actual commands and limits: `docs/test-report.md`, `docs/evidence/`.
 Sponsor code/proofs: `docs/integrations.md`. Project-only tooling: `docs/tooling.md`.
 No production readiness, independent audit, fiat settlement or bounty completion is
-asserted. No hosted source upload, purchase or competition submission has occurred.
+asserted. The existing public repository/free hosting release is authorized and live;
+no competition entry or paid upgrade has been submitted.
