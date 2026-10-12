@@ -285,13 +285,20 @@
 
 ## Hackathon submission target
 
-Execution status: fresh local application/contract/lifecycle/worker/browser/build
-checks pass. A new hosted snapshot restores12tables/145rows exactly and its encrypted
-recovery passes. Hosted heartbeat migration0009 and restricted grants are verified.
-The private Alchemy URL is saved as a Netlify secret, preserving existing credentials
-and scheduling. The source rollout and actual runtime/provider/read reliability
-checks remain pending. The user has prepared a fresh account for the live invitation
-test; its claim and complete role journey are not yet verified.
+Execution status (13 October): release 66f5e9f is live on the existing free Netlify
+app and its exact GitHub CI passes. Hosted health confirms database/RPC/Alchemy/
+sponsorship readiness. A fresh hosted snapshot restores 12 tables/145 rows exactly;
+encrypted recovery, migration 0009 and restricted grants are verified. A real updated
+scheduled worker heartbeat succeeds. The operational queue query exposed a real
+driver timestamp defect; its small correction and clearer draft message pass
+real PostgreSQL, web types/lint/build and 13 isolated browser checks, with corrective
+rollout still pending. Fresh hosted Home/plan reliability still needs repeated checks.
+
+A genuinely new account signs in, joins an email-bound Home request and remains
+bound after owner reload. The human proposes and accepts terms; owner publication
+confirms onchain for a separate one-payment 10 FBTEST case. Supporter invitation is
+accepted without email delivery. Funding/activation/new payment remain pending;
+shared-link sign-in return has not been observed in this case.
 
 The latest user scope is a reliable hosted app for judges and a few testers, without
 production-scale operations. The nine sections below retain the broader engineering
@@ -311,8 +318,8 @@ Prioritize these checks on the actual hosted release:
   and December installments. New demo terms require fresh role consent.
 - Home and plan reads work reliably, and phone/desktop navigation and basic
   keyboard/reload/offline behaviour do not obstruct those journeys. Chrome
-  inspection currently finds intermittent unavailable chain information; fix and
-  verify that before describing the hosted app as judge-ready.
+  inspection before rollout found intermittent unavailable chain information;
+  recheck the updated hosted release before describing it as judge-ready.
 - Review and test the chosen source revision, take a fresh hosted backup before
   any migration, roll out the needed fixes, and recheck the actual app/worker/history.
   Confirm free-service capacity and indexer availability through judging.
@@ -348,10 +355,11 @@ product verification and operating safeguards beyond the verified demo.
 
 ### 1. Finish secure invitations and new-person onboarding
 
-Local engineering verified: sender readiness now uses the same strict HTTPS-origin
-validation as encrypted outbox preparation; all 12 invitation tests pass. Live
-new-account sign-in and consented provider delivery remain pending on accounts and
-private sender configuration. Follow [the manual procedure](docs/remaining-verification.md#1-new-person-invitation-and-optional-email).
+Local engineering verified: sender readiness uses the same strict HTTPS-origin
+validation as encrypted outbox preparation; all 12 invitation tests pass. Fresh
+hosted email sign-in/inbox claim and canonical account binding now pass; shared-link
+sign-in return and optional provider delivery remain separate. Follow
+[the manual procedure](docs/remaining-verification.md#1-new-person-invitation-and-optional-email).
 
 - Verify the implemented address-free flow with an actual newly created Privy account:
   email sign-in, invitation return, review and one-time canonical-account claim.
@@ -373,8 +381,9 @@ Four controlled transport tests and source typechecking pass. Actual public-RPC
 chain/runtime/token/factory verification passes at block 70368511. Alchemy-specific
 configuration is now supplied privately by the user. Alchemy chain/runtime/immutables
 verification passes at block70373447; actual same-block plan snapshots and preserved
-payment receipt reconciliation also pass through that provider. Hosted RPC cutover
-remains pending; [setup procedure](docs/remaining-verification.md#2-alchemy-rpc).
+payment receipt reconciliation also pass through that provider. Hosted release
+66f5e9f confirms Alchemy selection and actual RPC access; repeated UI reliability
+checks remain. [Setup procedure](docs/remaining-verification.md#2-alchemy-rpc).
 
 - Apply the verified private Alchemy Monad Testnet endpoint to the hosted server
   for plan reads, receipt reconciliation and worker chain access.
@@ -432,7 +441,7 @@ fallback, invalid-watermark handling, canonical/orphaned/unavailable notificatio
 states and idempotent restoration after re-mining. Sixteen focused checks and source
 types pass. Actual hosted history reconciles all three plans and 23 canonical events;
 the new reader measures a four-block lag against a fresh RPC head. Updated source is
-local; hosted rollout, fresh live events and live restart checks remain pending.
+deployed in release 66f5e9f; fresh live event/UI and live restart checks remain.
 
 - Follow the new funding, payment, missed-installment, closure and return events
   through Envio into the application timeline and supporter accounting.
@@ -453,8 +462,9 @@ Local engineering verified: stale job leases and heartbeat completions cannot
 overwrite newer state; unresolved signed transactions back off without changing
 bytes/hash/nonce. Twelve focused worker/operations checks and actual Anvil settlement
 with three SQL reopenings pass. Added migration0009 and private aggregate health
-endpoint/runbook. Hosted migration/rollout, interruption verification and monitoring
-activation remain pending; [worker procedure](docs/remaining-verification.md#6-worker-and-operations).
+endpoint/runbook. Hosted migration/rollout and actual updated heartbeat are verified.
+Queue timestamp correction rollout, extended interruption checks and monitoring
+activation remain; [worker procedure](docs/remaining-verification.md#6-worker-and-operations).
 
 - Extend the verified first hosted due-work delivery with live interruption/restart
   cases, preserving exact transaction bytes, hashes, nonce reservations and job identities.
@@ -516,9 +526,10 @@ Local safeguards are implemented and verified: gated scheduled health monitoring
 current13-table/141-row application restore, authenticated encryption and byte-exact
 archive recovery, historical16-table/45,851-row indexer restore with sequence reset,
 and exact explorer compiler/source/runtime inputs. Eight backup/monitor checks pass.
-Hosted migration/rollout/Alchemy cutover, remote storage/scheduling/retention,
-fresh-device financial/PWA journeys and explorer submission remain manual/live
-gates. [Operating and rollout procedure](docs/remaining-verification.md#9-hosted-safeguards-and-final-rollout).
+Hosted migration/approved rollout/Alchemy cutover are verified, with a fresh exact
+12-table/145-row hosted backup and encrypted recovery. Focused corrections await
+rollout; remote retention, full fresh-device financial/PWA journeys and explorer
+submission remain manual/live gates. [Operating procedure](docs/remaining-verification.md#9-hosted-safeguards-and-final-rollout).
 
 - Finish the full fresh-device owner/supporter/payee financial and recovery journeys
   on the hosted app, beyond the verified sign-in/plans/history and scheduled payment.

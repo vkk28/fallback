@@ -38,8 +38,11 @@ the displayed retry time; never replace an ambiguous send just to retry immediat
 A terminal failure/23-hour retry cutoff requires explicit invitation replacement.
 Do not provoke failures by contacting unrelated people or changing a verified sender.
 
-Current dependency: no email provider key/sender/encryption key/origin is configured
-locally; no live email or newly created account result is claimed.
+Current result (13 October): human fresh email sign-in, email-bound Home claim,
+canonical binding and owner reload persistence are verified. Fresh proposal,
+acceptance and publication confirm onchain. Shared-link sign-in return is still a
+separate check. Optional sender/key/consented delivery remains unconfigured; no
+external invitation email sent.
 
 ## 2. Alchemy RPC
 
@@ -52,8 +55,9 @@ Run `pnpm chain:verify`, `pnpm verify:live-actions` and `pnpm verify:indexer-liv
 Record chain/runtime/immutables, canonical receipts, and dashboard method counts
 for the matching verification period as evidence of actual Alchemy requests.
 Use local controlled transport tests for timeouts/429/503; do not exhaust live quotas.
-Local Alchemy URL is now privately configured and verified. Hosted server cutover
-and its provider-specific verification remain pending.
+Private Alchemy URL is verified locally and adopted by hosted release 66f5e9f.
+Hosted health confirms alchemyConfigured and rpcReady. Repeat actual Home/plan reads
+and new-action receipt reconciliation before claiming full judge readiness.
 
 ## 3. Accounts and transaction recovery
 

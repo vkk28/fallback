@@ -1,5 +1,21 @@
 # Actual tooling — 2026-10-09
 
+## 13 October — live release and actual-driver correction
+
+Scoped Netlify SDK and GitHub checks confirm approved release 66f5e9f is published
+and exact CI succeeds. Private runtime checks verify Alchemy/RPC readiness and actual
+hosted heartbeat. A raw-SQL Date parameter fails in the actual postgres.js driver;
+ISO text with a timestamptz cast succeeds. Added real PostgreSQL checks for before/
+exact/after overdue boundaries. Targeted operational tests, types, lint, production
+build, client scan and 13 isolated browser checks pass on the correction. One browser
+attempt failed with the owned local database stopped; restarting only that database
+and rerunning passes. Old local application/worker remain stopped.
+
+Chrome/CUA observes new-account email-bound membership, accepted terms and confirmed
+publication. Account holder completes all authorization prompts. Optional invitation
+sender remains disabled. Private contact/screenshot artifacts are ignored; no new
+dependency, subagent, Graphify refresh, global setting or fabricated receipt.
+
 ## 12 October — submission release verification and provider controls
 
 Used one writer, direct source/diff review, pinned Node24/pnpm, full checks, disposable

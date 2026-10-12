@@ -1,146 +1,120 @@
-# Fallback handoff — 12 October 2026, Asia/Kolkata
+# Fallback handoff — 13 October 2026, Asia/Kolkata
 
-## Task, authorization and source
+## Scope, authorization and source
 
-Latest user scope supersedes completing all nine backlog sections as a submission
-gate: make the hosted app reliable for judges and a few testers, without
-production-scale operations. User authorizes Chrome verification and confirms three
-prepared owner/supporter/payee sessions. Available local work across all nine is
-implemented; manual/live/time-dependent gates remain explicitly pending. Prioritize
-progress.md's submission target. Account emails/keys/raw rows are not in tracked
-docs. No subagents; single writer.
+The user wants reliable hosted judge use for a few testers, not completion of every
+production-oriented item in the nine-section backlog. Prioritize progress.md's
+submission target. Optional invitation email, extended hosted failure campaigns,
+remote scheduled backup retention and the original future installments are deferred.
+Preserve financial correctness, account isolation and immutable consented terms.
+Single writer, no subagents. Account contacts, credentials and raw rows stay private.
 
-User now requests execution of the major submission issues, clear manual steps when
-needed, and continued independent work while they complete those steps. A fresh
-account is reported ready; its invitation claim and resulting role still need live
-verification. Existing authorization covers the selected public repository/free
-Netlify/Neon testnet deployment. No paid service, new recipient email or mainnet work.
+The user explicitly approved pushing release 66f5e9f (including 66e0441) to the
+existing public vkk28/fallback main branch and deploying the existing free Netlify
+app, overriding the local-only restriction for that release. Publication completed.
+Branch codex/source-stabilization has HEAD 66f5e9f. Netlify production is ready on
+that exact source; GitHub CI run 38279978230 succeeds. Public app:
+https://fallbackk.netlify.app. No competition entry, paid upgrade or mainnet work.
 
-Current release preparation: pnpm check129app/49contract, actual local-chain lifecycle,
-worker settlement/recovery through three SQL restarts,13browser checks in a disposable
-DB, web types/lint/build and client/source scans pass. Optimized Alchemy reads match
-independent same-block values:6snapshot/4summary requests,591ms/331ms at one observation.
-Fresh chain verification passes10143/block70440116. A credential-free alchemyConfigured
-health flag is added for runtime verification; final rebuild is in progress.
+Three small follow-up changes remain local: serialize operational queue timestamps
+as ISO text with an explicit SQL cast; add its real PostgreSQL regression; explain
+that draft money can be reserved after creation. Targeted checks, real-driver
+verification, web types/lint/build and 13 browser checks pass. Prepare a reviewed,
+scanned corrective commit and verify its actual hosted rollout.
 
-Fresh hosted snapshot verifies12tables/145rows in an isolated local restore and
-authenticated encrypted recovery. This host cannot connect to Neon's TCP/HTTPS SQL
-endpoint; its signed-in project SQL console succeeds. Single-statement read-only
-export stays private, including moving the new download into ignored storage.
-Migration0009 commits through that console; fresh readback confirms the table,
-migration hash and SELECT/INSERT/UPDATE grant, with request DELETE/schema CREATE
-still blocked. Netlify accepts the verified Alchemy URL as a secret and preserves
-the database, signer, invitation keys and enabled worker. Secret API values are
-masked by design. Runtime cutover still requires the pending source deployment.
+## Verified release and hosted state
 
-Fresh read-only Chrome inspection verifies owner Home/active plan and actual
-payment/return Activity, but Home and plan reads intermittently show unavailable
-chain information. The native browser also confirms another account is connected;
-its role journey is not yet verified. Browser-profile tool coverage is inconsistent
-despite the user's three prepared sessions. Do not treat that as missing user
-sign-in or reset their accounts. Fresh configured Alchemy chain:verify passes
-at block70431696, with token/factory runtime and immutable checks. This does not
-prove the hosted RPC cutover or resolve its intermittent read failures.
-Public hosted health flags are all true, which is separate from complete plan-read
-reliability. Native navigation of the other connected account remained inconclusive;
-its original landing URL was restored. Source scan246files/9secrets and diff
-whitespace checks pass for this documentation-only scope update.
+- pnpm check passes 129 application/49 contract checks. Actual local-chain lifecycle,
+  cap/top-up/expiry/rounding/returns and worker races pass. Actual worker settlement
+  and interruption recovery pass through three SQL restarts.
+- Real PostgreSQL through 0009 and heartbeat fencing, 13 isolated browser checks,
+  web types/lint/build and source/client secret scans pass. Existing optional Privy
+  Farcaster/Solana and viem Tempo build warnings remain; no audit claim.
+- Fresh chain:verify passes 10143/token/factory runtimes and immutables at 70440116.
+  Actual Alchemy snapshots match independent same-block reads with 6 snapshot and
+  4 summary requests, 591ms/331ms at one observation; not a loading benchmark.
+- Private hosted snapshot restores 12 tables/145 rows exactly in an isolated DB;
+  authenticated encrypted byte recovery passes. Direct Neon TCP/HTTPS SQL from this
+  host times out; its scoped signed-in SQL console succeeds. Exports/backups stay
+  ignored. Migration 0009 and restricted grants are applied and freshly verified;
+  request DELETE and schema CREATE remain denied.
+- Hosted health confirms databaseReady/rpcReady/alchemyConfigured/sponsorshipEnabled
+  true on 66f5e9f. Alchemy is a server secret; masked Netlify readback is expected.
+  Existing signer/database/invitation credentials are preserved.
+- Actual updated hosted heartbeat succeeds at 17:01 UTC 12 October. Private health
+  measures indexer lag 2 blocks but reports QUEUE_UNAVAILABLE: raw SQL Date binding
+  fails in postgres.js. The local correction fixes this actual driver defect.
+  HEALTH_MONITOR_ENABLED stays false pending corrected rollout.
 
-Branch codex/source-stabilization; HEAD01c36c3, published functional source978c44e.
-Substantial source/tests/migration/docs changes are uncommitted and unpublished.
-Keep changes local and Monad Testnet only. Preserve consented terms, request/job/
-nonce identities, exact grace, own-money-first full payments, plan separation,
-frozen supporter weights, independent returns and conservation. No new user
-financial signature/submission, email, paid resource or contract mutation occurred.
+Netlify Free serves Next.js/API plus an authenticated 15-minute trigger and bounded
+background worker. HOSTED_WORKER_ENABLED=true. Neon Free holds metadata using the
+limited application role and TLS. Envio's sole Development 978c44e release remains
+unchanged with automatic releases disabled. Its temporary up-to-30-day lifetime and
+free quotas must cover judging. No extra account/sponsorship stack is installed.
 
-## Implemented and verified locally
+Do not restart the old local web/worker against its independent metadata journal.
+Only the owned loopback database was restarted for disposable regression checks.
+A failed browser attempt while that DB was stopped was rerun successfully after
+restart; it is not evidence of an application defect. Temporary test DBs/server are
+cleaned by their harness. Retain the dedicated signer and exact broadcast journal.
 
-- Invitation readiness shares the strict clean HTTPS origin check with encrypted
-  preparation. Sender credentials/recipient consent and live new-person claim remain
-  absent. Existing three account connections are ready, not a new-account claim proof.
-- Shared server/worker RPC transport bounds timeouts/retries and rejects redirects,
-  remote plaintext and credential-bearing authority. User-saved Alchemy Testnet
-  verifies10143, deployed token/factory runtime/immutables, plan reads and the
-  preserved hosted payment receipt. No extra account/sponsorship stack.
-- Verified Monad Multicall3 snapshots pin all fields/outcomes to one block and fail
-  as a whole. Actual Alchemy snapshot6requests/641ms and summary4requests/422ms match
-  independent same-block accounting at that observation.
-- All38preserved confirmed account requests match provider wallet/sponsorship and
-  canonical expected events. Zero unresolved local requests;39request IDs unchanged.
-  Current verifier reflects original own100/reserve300/paid150/used0 FBTEST and
-  outcomes[Paid,Pending,Pending]; completed A/B have zero attributed claims.
-- Hosted Envio chain_metadata reader verifies measured coverage. Three hosted plans
-  and23canonical plan events reconcile; measured lag4blocks at the recorded check.
-  Actor-scoped receipt notifications distinguish canonical/orphaned/unavailable,
-  restore re-mined events without duplication, and reopen orphaned confirmed requests.
-- Worker lease/row locks fence stale completion/preparation. Pending broadcasts
-  retain exact bytes/hash/nonce and back off5seconds to5minutes. There is no fee
-  replacement or nonce clearing. Migration0009 adds owned-cycle heartbeat; applied
-  to the retained local DB only. Private scheduler/operations exposes aggregate
-  RPC/lag/heartbeat/job diagnostics; HEALTH_MONITOR_ENABLED gates scheduled checks.
-- CRE config now uses the existing hosted HTTPS API. Types/SDK/build and actual CLI
-  simulation pass3scanned/0accepted/0stale. Relay secret only is forwarded. Positive
-  due-work orchestration is still pending; no native CRE Monad write is claimed.
-- Local application backup restores13tables/141rows exactly. AES-GCM authenticated
-  bundle verifies byte-exact recovery. Historical indexer export restores16tables/
-  45,851rows and one serial sequence into an isolated DB without ingestion. Numeric
-  safety, binary binding and full-precision SQL timestamp differences are handled.
-- Explorer standard JSON/source hashes/compiler0.8.30+cancun/optimizer200 reproduce
-  all three runtime artifacts. Inputs/constructor arguments are private generated
-  artifacts; explorer publication is pending. Backup key is private in .env and
-  needs an independent protected recovery copy.
+## Fresh hosted onboarding case
 
-## Actual hosted state and ownership
+New plan label: Judge onboarding test. Terms: one 10 FBTEST payment due 14 October
+2026, 09:00 Asia/Calcutta; 7-day interval; 48-hour grace; funding deadline 13 October
+09:00; reserve minimum/maximum 10; per-payment backup 10 and 100% coverage. Original
+plans remain unchanged; live time is not fast-forwarded.
 
-Netlify Free fallbackk.netlify.app serves Next.js/API, authenticated background
-worker and15minute trigger. Neon Free holds the preserved12-table/141-row cutover
-snapshot with a limited application role and certificate-validated TLS. Envio's
-sole Development978c44e release uses HyperSync/shared handlers; automatic releases
-are disabled. Free quotas and temporary up-to30day indexer lifetime remain.
-Current source deployment is pending. Heartbeat migration is now applied and the
-Alchemy URL is saved as a secret; the old hosted runtime has not adopted it yet.
-Monitoring remains disabled pending a verified updated batch. Do not restart the old local web/worker
-against its independent state store. Retain the existing dedicated signer/journal.
-Global Netlify CLI identity is unrelated; use only the project-owned private auth.
+The human completed fresh Privy email sign-in. A verified-email-bound invitation
+replaced an unused private link, with optional email sending disabled. The human
+joined through Home Requests; canonical embedded account binding matches the actual
+verified identity and accepted membership survives owner reload. This proves fresh
+email/inbox claiming; shared-link sign-in return remains separate verification.
+The human proposed terms and the owner UI confirmed onchain. The fresh payee then
+accepted; owner reload shows Payment acceptance done. Human publication then
+confirms onchain and live balances show zero allocation/reserve. Existing supporter
+joins an email-bound request; owner invitation status confirms accepted. Human
+exact 10 FBTEST deposit-permission handoff is pending. Deposit/activation/new payment
+are not yet claimed. No external email sent.
 
-The original first installment's canonical receipt remains150FBTEST own/0backup,
-complete immutable-payee transfer inside its exact window. Its remaining immutable
-30day dues are11November and11December2026,03:48IST, with48hour windows. Future
-outcomes cannot be verified early and exceed the temporary demo indexer's lifetime.
-Use separate freshly consented cases for earlier positive testing.
+Private screenshots and role contacts are ignored. Browser tool exposes the owner
+profile; other signed-in roles use exact human instructions. Signing confirmations
+remain with the human. Reconcile unresolved requests before a fresh attempt.
 
-## Actual checks and limitations
+## Existing payment, history and scheduling
 
-Final pnpm check passes129app/49contract checks. Actual local-chain lifecycle and
-persistent worker/Anvil interruption/reopen tests pass. Real PostgreSQL through0009
-and heartbeat fencing passes. Envio replay/rebuild and disposable-chain reorg rollback
-pass; production codegen/types restored. Owned local indexer restart verifier fails
-preflight because no marker-owned indexer is running; no new restart pass is claimed.
-Web types/lint/build,13browser checks and source/client-secret scans pass. Build has
-existing optional Privy Farcaster/viem Tempo warnings. Braces advisory still has no
-upstream patched release; tested development guard remains. No audit claim.
+Original hosted installment remains a verified canonical 150 FBTEST complete
+payment: 150 own/0 backup, immutable payee and exact window. Remaining original dues
+are 11 November and 11 December 2026, 03:48 IST with 48-hour windows. Future outcomes
+cannot be verified early and exceed the temporary indexer's lifetime.
 
-Browser checks use a disposable DB/isolated UI contexts. Native Chrome/user screenshot
-confirms three connected accounts; tab tooling exposes one profile and native
-navigation is inconsistent. Requested375px override remained1440px; authenticated
-phone/screen-reader/fresh-device flows are not claimed. Public/fixture responsive
-checks cover320–1440px. Private evidence remains ignored under docs/evidence/.tools.
+Deployed app includes same-block optimized reads, verified hosted chain_metadata
+watermark reader, actor-scoped canonical/orphaned/unavailable receipt notifications
+and persistent worker lease/heartbeat fences. Before rollout, three existing plans/
+23 canonical events reconciled and 38 confirmed user requests matched provider
+sponsorship/expected events. All 39 request identities were preserved. Fresh hosted
+UI read reliability and history still need rechecking.
 
-## Next concrete gates
+CRE SDK/type/build and actual CLI simulation pass 3 scanned/0 accepted/0 stale.
+Positive due-work orchestration is pending; independent worker provides ordinary
+liveness. The HTTP/RPC adapter is not a native CRE Monad write. Explorer compiler/
+source inputs match deployed runtimes; source publication remains pending.
 
-Prioritize reliable hosted RPC/plan reads and a tested rollout of necessary local
-fixes, with a fresh hosted backup before migration0009. Then verify new-person shared
-invitations and ordinary owner/supporter/payee financial/reload/return journeys,
-real family-backup payment evidence and useful history, and phone/desktop usability.
-Recheck actual scheduling and free-tier/indexer availability through judging. Positive
-CRE work and hosted Alchemy evidence matter when claiming those integrations.
-Use docs/remaining-verification.md for the selected procedures. Optional invitation
-email, waiting for the original November/December installments, extended live
-failure campaigns and scheduled remote backup retention are deferred backlog.
-Keep the sole indexer release and all free tiers; this assessment performs no
-deployment, migration, new consent, payment, email or competition submission.
+## Next steps
 
-Graphify is local0.9.79, code-only/one AST worker, no-label clustering. Latest refresh
-covers changed source; Solidity/SQL parser gaps and self-loops remain disclosed in
-tooling.md. Graph is navigation, never contract safety evidence. Clean up only owned
-verification processes/databases; persistent application/indexer data stays intact.
+1. Complete human owner creation, supporter invitation, separate exact approval/
+   deposit and owner activation for the fresh case; verify receipts and role reloads.
+   Never sign for the user or duplicate an ambiguous request.
+2. Commit/roll out the three verified corrections with truthful docs, verify exact
+   deploy/CI and operational queue, and repeat Home/plan/history reads.
+3. Verify phone/desktop usability where tools permit. A previous 375px override
+   stayed 1440px; no authenticated phone-width pass is claimed. Automated public/
+   fixture 320–1440px checks pass.
+4. Record actual backup-funded payment/history when due. Positive CRE evidence
+   matters for that bounty, not the existing independent worker.
+5. Keep progress, decisions, tooling and integration evidence synchronized. Do not
+   call every live item complete or promise nothing can ever fail.
+
+Graphify was optional for this release and was not refreshed. Prior local code-only
+graph is navigation with disclosed Solidity/SQL parser gaps and self-loops. Actual
+source, financial and database checks are authoritative.

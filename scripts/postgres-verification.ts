@@ -16,6 +16,7 @@ import { idempotent, rateLimit } from '../packages/backend/src/security.js';
 import { enqueue, takeJob, processOne, type Gateway } from '../apps/worker/src/jobs.js';
 import { discoveryBatch, enqueueDiscoveryBatch } from '../apps/worker/src/discovery.js';
 import { beginWorkerCycle, finishWorkerCycle } from '../apps/worker/src/heartbeat.js';
+import { operationalQueue } from '../packages/backend/src/operations.js';
 const configured = process.env.DATABASE_URL;
 if (!configured) throw new Error('Local database not configured');
 const url = new URL(configured);
@@ -158,7 +159,14 @@ try {
   await finishWorkerCycle(db, 'hosted', newRun, true, heartbeatAt);
   assert.equal((await db.query.workerHeartbeat.findFirst())?.runId, newRun);
   assert.equal((await db.query.workerHeartbeat.findFirst())?.status, 'succeeded');
+  const diagnosticAt = new Date('2000-01-01T00:00:00.000Z');
+  for (const [name, offset] of [['before', -1], ['at', 0], ['after', 1]] as const) {
+    await db.insert(schema.jobs).values({ id: `operational-${name}-fixture`, chainId: 31337, plan: owner.address, installment: 0, action: 'settleNext', status: 'queued', nextAttempt: new Date(diagnosticAt.getTime() + offset) });
+  }
+  const queue = await operationalQueue(db, diagnosticAt);
+  assert.equal(queue.find(group => group.status === 'queued')?.overdue, 1);
+  assert.equal(queue.reduce((sum, group) => sum + group.count, 0), (await db.select().from(schema.jobs)).length);
   const version = await client`SELECT version()`;
-  await writeFile('docs/evidence/postgres-verification.json', JSON.stringify({ runtime: String(version[0]?.version), migrations: 'passed through 0009', heartbeatFencing: 'stale completion cannot overwrite a newer run', secureInvitationRaces: 'one first-time canonical claimant; one replacement; accept/revoke and accept/decline serialize to one terminal outcome', deliveryFixture: 'controlled local HTTP with lost response and three concurrent retries: one immutable message/provider key, two HTTP calls, one accepted result; no real email sent', privateSetupRace: 'one revision-zero save wins; stale competing save rejected', inboxAcceptanceRace: 'one authenticated acceptance wins without a usable invitation token', rateWindow: 'passed: reject excess and reset at boundary with actual driver', concurrentIdempotency: 'one mutation', invitationRace: 'one acceptance', leaseRace: 'one lease', nonceReservationRace: 'two concurrent jobs reserve separate nonces before broadcast; lost-response retries never resign', discoveryRace: 'three observers share one frozen batch; three submissions inspect/enqueue/advance once with identical acknowledgements', privacyFixtures: 'locally generated identities, not live Privy sessions', observedAt: new Date().toISOString() }, null, 2));
-  console.log('Real PostgreSQL verified: migrations through 0009, first-time claims/replacement/revocation/decline races, rate windows, idempotency, lease/nonce, discovery races and heartbeat fencing.');
+  await writeFile('docs/evidence/postgres-verification.json', JSON.stringify({ runtime: String(version[0]?.version), migrations: 'passed through 0009', heartbeatFencing: 'stale completion cannot overwrite a newer run', operationalQueue: 'real driver ISO timestamp binding; only strictly earlier queued/submitted attempts are overdue', secureInvitationRaces: 'one first-time canonical claimant; one replacement; accept/revoke and accept/decline serialize to one terminal outcome', deliveryFixture: 'controlled local HTTP with lost response and three concurrent retries: one immutable message/provider key, two HTTP calls, one accepted result; no real email sent', privateSetupRace: 'one revision-zero save wins; stale competing save rejected', inboxAcceptanceRace: 'one authenticated acceptance wins without a usable invitation token', rateWindow: 'passed: reject excess and reset at boundary with actual driver', concurrentIdempotency: 'one mutation', invitationRace: 'one acceptance', leaseRace: 'one lease', nonceReservationRace: 'two concurrent jobs reserve separate nonces before broadcast; lost-response retries never resign', discoveryRace: 'three observers share one frozen batch; three submissions inspect/enqueue/advance once with identical acknowledgements', privacyFixtures: 'locally generated identities, not live Privy sessions', observedAt: new Date().toISOString() }, null, 2));
+  console.log('Real PostgreSQL verified: migrations through 0009, invitation/setup/rate/idempotency/lease/nonce/discovery races, heartbeat fencing and operational queue timestamp boundaries.');
 } finally { await client.end(); await admin.unsafe(`DROP DATABASE "${name}"`); await admin.end(); }

@@ -4,12 +4,18 @@ import { jobs, workerHeartbeat } from './schema.js';
 import { chainClient } from '../../chain/src/client.js';
 import { processingWatermark } from './indexer.js';
 
+export function operationalQueue(db: Database, now: Date) {
+  // Raw SQL parameters do not inherit the timestamp column's Date encoder.
+  // Bind explicit ISO text so the real postgres.js driver can serialize it.
+  return db.select({ status: jobs.status, count: sql<number>`count(*)::int`, unresolvedBroadcasts: sql<number>`count(*) filter (where ${jobs.transactionHash} is not null and ${jobs.status} not in ('confirmed','failed'))::int`, overdue: sql<number>`count(*) filter (where ${jobs.nextAttempt} < ${now.toISOString()}::timestamptz and ${jobs.status} in ('queued','submitted'))::int` }).from(jobs).groupBy(jobs.status);
+}
+
 export async function operationalHealth(db: Database, mode: 'hosted' | 'local' = 'hosted', now = new Date()) {
   const c = chainClient();
   const results = await Promise.allSettled([
     (async () => { const id = await c.client.getChainId(); if (id !== c.chain.id) throw new Error('CHAIN_MISMATCH'); return c.client.getBlockNumber(); })(),
     processingWatermark(c.chain.id),
-    db.select({ status: jobs.status, count: sql<number>`count(*)::int`, unresolvedBroadcasts: sql<number>`count(*) filter (where ${jobs.transactionHash} is not null and ${jobs.status} not in ('confirmed','failed'))::int`, overdue: sql<number>`count(*) filter (where ${jobs.nextAttempt} < ${now} and ${jobs.status} in ('queued','submitted'))::int` }).from(jobs).groupBy(jobs.status),
+    operationalQueue(db, now),
     db.query.workerHeartbeat.findFirst({ where: eq(workerHeartbeat.mode, mode) }),
   ]);
   const [rpc, indexer, queue, heartbeat] = results;

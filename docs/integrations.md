@@ -1,5 +1,25 @@
 # Integration evidence — 2026-10-09
 
+## 13 October — approved hosted release and fresh onboarding
+
+Netlify production publishes exact commit 66f5e9f at 16:50:46 UTC 12 October; its
+[GitHub CI](https://github.com/vkk28/fallback/actions/runs/38279978230) succeeds.
+Hosted health returns databaseReady/rpcReady/alchemyConfigured/sponsorshipEnabled
+true. This verifies private Alchemy selection and actual RPC access in the hosted
+runtime; it does not prove a bounty award or eliminate every snapshot failure.
+Application watermark/history/recovery changes are deployed; Envio's sole 978c44e
+cloud release is unchanged. Protected operations measures lag 2 blocks and an actual
+successful updated worker cycle at 17:01 UTC; queue inspection exposes a Date binding
+defect whose local driver correction is verified and awaits rollout.
+
+Fresh Privy email sign-in is completed by the human. A verified-email Home invitation
+binds the actual canonical account and persists after owner reload. The human's
+proposal, fresh payee acceptance and owner publication confirm onchain for a new
+10 FBTEST case. Membership remains separate from financial consent. Sponsor/provider
+receipt reconciliation for these new actions is pending; no new payment claimed.
+No optional invitation email sent. Shared-link sign-in return, due-time backup payment
+and positive CRE orchestration remain distinct verification gates.
+
 ## 12 October — prepared hosted RPC and reader fixes
 
 Actual Alchemy chain/runtime checks pass at block70440116; optimized same-block
@@ -499,7 +519,7 @@ No bounty is claimed complete. Exact signed-in Metropolis terms remain inaccessi
 | Privy | [Ethereum transactions](https://docs.privy.io/wallets/using-wallets/ethereum/send-a-transaction), client-bound server authorization/sponsorship | All38preserved confirmed account actions match current wallet/sponsorship/expected receipts; local role/recovery/invitation checks and three connected accounts verified | Actual new-person invitation claim, fresh-device recovery/failure cases and consented optional email |
 | Envio | [HyperIndex](https://docs.envio.dev/docs/quickstart), pinned3.14 hosted/runtime reader | Three hosted plans/23canonical events and accounting reconcile; hosted watermark adapter, replay/rebuild, controlled rollback and notification reconciliation verified; historical16table/45,851row restore passes | Updated app reader rollout, fresh live events, hosted restart/backup/retention and live reorg edge cases |
 | Chainlink CRE | [CRE](https://docs.chain.link/cre), CLI1.37/SDK1.23 HTTP/RPC adapter | Two-call frozen discovery/batch, five SDK checks/WASM build and actual hosted CLI simulation pass3scanned/0accepted/0stale; relay secret only | Positive eligible-work receipt/notification/history trace; current bounty requirements remain unverified; network deployment optional |
-| Alchemy | [Monad API](https://www.alchemy.com/docs/reference/monad-api-quickstart) documents testnet RPC | Privately configured local provider verifies10143, deployed runtimes/immutables, same-block snapshots and the preserved canonical payment receipt | Hosted RPC cutover and its provider-specific verification remain pending; Privy remains the account/sponsorship stack |
+| Alchemy | [Monad API](https://www.alchemy.com/docs/reference/monad-api-quickstart) documents testnet RPC | Private provider verifies10143, runtimes/immutables, same-block reads and canonical payment; hosted66f5e9f confirms Alchemy/RPC readiness | Repeat hosted Home/plan reads and new-action reconciliation; Privy remains the account/sponsorship stack |
 | Competition | [Metropolis portal](https://hackathon.monad.xyz/) still exposes sign-in | Supplied Consumer Products & Payments rubric and All-tracks provider labels retained in `prompt.md`/phase status | Exact current bounty terms, submission and team eligibility; no entry submitted |
 
 Only Privy, Envio, CRE and optional Alchemy are pursued. No Dynamic/Mera/Agora/AUSD,

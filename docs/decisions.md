@@ -1,5 +1,25 @@
 # Decision record
 
+## 2026-10-13 — approved release and focused corrections
+
+The human explicitly overrides local-only publication for release 66f5e9f, including
+66e0441, to existing public main and free Netlify. Exact deployment and CI succeed;
+runtime Alchemy/RPC/database/sponsorship flags are true. Retain the sole unchanged
+Envio development deployment and existing dedicated worker signer/journal.
+
+Hosted operational health reveals a postgres.js raw-SQL Date serialization defect.
+Bind ISO text with an explicit timestamptz cast and test strict overdue boundaries
+using the actual driver. Keep monitoring disabled until corrected rollout; actual
+scheduled heartbeat already succeeds. Clarify pre-publication money availability
+without changing financial gating. These are focused submission fixes, not new
+infrastructure or changes to consented terms.
+
+Use a separately consented one-payment 10 FBTEST case for fresh hosted onboarding.
+Human fresh sign-in/inbox claim, proposal, acceptance and publication are observed;
+existing plans remain untouched. Prepare supporter email-bound inbox access with
+delivery disabled. Financial authorization/signing remain human handoffs. No new
+payment, positive CRE work or shared-link sign-in return is inferred.
+
 ## 2026-10-12 — execute the submission fixes with manual account handoffs
 
 User requests solving the major issues, prepares a fresh account and asks for clear
