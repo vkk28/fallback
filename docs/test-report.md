@@ -1,5 +1,152 @@
 # Actual verification — 2026-10-09 (Asia/Kolkata)
 
+## 13 October — complete-change publication checks
+
+- Fresh pnpm check passes root TypeScript, 132 application tests, Solidity format/lint,
+  49 contract checks including invariants, and typed ABI regeneration without a new
+  tracked ABI diff. Existing low block-timestamp advisories remain in local compilation.
+- Fresh test:local-chain passes complete split/refund/cap/top-up/expiry/worker-race
+  scenarios. test:worker-chain and test:cre-batch each pass one real disposable local
+  150 FBTEST payment (100 own/50 backup), durable signing/broadcast and notification
+  recovery through three SQL restarts. No hosted payment or CRE CLI result is inferred.
+- lint:app, cre:typecheck, all five CRE SDK checks and explicit strict NodeNext checks
+  of scripts/cre-simulate.ts and scripts/local-worker-verification.ts pass.
+- Source scan passes 251 files/nine configured secret checks. README relative assets,
+  links and deployment addresses match. Commands use a temporary
+  pnpm_config_verify_deps_before_run=false setting without changing dependencies.
+- Fresh read-only chain:verify passes configured chain10143, asset, token/factory
+  runtime and immutables at70690516, observed2026-10-13T13:12:37.860Z.
+
+
+## 13 October — README and screenshot verification
+
+- Inspected the official primary-track and four intended bounty pages in signed-in
+  Chrome. Compared README claims with current progress, source and dated evidence.
+- Captured and visually inspected three original live-app iPhone 17 Pro Max Mobile
+  View PNGs: About, next-payment forecast and confirmed/pending schedule. Browser
+  preset is 440x956; exported framed PNGs are 614x1272. PNGs contain no text/EXIF
+  metadata. This is desktop emulation, not a physical-device test.
+- README relative links and image targets pass. The existing 512px logo is 11836 bytes,
+  within 3 MB. No financial state, profile or user request is mutated for captures.
+- Initial pnpm chain:verify aborts its automatic dependency install without TTY.
+  Command-only verify-deps-before-run=false avoids installation. Restricted-network
+  script run returns HttpRequestError; scoped network-enabled invocation passes
+  chain 10143/asset/runtime/immutables at 70688174, observed 2026-10-13T13:00:46.587Z.
+- Application/contract/browser suites retain prior dated outcomes. No fresh suite,
+  useful hosted CRE enqueue, new hosted payment or portal submission is claimed.
+- Final source scan passes 251 files/nine configured secret checks with no findings.
+  git diff --check and README local links/assets, deployment addresses, HTML table
+  balance and code fences pass. Explorer host matches viem's selected chain definition;
+  web-tool explorer retrieval is unavailable. Original Chrome pages are restored.
+
+
+## 13 October — Secondary completed-scope audit
+
+- Fresh canonical closed-plan read at 70671724 verifies both original cancellation
+  cases and all four recorded beneficiaries with claimable zero. Open-withdrawal
+  case totals: deposited/withdrawn 1250000 base units. Independent-return case:
+  deposited/claimed 1500000. Both have Cancelled outcomes, no active allocated/reserve
+  balance and exact attributed conservation. No signing or submission is performed.
+- Fresh hosted Envio verification passes four plans/27 canonical receipt events,
+  exact historical accounting and four backend history pages at processed height
+  70671720/source 70671722, measured two-block lag. No local Hasura credential forwarded.
+- Dated evidence independently distinguishes completed scopes: manual-b-all-claimed
+  and UI completion prove separate returns/zero-claim reload/deduplicated reconciliation;
+  live-operation-recovery is a read-only bounded lookup replay of a known confirmed
+  operation, without clearing its hash. It is not an actual missing-hash incident.
+  Prior provider proof checks 38 actions across 13 action types; fresh onboarding
+  actions remain outside that 12 October 10:05 UTC capture.
+- Stored local worker/CRE-batch results prove one real local payment/signature/
+  broadcast through three SQL restarts; local indexer reorg removes orphan entities,
+  and owned local restart/lag preserves existing data. These do not prove hosted
+  provider interruption or a real Monad reorg. Local app restore verifies 13 tables/
+  141 rows; historical indexer restore verifies 16 tables/45851 rows; AES-GCM recovery
+  is byte-exact. Remote upload/retention flags remain false. Those checks were reviewed,
+  not rerun. Explorer prepared-input evidence explicitly says upload false.
+- Completed portions leave Secondary; current release checks cease to be an open
+  checkbox. Real-device/accessibility, additional live failure/invitation cases,
+  positive hosted CRE, newest provider records, explorer upload, optional mail and
+  remote retention remain pending. Stale runbook rollout tasks are corrected.
+  This continuation changes documentation/private read-only helpers only; earlier
+  132 application/49 contract checks are retained without a new suite claim.
+- Documentation whitespace/relative links pass; final source scan passes 247 files/
+  nine configured secret checks, with no findings. Private current-return evidence
+  is retained mode600 and excluded from tracked source.
+
+## 13 October — requested 12 October plan inspection
+
+- Same-block canonical factory registry audit at 70668731 checks all four plans,
+  schedules, lifecycle, per-installment outcomes and current previews. There are
+  zero eligible settleNext/expireNext/closeFunding actions. Two original small
+  cases are Closed with Cancelled outcomes; both active plans are NotDue.
+- Original installment zero is due 12 October 2026 at 03:48 IST and is already Paid.
+  Envio event lookup yields the canonical successful receipt at 04:00:42 IST.
+  Receipt/block identity, exact due/grace, PaymentSettled amount/index/split and
+  one complete transfer from the plan to immutable payee verify 150 FBTEST own/
+  zero backup. Its next due installment is November. No receipt/hash/account/label
+  is logged; private sanitized audit is ignored .tools/hosting/plan-schedule-audit.json.
+- Fresh protected operations is healthy, with successful 11:15 UTC scheduled
+  heartbeat, one confirmed job, no overdue/unresolved broadcasts and measured
+  four-block index lag. No financial call, signing or submission occurs.
+- Sixteen technical source paths are verified with git cat-file in the already
+  published 5d68f55 revision. Source links/descriptions/role steps are prepared in
+  bounty-engineering-notes.md. Portal forms/videos/submission are not performed.
+  No tracked application/contract code changes in this follow-up; the prior
+  132 application/49 contract checks are retained, not claimed rerun for docs.
+- `pnpm scan:source` passes 247 files/nine configured secret checks with no findings.
+  `git diff --check` and documentation relative-link checks pass.
+
+Completed items leave Primary; the uncompleted useful hosted CRE run is explicitly
+deferred under the user's no-waiting instruction. This is not full bounty completion.
+
+## 13 October — engineering-only CRE continuation
+
+- `pnpm check` passes 132 application tests and 49 contract checks, with root
+  typechecking, formatter/lint and regenerated typed ABIs. Initial sandboxed check
+  had 131 passes/one loopback EPERM in the existing relay test; the authorized
+  loopback-enabled rerun passes all 132. No application failure is inferred from EPERM.
+- `pnpm cre:test` passes all five SDK workflow checks; `pnpm cre:typecheck` and
+  `pnpm lint:app` pass. Explicit strict checking of the two touched scripts with
+  NodeNext/allowJs passes after typing signal names and undefined dotenv values;
+  root tsconfig does not include scripts. No web/UI source changed.
+- `pnpm test:cre-batch` passes on isolated loopback Anvil plus persistent SQL reopened
+  three times. Strict production CRE batch validation/coordinator accepts one real
+  eligible contract job; repeated ack before/after payment leaves one job and a
+  second worker processing call finds nothing. Actual 150 FBTEST payee balance and
+  PaymentSettled amount/index/split match 100 own/50 backup. There is one signature,
+  one broadcast and six duplicate-free receipt notifications. Pre-broadcast outage,
+  lost broadcast response and interrupted notification ack recover. This test uses
+  disposable chain ID 10143 for strict payload compatibility, not public Monad,
+  hosted Envio or the actual CRE CLI. Initial sandbox loopback EPERM was rerun with
+  authorized access. The separate original 31337 `test:worker-chain` also passes.
+- `pnpm test:local-chain` passes the unchanged deployed-contract lifecycle, exact
+  splits/refunds, cap recovery, late expiry refusal and competing-worker case.
+  Existing block-timestamp lint advisories remain; no new contract source changed.
+  The local CI workflow now includes `test:cre-batch` after local-chain; its remote
+  execution has not been run or published in this continuation.
+- Actual hosted `cre:simulate` scans four plans/accepts zero/skips zero with CLI exit
+  0. New `cre:execute` repeats that real result and exits 2 as intended; workflow
+  verified true/useful enqueue false/payment receipt false. No currently eligible
+  plan is invented. Archive has one sanitized mode-600 run, with count/flag evidence
+  only. Regression tests cover empty/stale, contradictory/missing/oversized counts,
+  failed CLI and consistent non-empty results; these fixtures are not live work.
+- Fresh `chain:verify` passes configured Monad Testnet ID 10143, token/factory runtime
+  and immutables at 70646512. Fresh active onboarding snapshot preserves exact terms,
+  canonical publication, own 0/reserve 10000000/used 0/paid 0. No signing/submission.
+- Hosted Envio verifies four plans/27 canonical receipt events and exact historical
+  accounting at 70646687/source 70646689, measured two-block lag. Runtime operations
+  is healthy with successful hosted heartbeat, one confirmed job, zero overdue and
+  zero unresolved broadcasts. Public health 200 reports account/database/RPC/Alchemy/
+  indexer/deployment/sponsorship readiness; anonymous plans returns 401. Netlify
+  release 5d68f55 remains ready; masked secret readback is not provider evidence.
+- `pnpm scan:source` passes 246 files/nine configured secret checks, no findings.
+  Private rows/contacts/credentials and raw provider outputs remain ignored. No
+  application deployment, hosted configuration, accepted terms or worker journal changed.
+
+Phase 5's actual useful hosted CRE run remains pending until legitimate eligibility.
+Local batch success does not replace it. Phase 7 entry/demo/ongoing availability is
+user-managed under the latest instruction; no competition/bounty completion claim.
+
 ## 12 October — submission release checks and backed-up migration
 
 - Fresh pnpm check passes129application/49contract checks. Actual local-chain

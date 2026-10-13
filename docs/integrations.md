@@ -1,5 +1,106 @@
 # Integration evidence — 2026-10-09
 
+## 13 October — publication check scope
+
+User authorizes the current integration helpers, CI/tests, documentation and screenshots
+for GitHub publication. Fresh application/contract/lifecycle/worker/CRE SDK checks
+pass at their explicit local scopes. The disposable CRE-batch payment remains local
+Anvil/SQL evidence; publication does not create useful hosted CRE work, a CRE-network
+deployment or another hosted payment. Existing provider results retain their dates.
+
+
+## 13 October — current requirements mapped into the final README
+
+Signed-in Chrome re-verifies the Consumer Products & Payments rubric/deliverables and
+the intended [Privy](https://hackathon.monad.xyz/tracks/privy),
+[Envio](https://hackathon.monad.xyz/tracks/best-use-of-envio),
+[Alchemy](https://hackathon.monad.xyz/tracks/best-projects-using-alchemy) and
+[CRE](https://hackathon.monad.xyz/tracks/best-workflow-with-cre) fields. Main demo is
+up to three minutes; pitch is up to two. Privy/Envio/Alchemy request descriptions
+and optional two-minute integration demos; CRE requests a description and required
+two-minute simulation/deployment video. Logo accepts JPG/JPEG/PNG/WEBP up to 3MB.
+README maps the live app, public repository, existing PNG graphic and actual source.
+Portal shows no saved selection; no entry is submitted by this documentation pass.
+
+Three live Chrome Mobile View iPhone 17 Pro Max captures show public explanation,
+current forecast and the actual confirmed first installment. They add UI evidence,
+not a new financial outcome or actual-device test. Fresh chain:verify passes at
+70688174 for configured chain 10143, token/factory runtimes and immutables. Existing
+hosted/local/provider/CRE proof scopes remain distinct and unchanged.
+
+
+## 13 October — Secondary evidence scope reconciled
+
+Fresh canonical reads verify both completed cancellation cases still have zero
+recorded-beneficiary claims and conserved attributed money at 70671724. Hosted
+Envio again matches all four plans/27 canonical events and historical accounting,
+with measured two-block source lag at 70671720. Existing completed payment/closure/
+claim history can leave unfinished scope; future events and hosted restart/reorg
+campaigns remain. Provider sponsorship proof covers the earlier 38 actions, with
+new onboarding records still awaiting independent comparison.
+
+Local worker/indexer/CRE failure/replay and app/indexer/encrypted restore evidence is
+reviewed at its original dates. It does not establish actual hosted failure, fresh
+remote backup, source publication or useful hosted CRE. Shared-link fresh-account
+and live invitation edge cases also remain pending despite verified email-bound
+joining. No provider setting, financial call, deployment or external delivery changes.
+
+## 13 October — no immediately eligible old plan; technical inputs prepared
+
+The requested 12 October case is present in the canonical four-plan registry.
+Installment zero is Paid: due 03:48 IST, complete 150 FBTEST own/0 backup transfer
+at 04:00:42 IST inside its exact grace window. Its next installment is November.
+Same-block schedule/outcome/preview reads at 70668731 find zero eligible settlement,
+expiry or funding-closure calls; the other old cases are Closed/Cancelled and the
+fresh case is NotDue. Current healthy worker reports no overdue/unresolved jobs.
+This paid event is independent-worker evidence, not a CRE-enqueued payment.
+
+[Technical entry notes](bounty-engineering-notes.md) now provide the product mechanism,
+integration descriptions, pinned public source links and role walkthrough. Sixteen
+paths are verified against published revision 5d68f55. No provider/source deployment,
+portal entry or video is produced. Primary excludes completed engineering and has
+no immediate task in scope; useful hosted CRE remains uncompleted and deferred,
+with the 14 October wait expressly excluded. No award/eligibility guarantee follows.
+
+## 13 October — engineering scope and fresh bounty runtime checks
+
+The latest user instruction excludes hosting-duration management, entry text and
+demo material from this continuation. Signed-in Chrome refreshed all four official
+requirement pages on 13 October; ordinary web access to the track pages failed.
+No portal form, bounty selection or competition entry was changed.
+
+| Integration | Current engineering requirement | Actual capability and source | Current result |
+| --- | --- | --- | --- |
+| [Privy](https://hackathon.monad.xyz/tracks/privy) | Account functionality beyond login | Canonical embedded accounts, role-authorized consent/funding/activation/returns and sponsored submission: `apps/web/app/ui/privy-gate.tsx`, `apps/web/app/ui/transaction.ts`, `packages/backend/src/auth.ts`, `transactions.ts`, `receipts.ts` | Existing real role/sponsorship checks retained; current hosted account and sponsorship readiness true. No new Privy feature gap identified. |
+| [Envio](https://hackathon.monad.xyz/tracks/best-use-of-envio) | Running pipeline, public configuration/schema/handlers, useful application consumption | `config.yaml`, `indexer/schema.graphql`, `indexer/src/handlers/events.ts`, `packages/backend/src/indexer.ts`, plan Activity UI | Four plans and 27 canonical plan events reconcile with historical accounting at 70646687; measured source height 70646689. No new data feature gap identified. |
+| [Alchemy](https://hackathon.monad.xyz/tracks/best-projects-using-alchemy) | Functional Monad project using a supported Alchemy service | Private Monad Testnet RPC in `packages/chain/src/client.ts` and `apps/worker/src/gateway.ts`; authoritative reads, reconciliation and fixed worker broadcasts | Current hosted `alchemyConfigured`/`rpcReady` true. Configured network/runtime/immutables pass at 70646512. Credentials remain server-only. |
+| [CRE](https://hackathon.monad.xyz/tracks/best-workflow-with-cre) | Meaningful blockchain/external-system orchestration; successful CLI simulation or network deployment | Cron/HTTP workflow in `workflows/cre/main.ts` and `handler.ts`; exact hosted scheduler routes; `apps/worker/src/discovery.ts`, `gateway.ts`, `jobs.ts` | Actual hosted CLI succeeds with four scanned/zero accepted/zero stale. Useful hosted enqueue remains pending until real eligibility. Local batch-to-payment verification passes separately. |
+
+Protected hosted operations is healthy: successful scheduled heartbeat, one confirmed
+job, zero overdue/unresolved broadcasts and two-block index lag at observation.
+Public health returns 200 with all integration readiness flags true; anonymous plans
+returns 401. Netlify's masked RPC value cannot establish provider identity; the
+server runtime's boolean is the observed signal. Existing release 5d68f55 remains
+ready. No deployed application, indexer or financial terms changed.
+
+`pnpm cre:execute --authorized-origin https://fallbackk.netlify.app` now requires
+observed useful enqueue rather than merely a zero CLI exit. Current empty run exits
+2 while recording CLI exit 0, workflow result verified true and useful work false.
+Only the relay credential reaches CRE; no user/worker signer or DB secret is passed.
+Sanitized per-run observations are private and retained independently of the latest
+result. Enqueue acceptance continues to be distinct from canonical payment.
+
+`pnpm test:cre-batch` exercises production batch validation/coordinator, actual
+contract eligibility, SQL persistence and the worker gateway on fresh loopback Anvil.
+The isolated chain uses ID 10143 to exercise the strict CRE payload, not the public
+Monad network. One 150 FBTEST transfer uses 100 own/50 backup; three SQL restarts,
+lost response and repeated acknowledgements produce one job/signature/broadcast and
+six duplicate-free receipt notifications. It uses a registry source fixture, not
+hosted Envio or the CRE CLI, and cannot complete the pending hosted execution claim.
+The fresh hosted case remains Active, own 0/reserve 10/used 0/paid 0; accepted terms
+remain unchanged. Phase 5's live useful-work gate is open. Phase 7 entry/demo and
+ongoing availability work is owner-managed. No award/eligibility guarantee is made.
+
 ## 13 October — submission priorities clarified without new integration claims
 
 Primary remaining work now covers actual useful CRE execution, sponsor/main entry

@@ -1,12 +1,63 @@
 # Fallback handoff — 13 October 2026, Asia/Kolkata
 
+## Latest request — publish every current change to GitHub
+
+The user explicitly authorizes committing and pushing all current source, CI,
+documentation, technical bounty notes and three mobile screenshots to the existing
+public vkk28/fallback repository. This overrides the local-only publication rule for
+this change set. Remote main matches local base db571a8; use a normal fast-forward
+push from codex/source-stabilization to main. Private ignored credentials, runtime
+state, backups, raw evidence and Graphify artifacts remain excluded.
+
+Pre-publication checks pass: pnpm check (132 application / 49 contract checks),
+test:local-chain, test:worker-chain, test:cre-batch, lint:app, cre:typecheck, five
+cre:test checks and strict NodeNext checking of both changed scripts. Source scan
+passes 251 files/nine configured secret checks; README links/assets and deployment
+address correspondence pass. Command-scoped pnpm_config_verify_deps_before_run=false
+is used for the read-only chain:verify recheck, which passes chain10143/token/factory
+runtime and immutables at 70690516 (2026-10-13T13:12:37.860Z). The same setting
+avoids an automatic dependency reinstall without changing project configuration.
+The publication commit uses [skip netlify] because the request is GitHub publication;
+the existing hosted application release remains 5d68f55. GitHub CI status is checked
+separately after pushing. Phase 7 reviewer artifacts and tested execution helpers
+advance; useful hosted CRE and broader device/failure evidence keep their prior scope.
+
+## Latest request — final judge-facing README
+
+Reviewed progress, decisions, the existing project-only Graphify graph and direct
+source. Re-read Consumer Products & Payments, Privy, Envio, Alchemy and CRE official
+requirements in signed-in Chrome on 13 October. Rewrote README with product/segment,
+account-bound judge access, money example, rubric, sponsor source links, architecture,
+deployment/evidence, reproducible commands and submission media requirements.
+The portal shows no saved track/bounty selection at observation; entries are intended.
+
+User approved iPhone 17 when the extension had no iPhone 18 Pro preset. Three actual
+live-app Mobile View iPhone 17 Pro Max screenshots are in docs/assets: public About,
+plan forecast and schedule with the confirmed first payment. Captures contain no
+contacts, account addresses, invitation tokens or credentials. No balances/statuses
+were edited. Existing pending financial/provider/device proof retains its actual scope;
+future completion is not asserted. The README and captures remain local.
+
+Fresh read-only chain:verify passes at 70688174 with assetVerified/deploymentVerified
+true. Relative README links/assets and PNG metadata/graphic size checks pass. Final
+source scanning passes 251 files/nine configured secret checks without findings;
+diff whitespace, deployment-address correspondence and README markup checks pass.
+The first pnpm invocation attempted automatic dependency verification/install and aborted
+without TTY; a command-only verify-deps-before-run=false retry avoids installation.
+Restricted-network retry failed; the scoped network-enabled retry passes. No dependency
+configuration changes. App/contract suites retain their prior dated results; this
+documentation/capture pass does not rerun them. Phase 7 reviewer documentation advances;
+Phase 5 useful hosted CRE and Phase 6 broader live/device gates retain their status.
+
 ## Scope, authorization and source
 
-The user wants reliable hosted judge use for a few testers, not completion of every
-production-oriented item in the nine-section backlog. The latest user requests two
-remaining-work sections in progress.md: Primary for functional submission/bounty
-work, Secondary for proofs, verification and optional hardening. Prioritize Primary;
-do not move receipt/test tasks there merely because they can strengthen a bounty.
+The latest user asks to verify and remove completed Secondary items. The previous
+request removed completed Primary items and completed remaining
+engineering/technical inputs without videos or waiting for the 14 October due plan.
+The previous instruction leaves hosting availability user-managed. Primary now has
+no immediate engineering task; useful hosted CRE work remains explicitly deferred,
+not completed. Technical descriptions/source links/walkthrough are prepared in
+docs/bounty-engineering-notes.md; portal typing/submission remains owner-operated.
 Optional invitation email, extended hosted failure campaigns,
 remote scheduled backup retention and the original future installments are deferred.
 Preserve financial correctness, account isolation and immutable consented terms.
@@ -25,6 +76,69 @@ as ISO text with an explicit SQL cast; add its real PostgreSQL regression; expla
 that draft money can be reserved after creation. Targeted checks, real-driver
 verification, web types/lint/build and 13 browser checks pass. Source/index/client
 scans pass; credentials, contacts and private backups are excluded.
+
+## Latest engineering continuation — local source, live checks
+
+Secondary evidence audit now removes completed portions from mixed tasks: ordinary
+live cancellation/returns, allowance/reload recovery, current history reconciliation,
+controlled local failure/restart/reorg/CRE retry checks, local restore/encryption and
+current release checks. Additional live provider/hosted campaigns and real-device
+work stay pending. Remaining-verification.md no longer asks to repeat migration0009,
+Alchemy cutover, deployed reader/worker/Multicall rollout or finished claims.
+
+Fresh read-only closed-plan verification at 70671724 checks both closed cases and
+all four recorded beneficiaries: every claim is zero. Case A deposited/withdrew
+1250000 base units; case B deposited/claimed 1500000. Both have Cancelled installments,
+zero active attributed balances and exact conservation. Fresh Envio re-verifies all
+four plans/27 canonical events at 70671720/source 70671722 with two-block measured lag.
+Recorded provider proof covers 38 earlier actions; newest onboarding provider records
+remain pending. Backup/local recovery results retain their actual prior dates/scopes;
+no restoration, test suite, financial signing or hosted failure campaign is newly run.
+Private sanitized current-return evidence is .tools/hosting/closed-returns-current.json.
+Phase 6's hosted/device failure gates and Phase 5 useful hosted CRE remain incomplete.
+
+Fresh full-registry audit at 70668731 confirms the 12 October installment exists:
+due 03:48 IST, Paid at 04:00:42 IST, 150 FBTEST own/0 backup. Indexed lookup and
+canonical receipt/block, complete immutable-payee token transfer, amount/split and
+exact grace all match. Next installment is November. The other two original cases
+are Closed/Cancelled, and the fresh case is NotDue. All four registry plans were
+read at one block; zero settle/expire/closeFunding actions are eligible. Private
+sanitized report: .tools/hosting/plan-schedule-audit.json; no actor/address/label
+appears in output. No signing or submission occurred. Current worker remains
+healthy with one confirmed job/zero overdue or unresolved broadcasts and measured
+four-block index lag. Source/helpers remain local; documentation-only changes in
+this follow-up do not require another application test campaign.
+
+Current hosted health/queue and chain/index checks pass: release 5d68f55 ready,
+runtime Alchemy/account/sponsorship/database/RPC flags true, anonymous plans 401,
+successful scheduled worker, no overdue/unresolved broadcasts, four Envio plans/
+27 canonical plan events and two-block measured lag. Configured chain/runtime/
+immutables pass at 70646512. Provider setting masks are not RPC identity evidence.
+
+Actual relay-only CLI against the hosted adapter scans four plans, accepts zero and
+skips zero. New local `pnpm cre:execute --authorized-origin https://fallbackk.netlify.app`
+requires observed non-empty enqueue; current invocation correctly exits 2 while CLI
+exit is 0. Missing/contradictory/bounded-invalid logs are failure. Sanitized observations
+are exclusive-write private files in `.tools/cre-simulation/runs/`; latest evidence
+remains in ignored `docs/evidence/cre-simulation.json`. No raw logs or credentials
+are archived, and only the relay credential reaches the CLI.
+
+New `pnpm test:cre-batch` passes production batch validation/coordinator and actual
+worker payment/recovery/replay on disposable LOOPBACK Anvil/SQL. Chain ID 10143 is
+only for strict CRE-schema compatibility; it is not the public network. One complete
+150 FBTEST payment uses 100 own/50 backup; one job/signature/broadcast survives three
+SQL restarts and acknowledgement replay before/after settlement, with six distinct
+receipt notifications. Registry source is a fixture, no CRE CLI/Envio success inferred.
+Original 31337 worker mode also passes. Changes remain local; no new app deployment
+is needed for these execution/test helpers. Phase 5's positive hosted work is pending
+until legitimate eligibility. Phase 7 entry/demo and availability is user-managed.
+
+Fresh `pnpm check` passes 132 application/49 contract checks. Five CRE SDK checks,
+CRE types, explicit strict touched-script types, app lint and source scan pass.
+Full local-chain lifecycle/split/refund/cap/expiry/worker-race verification passes.
+CI now includes the new CRE-batch check; no new remote CI/deployment is claimed.
+Sandbox-only loopback failures were rerun successfully with authorized local access;
+initial network-restricted checks likewise pass on authorized scoped reruns.
 
 ## Verified release and hosted state
 
@@ -123,10 +237,18 @@ source inputs match deployed runtimes; source publication remains pending.
 
 ## Next steps
 
+No immediate Primary engineering task remains in the latest requested scope.
+The time-dependent items below are deferred/Secondary or owner-managed. Technical
+entry inputs are in docs/bounty-engineering-notes.md; no videos/portal submission
+or hosting-duration work is performed here.
+
 1. On/after 14 October 09:00 IST, verify the fresh scheduled backup-funded payment,
    canonical split/transfer and Envio/notification history. The existing worker runs
    every 15 minutes, but a future success is not claimed. Preserve these fixed terms.
-2. Positive CRE evidence matters for that bounty. Shared-link sign-in return and
+2. Run `pnpm cre:execute --authorized-origin https://fallbackk.netlify.app` during
+   legitimate eligible work. Exit 0 proves accepted enqueue only; reconcile the
+   worker's canonical payment/notification/history separately. An ordinary worker
+   can win the race; never change terms or call an empty scan positive. Shared-link sign-in return and
    independent provider records for the fresh actions remain broader verification.
 3. Keep free-tier/indexer availability through judging. Optional external invitation
    email, remote retention and extensive live failure/device campaigns are deferred.

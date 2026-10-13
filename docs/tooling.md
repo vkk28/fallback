@@ -1,5 +1,122 @@
 # Actual tooling — 2026-10-09
 
+## 13 October — GitHub publication verification
+
+Existing Git/gh access verifies the selected public vkk28/fallback repository and
+remote main at db571a8. Restricted-network gh auth reports failure; scoped network
+access verifies the existing keyring login, without credential changes. Reviewed all
+current source/CI/docs/assets and ran pnpm check, isolated lifecycle and both worker
+modes, app lint, CRE types/SDK checks and strict changed-script types. All pass.
+Command-scoped pnpm_config_verify_deps_before_run=false prevents a pre-run dependency
+reinstall; no persistent package-manager setting changes. Source scanning and README
+link/asset/address checks pass. Publish with a normal fast-forward and [skip netlify].
+
+
+## 13 October — final README and mobile screenshot preparation
+
+Applied the project Graphify skill with reflect/lessons, vocabulary-constrained query
+and focused scheduled(), path-qualified history() and workerGateway() explanations.
+The existing 882-node code graph locates account, history and scheduling paths; direct
+Solidity, Privy authorization, RPC, indexer and CRE source corroborate the README.
+Documentation-only edits need no extraction; Solidity remains outside graph safety
+coverage. No semantic calls, hooks, uploads or global tooling changes.
+
+Used connected Chrome/native controls to read the five official track/bounty pages
+and inspect the live app. The installed Mobile View extension lacks iPhone 18 Pro;
+the user-approved iPhone 17 Pro Max 440x956 preset exports three original PNG captures.
+Visual inspection confirms readable product/forecast/schedule content and no contacts
+or credentials. PNG chunk inspection finds no textual/EXIF metadata. All README local
+links/assets resolve; the existing 512px logo is 11836 bytes, below the 3MB field limit.
+
+pnpm's default dependency pre-run install aborted without TTY. A command-only
+verify-deps-before-run=false flag runs the existing read-only chain script without
+installing dependencies or changing configuration. Restricted network returns a safe
+HttpRequestError; scoped network access succeeds at 70688174. Previous app/contract
+checks are retained with their dates, not claimed newly rerun for documentation.
+
+Final source scan passes 251 files/nine configured secret checks with no findings.
+README address values match the deployment manifest; links/assets, markup and diff
+whitespace pass. Explorer URL matches the installed viem Monad Testnet definition;
+ordinary web-tool explorer fetches are unavailable. Original Chrome pages are restored.
+
+
+## 13 October — evidence-based Secondary cleanup
+
+Compared the remaining checklist/runbook with dated private JSON results, test report,
+contract/gateway/verification source and actual same-block reads. Used existing
+Graphify vocabulary recovery/receipt/reorg/restart/invitation/restore/backup/browser/
+scheduled/verification for a bounded query; source validates the partial graph.
+Documentation-only tracked edits need no code extraction or financial test rerun.
+
+Two ignored read-only helpers use pinned Node/viem: fresh closed-plan/beneficiary
+claim/conservation checks and existing hosted indexer canonical reconciliation.
+Scoped network access succeeds; no signer, journal/DB write, receipt publication,
+provider outage or service restart is performed. Output omits addresses/hashes/
+contacts/labels and raw provider failures. Private current-return JSON is mode600.
+Archived local restart/reorg/restore/encryption/source-input results are reviewed,
+with dates and scope limits retained instead of new test-pass claims. Typed provider
+proof counts 38 earlier actions; newest provider records remain separate.
+
+Remove finished portions, retain unverified hosted/device/provider work, and correct
+obsolete setup/rollout instructions. No dependency install or global configuration change.
+
+Final source scan passes 247 files/nine configured secret checks with no findings;
+documentation whitespace and relative links pass. Stored the scope-corrected audit
+in private Graphify work memory; no code graph rebuild or public proof upload.
+
+## 13 October — focused old-plan audit and remaining-list cleanup
+
+Reused project-only Graphify reflect/lessons and a focused bounded query with existing
+vocabulary discover/preview/scheduled/receipt/history. Direct contract/gateway source
+confirms exact preview eligibility and chronological Paid handling. No graph rebuild
+is needed for tracked documentation-only edits; the 882-node code graph is unchanged.
+The loopback/private audit helper is ignored .tools and outside graph extraction.
+
+Pinned Node/viem performs a read-only bounded registry audit with factory/terms/
+outcomes/previews pinned to one canonical block. Existing hosted history reader
+finds the already-paid 12 October receipt, whose block/event/transfer and grace are
+independently checked against RPC. Scoped hosted operations verifies actual queue/
+heartbeat state. Logs omit addresses, hashes, contacts, labels and provider errors;
+sanitized evidence remains private mode 600. No signer or submission is used.
+
+git cat-file verifies 16 source paths at the published revision for concise technical
+notes. Remove finished Primary checkboxes rather than inventing new feature gaps.
+Retain future CRE as explicitly deferred. No videos, browser form typing, hosting
+management, dependency change, deployment or repeated financial test campaign.
+
+Final source scan passes 247 files/nine configured secret checks with no findings;
+diff whitespace and documentation relative links also pass. Saved the corrected
+old-plan eligibility result in private Graphify work memory; no code graph rebuild.
+
+## 13 October — engineering-only scheduler work
+
+Used direct source inspection and project Graphify bounded BFS expanded from actual
+vocabulary: cre/workflow/discover/enqueue/worker/hosted/scheduled/relay/job/receipt.
+Traversal locates scheduled(), workerGateway(), discovery/enqueue coordinators and
+processOne(); direct source and financial tests validate the relationships. No agents,
+hooks, global settings, graph uploads or model calls. Initial CLI extraction/cluster
+syntax with a leading flag was unavailable; actual subcommand `cluster-only . --no-label`
+works. Final code-only/one-worker extraction yields 882 nodes/2174 edges/53 communities,
+31 re-extracted/161 unchanged and zero semantic tokens. Eight Solidity/ten SQL files
+lack optional parsers; secrets.yaml is skipped as sensitive. Four pre-existing
+self-loops and no dangling endpoints remain. New simulation argument/outcome helpers
+are represented. Graph JSON/report/HTML stay ignored, not contract-safety evidence.
+
+Chrome reads current signed-in requirement pages and submission requirements before
+the user narrows scope to engineering. No form values, bounty selection, accounts,
+provider settings or entry change. No demo assets or video are prepared. Scoped
+existing Netlify/hosted endpoints/Alchemy/Envio checks use sanitized flags/counts;
+network-restricted runs fail first and authorized read-only reruns succeed. Netlify
+masks RPC settings; actual server health verifies Alchemy rather than those masks.
+
+Pinned Node 24.19.0/pnpm 11.25.0 run check, five CRE SDK checks, CRE types, app lint,
+strict touched-script typechecking and source scanning. Isolated Anvil/PGlite runner
+now offers `test:cre-batch` in addition to `test:worker-chain`; it changes only test
+chain configuration and destroys its disposable SQL/owned Anvil on completion.
+New `cre:execute` uses the installed CLI/prebuilt WASM/default limits and only the
+relay credential, returning 2 for an empty verified run. Sanitized exclusive-write
+archives are private mode 600, with no raw CLI/account/HTTP logs. Changes stay local.
+
 ## 13 October — remaining-work split and requested graph refresh
 
 Read the project Graphify skill/relevant references and used installed 0.9.79, with

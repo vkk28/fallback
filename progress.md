@@ -236,6 +236,20 @@
 
 ### Local operations and project documentation
 
+- User authorized publishing every current source, CI, documentation and screenshot
+  change to the existing public GitHub repository. Pre-publication application/contract,
+  local lifecycle/worker/CRE-batch, lint, CRE SDK/type and changed-script checks pass.
+  This publishes reviewer artifacts and tested helpers without changing the scope of
+  pending hosted CRE, new receipt/provider proof or actual-device campaigns.
+
+- Prepared the final judge-facing README against current Consumer Products & Payments
+  and Privy/Envio/Alchemy/CRE requirements: product story, judge access, accounting
+  example, rubric, source links, architecture, contracts, evidence and local commands.
+  Added three real live-app iPhone 17 Pro Max Mobile View captures in docs/assets.
+  Screenshot metadata/links/graphic size pass; fresh chain/runtime verification passes
+  at 70688174. This advances reviewer documentation without asserting future payments,
+  hosted CRE work, device certification, videos or final portal selection/submission.
+
 - Established a private local version-control baseline, excluding credentials,
   private evidence, backups and generated runtime state. Added source scans before
   commits and in CI, and removed personal machine paths from setup instructions.
@@ -283,159 +297,142 @@
 - Passed the current 129 application and 49 contract checks, thirteen browser checks,
   actual local-chain/worker/PostgreSQL/indexer verification and secret scans.
 
-## Primary remaining tasks — hackathon submission and bounties
+### 13 October engineering continuation
 
-The core app is implemented and online at https://fallbackk.netlify.app. Fresh-user
-joining, payee consent, plan publication, exact permission/deposit and activation
-work. The latest application release is 5d68f55. There is no known unfinished core
-feature from the submission issues just resolved. This section contains functional
-integration work, submission materials and judging availability; technical proofs
-and verification procedures are in Secondary below.
+- Verified the current hosted application release and protected operational health:
+  worker succeeds, no overdue/unresolved broadcasts, database/RPC/accounts/sponsorship
+  ready, and the actual runtime reports Alchemy configured. Masked provider settings
+  are not interpreted as proof of a different RPC provider.
+- Reconciled four hosted Envio plans and 27 canonical plan events with exact historical
+  accounting; measured processing lag is two blocks at this observation.
+- Ran the actual relay-only CRE CLI against the hosted adapter: four plans scanned,
+  zero eligible jobs accepted. The consented 10 FBTEST case remains Active with
+  own 0/reserve 10/used 0/paid 0 and its original due time.
+- Added `pnpm cre:execute --authorized-origin https://fallbackk.netlify.app`.
+  It requires observed non-empty enqueue work, rejects CLI-only/contradictory results,
+  and returns exit 2 for a valid empty scan. Each sanitized run is archived privately
+  so a later empty/failing run cannot overwrite the earlier observation.
+- Added `pnpm test:cre-batch`: production batch validation/coordinator and actual
+  worker gateway complete one local 150 FBTEST payment (100 own/50 backup), preserve
+  one signature/broadcast through three SQL restarts, and replay the acknowledgement
+  before/after settlement without duplicate jobs or notifications. This is isolated
+  loopback Anvil/SQL evidence, not a positive hosted CRE CLI execution.
+- Passed the fresh 132 application/49 contract checks, five CRE SDK checks, types,
+  lint and source scanning. Original local worker recovery mode also passes.
+- Passed full local-chain lifecycle/split/refund/cap/expiry/worker-race verification.
+  Added the CRE-batch check to the local CI workflow; no new remote CI is claimed.
+- Checked every registered plan at block 70668731. The installment due 12 October
+  at 03:48 IST was paid at 04:00:42 IST: 150 FBTEST own/0 backup, with canonical
+  receipt, exact window and complete payee transfer. The next installment is in
+  November. Two other plans are Closed/Cancelled; the fresh plan is NotDue.
+  No settlement, expiry or funding-closure work is currently eligible.
+- Prepared technical product/integration descriptions, 16 verified public source
+  paths and a role walkthrough in [the technical notes](docs/bounty-engineering-notes.md).
+  Portal typing/submission and videos remain owner-operated; no entry was submitted.
+- Audited the secondary checklist against its dated evidence and narrowed mixed
+  tasks to the unverified scope. Fresh closed-plan reads at block 70671724 confirm
+  both cancellation cases have zero claims and exact attributed conservation;
+  fresh hosted Envio reconciles four plans/27 canonical events at 70671720.
+  Completed release/local recovery/restore work is no longer an unfinished checklist item.
 
-### 1. Keep the complete demo online through judging
+## Primary remaining tasks — engineering and bounties
 
-- [ ] Maintain the hosted app/API and scheduled worker on Netlify, metadata on Neon,
-  and the history/GraphQL pipeline on Envio Cloud through the judging period.
-- [ ] Keep the indexer within its temporary Development deployment lifetime. If that
-  lifetime does not cover judging, arrange a supported hosted continuation. The
-  fallback must remain online; a Docker process on the owner's laptop is unsuitable.
-- [ ] Keep the working app URL and free-tier configuration available to judges.
-  Production capacity for 100+ users and paid infrastructure are outside this scope.
+**No immediate primary engineering task remains under the latest exclusions.**
+Completed items have been removed from this section and recorded above. Technical
+entry descriptions, source links and the role walkthrough are ready in
+[docs/bounty-engineering-notes.md](docs/bounty-engineering-notes.md).
 
-These are ongoing availability tasks. Hosting, migrations, RPC cutover and the
-ordinary scheduled worker are already implemented; no migration off the PC remains.
-
-### 2. Finish meaningful CRE execution for the bounty
-
-- [ ] Use the implemented CRE cron/HTTP workflow to discover an actually eligible,
-  freshly consented plan and enqueue useful settlement work into the hosted durable
-  worker. An empty scan is working scaffolding, but it does not exercise the useful
-  orchestration path for judges.
-- [ ] Keep the workflow pointed at the hosted adapter, with only the relay credential.
-  Keep the independent hosted worker available for ordinary application liveness.
-- [ ] Present the actual CRE → hosted API → authoritative Monad reads → durable queue
-  → fixed contract call architecture. The HTTP/RPC adapter is not a native CRE Monad
-  write. Network deployment is not automatically required: the requirements inspected
-  on 11 October accepted CLI simulation; use the current portal rules for the entry.
-
-The implementation, SDK checks, WASM build and empty CLI execution already exist.
-The remaining functional step is useful execution with eligible work, not another
-account stack or a production CRE deployment. Receipt and simulation proof belongs
-in Secondary. Do not edit an accepted schedule to make a case eligible early.
-
-### 3. Prepare the sponsor-bounty entries
-
-- [ ] Complete the entry descriptions and source links for the integrations actually
-  used. Explain how each helps this product, rather than listing installed packages.
-- [ ] Apply the current portal's entry requirements and select only eligible bounties
-  for this project. The linked requirements were last inspected while signed in on
-  11 October; no bounty award or completed eligibility claim is implied.
-
-| Bounty | Functional implementation already present | Remaining primary submission work |
-| --- | --- | --- |
-| [Privy](https://hackathon.monad.xyz/tracks/privy) | Embedded accounts, account-bound consent, sponsored transactions, exact funding and independent returns beyond login | Explain these user journeys and link the relevant account/transaction source in the bounty entry. |
-| [Envio](https://hackathon.monad.xyz/tracks/best-use-of-envio) | Hosted indexer driving actual plan history, support accounting, frozen shares and returns | Link the public config, schema and handlers; explain the useful history feature and retain its hosted pipeline. |
-| [Alchemy](https://hackathon.monad.xyz/tracks/best-projects-using-alchemy) | Private Monad Testnet RPC used by server/worker reads, reconciliation and chain access | Explain the real RPC role and link its source; keep endpoint credentials server-only. |
-| [Chainlink CRE](https://hackathon.monad.xyz/tracks/best-workflow-with-cre) | Cron/HTTP discovery workflow and hosted enqueue/worker adapter | Complete useful execution from item 2 and explain the blockchain/external-system orchestration. |
-
-No additional Privy, Envio or Alchemy feature gap is currently identified from the
-requirements previously inspected. Their remaining work is entry preparation;
-additional integration evidence is listed separately below.
-
-### 4. Finish the main submission and judge walkthrough
-
-- [ ] Prepare the actual competition entry: hosted app URL, public repository,
-  product explanation and the demo materials requested by the submission form.
-- [ ] Give judges a short walkthrough for owner, supporter and payee: email sign-in,
-  invitation, consent, test-token permission/deposit, activation and where to find
-  schedule, activity and returns. Explain that future-dated payments execute only
-  inside their agreed windows and that FBTEST has no real value.
-- [ ] Explain the distinctive mechanism clearly: own allocated money first, bounded
-  family backup only for a complete shortfall, and separate unused-money returns.
-  Show the actual UI and current state; never present an expected payment as paid.
-
-Prepare these materials without waiting for every Secondary item. Completing a
-competition entry is separate from deploying the app; no entry has been submitted.
+Useful non-empty hosted CRE execution is still uncompleted, but waiting for the
+14 October plan is excluded from this pass. Its deferred status is retained below.
+Videos and portal submission remain owner-operated; ongoing hosting availability
+is user-managed. No entry or bounty completion is claimed.
 
 ## Secondary remaining tasks — verification, proofs and optional hardening
 
-These items retain the broader engineering backlog. They provide confidence or
-stronger evidence and may help bounty reviewers, but they are not additional missing
-core features. Prioritize targeted checks for any new defect; an exhaustive campaign
-is unnecessary for a few judges/testers. Full procedures remain in
-[docs/remaining-verification.md](docs/remaining-verification.md).
+This list contains only the outstanding scope after the 13 October evidence audit.
+Completed live cancellation/returns, ordinary approval/reload recovery, current
+history reconciliation, controlled local failure/restart/reorg checks, local backup
+restore/encryption and release checks are recorded in **What has been done**.
+Live provider/hosted campaigns and real-device tests remain separate from fixtures.
+Procedures are in [docs/remaining-verification.md](docs/remaining-verification.md).
 
-### 1. Payment and lifecycle proofs
+Useful non-empty hosted CRE execution remains a deferred functional task. All four
+plans are currently ineligible; the paid 12 October installment cannot be paid again.
+Waiting for the 14 October case is excluded from the current pass. Preserve accepted
+schedules and keep local/empty results distinct from useful hosted execution.
 
-- [ ] Reconcile the new 10 FBTEST backup-funded payment when it is actually due:
-  **14 October 2026, 09:00 IST**. Check its canonical payee transfer, own/backup split,
-  closure, notifications and indexed history. The case is active with own 0/reserve 10;
-  no payment receipt exists yet at the last recorded observation.
-- [ ] Collect further live partial-backup, cap-blocked/top-up, exact-expiry, ordered
-  missed-payment, cancellation and independent-return evidence where useful.
+### 1. Remaining live payment scenarios
+
+- [ ] Reconcile the 10 FBTEST backup-funded payment after **14 October 2026, 09:00 IST**:
+  canonical payee transfer, own/backup split, natural closure, notifications and indexed
+  history. At the last observation it is Active with own 0/reserve 10 and unpaid.
+- [ ] Verify additional live partial-backup, cap-blocked/in-window-top-up, exact-expiry
+  refusal and chronological missed-payment cases where useful. Ordinary active
+  top-up, cancellation and independent owner/supporter returns are complete.
 - [ ] Observe the original November/December installments only when due. Do not wait
-  for them to prepare the submission or change their immutable terms.
+  for them or modify immutable terms to finish current engineering work.
 
-The existing 150 FBTEST own-funded hosted payment and separate end/return cases are
-verified. Local-chain financial accounting tests already cover the core invariants.
+### 2. Remaining invitation and authorization failure cases
 
-### 2. Invitation, account and transaction recovery checks
-
-- [ ] Observe a genuinely fresh shared-link → sign-in → return → claim journey, plus
-  consumed-link, wrong-account, revoke/decline/replacement and expiry cases live.
-  Fresh email-bound Home joining and canonical binding already work.
+- [ ] Verify a genuinely fresh shared-link → sign-in → return → claim journey and
+  live consumed-link, wrong-account, revoke/decline/replacement and expiry cases.
 - [ ] Independently reconcile provider sponsorship/request records for the newest
-  actions. The preserved 38 confirmed actions were reconciled previously.
-- [ ] Extend live rejection, interrupted/expired authorization, revert, missing-hash,
-  reconnect and duplicate-action checks. Preserve the original request and reconcile
-  it before a fresh attempt; do not provoke unrelated-account failures.
+  onboarding actions; the 38 earlier confirmed actions are already reconciled.
+- [ ] Verify live rejection, interrupted/expired authorization, revert and ambiguous
+  pending-request recovery across fresh sessions/concurrent retries. Preserve the
+  original request and reconcile it before another attempt. The bounded lookup replay
+  against a known confirmed operation does not prove an actual lost-hash incident.
 
-### 3. RPC, Envio, worker and CRE evidence
+### 3. Remaining hosted RPC/indexer/worker/CRE campaigns
 
-- [ ] Add targeted outage/throttling and slow-RPC evidence while retaining unknown
-  amounts, bounded retries and safe disabled actions. Hosted Alchemy adoption and
-  repeated successful plan/Home reads are already verified.
-- [ ] Follow further payment/closure/claim events through Envio, compare exact amounts
-  and frozen entitlements with receipts, and extend hosted restart/lag/reorg checks.
-  Four plans/27 events and measured processing coverage already reconcile.
-- [ ] Extend hosted worker interruption, lost-response, competing-lease and receipt/
-  notification recovery checks without changing signed bytes, nonce or job identity.
-- [ ] Capture a successful positive CRE simulation/execution result and trace its job
-  through canonical receipt, notification and Envio history. Check duplicate/stale
-  batch and HTTP/restart cases. Keep evidence distinct from empty scans and fixtures.
+- [ ] Collect targeted hosted outage/throttling and slow-RPC evidence, preserving
+  unknown amounts, bounded retries and disabled money actions. Controlled transport
+  tests and repeated successful hosted reads are complete.
+- [ ] Extend hosted Envio restart/lag/reorg verification. Existing four-plan history,
+  receipt/accounting reconciliation and controlled local rollback are complete;
+  future payment events must still be reconciled when they occur.
+- [ ] Verify hosted worker interruption, lost broadcast response, competing leases
+  and receipt/notification recovery. Preserve signed bytes, nonce and job identity;
+  the actual local worker interruption/replay tests are complete.
+- [ ] Capture useful non-empty hosted CRE work and trace the exact job to canonical
+  receipt, notifications and Envio history. Controlled duplicate/stale batch,
+  HTTP failure, restart and retry checks are complete; live positive work is pending.
 
-### 4. Device, PWA, accessibility and release checks
+### 4. Remaining device, PWA and loading checks
 
-- [ ] Extend actual-device install/update, screen-reader, touch, keyboard, zoom,
-  offline/stale-tab and fresh-device role/recovery checks. Authenticated owner Chrome
-  navigation at measured 375px and fixture/public 320–1440px checks already pass.
-- [ ] Run the applicable build, application/contract/local-chain/network, SQL/worker/
-  indexer, CRE, browser and secret checks when relevant source changes justify them.
-  The current deployed revision's CI and targeted browser/driver checks already pass.
-- [ ] Measure slower account initialization and loading only where it obstructs a
-  judge's journey; fix observed defects rather than pursuing production benchmarks.
+- [ ] Verify actual-device install/update, screen-reader, touch, keyboard/zoom,
+  offline/stale-tab and fresh-device role/recovery behaviour beyond the completed
+  responsive Chrome/public/fixture checks.
+- [ ] Measure slower account initialization/loading only if it obstructs a user's
+  journey, and fix the observed issue. Existing snapshot timings are not a complete
+  authenticated loading benchmark.
 
-### 5. Explorer publication and supporting artifacts
+Current release/build/application/contract/local-chain/network/SQL/worker/indexer/
+CRE/browser/secret checks are complete at their recorded revisions. Checks after
+future source changes remain standard engineering rules, rather than an unfinished
+checkbox for the already-verified source.
 
-- [ ] Publish exact testnet contract source using the prepared compiler inputs and
-  constructor arguments, if desired or required by an entry. Runtime comparison is
-  already verified; it does not establish explorer source publication.
-- [ ] Curate receipt links, screenshots, logs with credentials/contacts removed and
-  integration evidence for reviewer inspection. Do not fabricate proof or claim audit.
+### 5. Remaining explorer publication and reviewer evidence
+
+- [ ] Publish exact testnet contract source if desired or required by an entry,
+  using verified compiler inputs and matching constructor arguments. Runtime/input
+  preparation is complete; explorer publication is not.
+- [ ] Prepare a reviewer-safe receipt/screenshot/log bundle if required. Technical
+  descriptions/source links are ready; private evidence still needs deliberate
+  redaction before sharing. No fabricated proof or audit claim.
 
 ### 6. Optional delivery and longer-term operations
 
 - [ ] Configure the optional invitation-email sender/domain and consented delivery;
-  test provider acceptance, actual mailbox delivery and immutable retries. Secure
-  links and the Home Requests inbox already work; external email is unnecessary for
-  the present submission scope.
+  verify actual provider acceptance, mailbox arrival and immutable live retries.
 - [ ] Enable extended scheduled health diagnostics if needed. Basic private health,
-  queue visibility and the hosted scheduled worker already work.
+  queue visibility and the scheduled worker are complete; extended monitoring is disabled.
 - [ ] Add encrypted remote backups, scheduled retention and an independently protected
-  recovery-key copy if longer-term operation needs them. Exact restore/encryption
-  checks already pass; remote retention is not currently claimed.
-- [ ] Continue dependency/security maintenance when compatible fixes become available.
-  Broad production-scale operating safeguards remain deferred.
+  recovery-key copy if needed. Exact local app/indexer restore and authenticated
+  encryption recovery are complete; remote storage/retention is unconfigured.
+- [ ] Resolve the remaining development-only dependency advisory with a compatible
+  fix when available, retaining the tested local guard until then. This is distinct
+  from the dependency/security checks already completed.
 
 ### Docker and local tools
 

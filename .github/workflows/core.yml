@@ -19,6 +19,7 @@ jobs:
       - run: pnpm compiler:install
       - run: pnpm check
       - run: pnpm test:local-chain
+      - run: pnpm test:cre-batch
       - run: pnpm web:typecheck
       - run: pnpm web:build
       - run: pnpm cre:typecheck

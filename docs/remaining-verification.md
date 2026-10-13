@@ -14,6 +14,24 @@ prove implementation behaviour only. Keep raw receipts, account/contact data and
 provider output in ignored private evidence; record only sanitized outcomes in docs.
 Do not enter credentials in chat, source, browser URLs, or terminal output.
 
+## 13 October evidence audit — completed baseline
+
+The remaining checklist in progress.md now excludes completed portions. Live ordinary
+approval/reload recovery, cancellation and independent owner/supporter returns are
+verified; fresh closed-plan reads confirm zero claims and conserved accounting.
+Current four-plan/27-event Envio history reconciles. Local transport, SQL races,
+worker interruption, indexer restart/lag/reorg, CRE duplicate/stale/HTTP/retry and
+backup restore/encryption checks are complete at their recorded scopes. Current
+release checks are complete; later source changes still require appropriate checks.
+
+Fresh email-bound onboarding is verified, but fresh shared-link return and live
+invitation edge cases remain. Real provider/hosted failure campaigns, actual-device
+install/update/accessibility, useful hosted CRE work, explorer source publication,
+optional external email and remote retention are not completed by those baselines.
+The actual 12 October installment is Paid; waiting for the 14 October case remains
+excluded from the current engineering pass. Older rollout instructions below are
+updated to preserve the deployed 5d68f55 configuration rather than repeat completed setup.
+
 ## 1. New-person invitation and optional email
 
 1. Owner: open the hosted app, create a fresh preliminary plan with an unbound payee,
@@ -47,19 +65,13 @@ external invitation email sent.
 
 ## 2. Alchemy RPC
 
-In the Alchemy dashboard, create/select a free app for Monad Testnet (chain 10143).
-Set its HTTPS URL privately as MONAD_RPC_URL in the project and hosted server
-configuration. This variable must never be NEXT_PUBLIC_*; retain Privy for accounts
-and sponsorship. The official testnet host is monad-testnet.g.alchemy.com; use the
-key-bearing URL only in secret configuration. Do not change CHAIN_ID or deployments.
-Run `pnpm chain:verify`, `pnpm verify:live-actions` and `pnpm verify:indexer-live`.
-Record chain/runtime/immutables, canonical receipts, and dashboard method counts
-for the matching verification period as evidence of actual Alchemy requests.
-Use local controlled transport tests for timeouts/429/503; do not exhaust live quotas.
-Private Alchemy URL is verified locally and adopted by hosted release 66f5e9f.
-Hosted health confirms alchemyConfigured and rpcReady. Corrective 5d68f55 passes five
-plan/three Home refreshes and four-plan/27-event canonical Envio reconciliation.
-Independent provider records for fresh actions remain a separate check.
+Alchemy adoption, secret storage, configured runtime/immutables and repeated hosted
+reads are complete on 5d68f55. Retain the existing private MONAD_RPC_URL, network,
+deployment and Privy account stack; do not create or cut over another provider app.
+Controlled timeouts/429/503 are already tested. Remaining scope is hosted
+outage/throttling/slow-read observation and any additional provider telemetry needed
+for that observation; do not exhaust live quotas to manufacture failure. Independently
+reconcile provider sponsorship records for the newest onboarding actions separately.
 
 ## 3. Accounts and transaction recovery
 
@@ -70,32 +82,34 @@ FBTEST plan, record the plan/request identity privately before each action.
 - Verify each role's Home, People, funding and return controls; another account must
   not see private labels/drafts/requests. Sign out and switch accounts on the same
   browser, confirming private cached data and unfinished amount input are cleared.
-- Owner/supporter: obtain only the test tokens needed, review the exact permission,
-  authorize it, reload, and then review the separate deposit. Permission alone must
-  leave plan funding unchanged; reload must restore only the exact current allowance.
 - Dismiss/reject an authorization, interrupt a challenge, and allow one challenge
   to expire. Reopen the same stored request and use Check status before retrying;
   verify unchanged destination/amount/request ID and at most one deposit event.
 - Reconnect after submission; a missing hash stays unresolved until provider/RPC
   proof. Never use elapsed time or a token balance as permission for a fresh request.
-- Claims: review/authorize once, reload and check canonical status. A second attempt
-  must show no remaining claim and cannot create a second transfer.
 
 Controlled provider errors and SQL/browser fixtures do not prove live failures.
 Do not deliberately exhaust sponsorship or alter existing provider records. Record
 only actual observed live rejection/revert/outage outcomes, separately from fixtures.
 
+Ordinary exact approval/deposit separation, current-allowance reload recovery and
+completed zero-claim reload behaviour are verified. The bounded missing-hash lookup
+was replayed against a known confirmed operation without clearing its stored hash;
+an actual live lost-hash/interrupted-authorization incident is still separate scope.
+
 ## 4. Live conditional lifecycle
 
-The original three-installment plan's immutable first due is 12 October 2026
-03:48 IST; its later dues follow its actual onchain interval. Do not fast-forward
-Monad or alter its terms. After each due, reconcile the canonical receipt, exact
-150 FBTEST payee transfer and own/support split. Its starting allocation was250
-FBTEST and backup300; expected paid splits are150/0,100/50,0/150 if those installments
-settle within their exact windows and no new owner allocations occur.
+The original three-installment plan's first payment is verified Paid: due 12 October
+2026 at 03:48 IST, complete 150 FBTEST own-funded transfer at 04:00:42 IST. Its future
+dues are 11 November and 11 December at 03:48 IST. Do not fast-forward Monad or alter
+terms. Reconcile each future receipt/transfer/split when it actually occurs. Current
+own/reserve is 100/300 FBTEST; future expected splits are 100/50 and 0/150 only if
+payments fit their windows and no new owner allocations occur.
 
-Use separate freshly consented test-only cases for blocked-cap/within-window top-up,
-after-expiry refusal, cancellation and natural closure. Use at least two supporter
+Ordinary open withdrawals, active top-up, cancellation and independent returns are
+complete; do not repeat the finished A/B cases. Use separate freshly consented
+test-only cases for live blocked-cap/within-window top-up, after-expiry refusal,
+partial-backup payments and natural closure. Use at least two supporter
 accounts for the exact rounding case:200 and100 FBTEST, unused backup100, final
 returns66.666666 and33.333334 under the frozen slot order. Claim in reverse order
 and verify zero remaining claims, conserved funding and no double payments.
@@ -110,10 +124,10 @@ use canonical receipt and hosted-journal evidence for hosted execution claims.
 
 ## 5. Envio history and notifications
 
-The reader supports local FallbackSync and hosted chain_metadata, joining the
-watermark and history in one GraphQL page response. Lag is measured against current
-chain reads; invalid/missing metadata remains unknown. Deploy the reviewed source
-to the existing app before expecting this local change in the hosted interface.
+The deployed 5d68f55 reader supports local FallbackSync and hosted chain_metadata,
+joining watermark/history in one response. Current history/accounting and measured
+coverage are verified; no reader rollout remains. Invalid/missing metadata stays
+unknown. Remaining scope is new future lifecycle events and hosted failure campaigns.
 
 For each fresh live lifecycle event, compare timeline amount/splits/log identity,
 frozen supporter contributions/prefix/entitlement and canonical receipts. A future
@@ -126,10 +140,9 @@ approved release and automatic deployment disabled to conserve free indexing hou
 
 ## 6. Worker and operations
 
-Local code now includes heartbeat migration0009, aggregate private operational
-health, stale-lease fencing and bounded retries of identical signed bytes. Apply
-that migration/grant to the active hosted metadata DB before deploying the worker.
-Keep the existing signer and sole active state store. Use the recovery runbook in
+Heartbeat migration0009/grants, private operational health, stale-lease fencing and
+identical-byte backoff are deployed and verified. Local interruption/replay tests
+are complete. Keep the existing signer and sole active state store. Use the runbook in
 operations.md; never clear a missing/dropped hash or nonce to force a fresh action.
 
 Hosted restart tests require a due freshly consented test plan and its private
@@ -147,6 +160,16 @@ actually eligible due time. The wrapper sends only the relay secret, uses prebui
 WASM/default limits and records sanitized CLI result counts. Two HTTP capabilities
 perform bounded discovery and frozen-batch enqueue; the adapter rechecks canonical
 RPC state and the independent worker signs only fixed permissionless calls.
+
+Use `pnpm cre:execute --authorized-origin https://fallbackk.netlify.app` for a
+positive-work gate. Exit 0 requires an accepted job; exit 2 is a valid empty/stale
+scan, while missing/invalid/contradictory results or CLI failure are errors. Each
+sanitized run is retained in ignored `.tools/cre-simulation/runs/`; a later empty run
+does not erase the earlier observation. Enqueue is still not a payment receipt.
+`pnpm test:cre-batch` separately verifies actual local batch-to-payment, retry/replay
+and notification recovery on loopback Anvil/SQL. Its chain ID 10143 exercises the
+strict schema; it is not a public Monad/CRE CLI/Envio check. Do not use it as a
+substitute for the remaining useful hosted run. The ordinary worker can settle first.
 
 To prove positive work, use a fresh consented active FBTEST plan with due work,
 record the same batch/job identity across repeated runs and trace its canonical
@@ -175,27 +198,26 @@ install control and check offline shell. When a new worker waits, keep drafts op
 save privately, then close/reopen all app tabs to adopt it; no forced skipWaiting or
 automatic reload discards a form. Verify request identity again after updating.
 
-Local Multicall3 reads reduce Home/plan RPC work while preserving same-block
-fail-closed amounts. Hosted app needs reviewed source rollout before using them.
+Deployed Multicall3 reads reduce Home/plan RPC work with verified same-block
+fail-closed amounts. This rollout is complete; actual-device testing remains.
 Current braces advisory has no published patched release; the tested local depth
 guard remains and the advisory stays visible in security.md.
 
-## 9. Hosted safeguards and final rollout
+## 9. Optional hosted safeguards and future releases
 
-All three account sessions are prepared; their connection is visible in the supplied
-screenshot and native Chrome windows. Sign-in readiness is no longer a dependency.
-Use the role/lifecycle procedures above for the remaining fresh financial actions.
+Fresh role onboarding and ordinary funding/activation are verified. Future manual
+account tests require the relevant human-held profiles; an old connection screenshot
+does not establish a current authenticated session. Use the scoped procedures above.
 
-Before deploying these local changes, take a fresh private hosted application
-snapshot. Apply migration0009 to Neon with its schema owner, and grant only
-SELECT/INSERT/UPDATE on worker_heartbeat to the existing application role. Preserve
-financial request/job identities, all existing terms and signer; do not run the old
-local worker. Replace Netlify's server-only MONAD_RPC_URL with the verified private
-Alchemy Testnet endpoint and classify it as a secret. Roll out reviewed source to
-the existing app/worker; keep Envio automatic deploy disabled. No paid upgrade or
-recharge. Do not alter deployed contract bytecode or immutable settings.
+Hosted backup/restore, migration0009/limited grants, Alchemy secret cutover and
+reviewed app/worker rollout are complete. Do not repeat them as pending work. For a
+future application release, take a fresh private snapshot and apply only its new
+migrations. Preserve all request/job identities, terms and signer; never run the old
+local worker against its independent store. Keep Envio automatic deploy disabled,
+free tiers and immutable deployed contracts. No deployment is needed for this doc audit.
 
-After the first successful updated batch, enable HEALTH_MONITOR_ENABLED=true.
+Extended monitoring remains optional and disabled under the current scope. If it
+is needed, verify private operations health before enabling HEALTH_MONITOR_ENABLED.
 The existing15-minute scheduled trigger checks private scheduler/operations after
 scheduling; failure records only fixed diagnostics and fails the native invocation.
 Configure native provider notifications manually if desired. This does not send
@@ -225,10 +247,9 @@ and plan addresses with constructor arguments and compare runtime/immutables fir
 If explorer credentials/API access are unavailable, leave explorer-source status
 pending. Runtime comparison alone does not prove explorer source publication.
 
-Submission gates: successful applicable checks for the exact rolled-out revision,
-hosted new-user invitation and ordinary role financial/recovery journeys, reliable
-chain reads, useful payment/history evidence, and judging-period service availability.
-Take a fresh hosted backup before migration. Positive CRE receipt evidence is a
+Baseline release checks, fresh email-bound joining, ordinary role financial/recovery
+journeys and current payment/history are verified. Future changes still require
+appropriate checks and backups. Useful positive CRE receipt evidence is a
 bounty priority if CRE is pursued. Optional invitation email, a broad HTTPS
 installation/update matrix, scheduled remote retention and extended monitoring
 remain broader verification work. Keep each result separate from existing hosted
@@ -243,5 +264,6 @@ Explorer inputs: `pnpm contracts:prepare-verification` writes private standard J
 and token/factory constructor arguments under .tools/explorer-verification after
 checking source hashes and recompiling the three runtime artifacts exactly. Use
 that input for a manual authorized explorer submission; source publication is still
-pending. Constructor arguments for all three current registered plans are now prepared from
-same-block immutable reads. Newly created plans require their own fresh inputs.
+pending. Constructor arguments for the three original registered plans are prepared
+from same-block immutable reads. The fourth/newly created plan needs its own fresh
+inputs if source publication is pursued.

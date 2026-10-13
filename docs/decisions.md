@@ -1,5 +1,101 @@
 # Decision record
 
+## 2026-10-13 — authorized publication of the complete current change set
+
+User asks to commit every change to GitHub. Publish all reviewed source/CI/docs and
+new reviewer assets to existing public vkk28/fallback main, preserving remote history
+with a normal fast-forward from the existing checkout. Include the CRE useful-work
+guard and disposable batch recovery test, final README/screenshots, technical bounty
+notes and scope-corrected progress/runbook. Keep ignored credentials, private evidence,
+backups and generated graph/runtime state local. Use [skip netlify] for this GitHub
+publication; source publication does not require another live application deployment.
+Re-run relevant local checks, record their actual scopes, then scan the exact staged
+index before commit. Existing pending hosted CRE/device/receipt work is not completed
+by a successful source push.
+
+## 2026-10-13 — final submission README with actual mobile captures
+
+Latest request authorizes a judge-focused README, track/bounty research and app
+screenshots. Lead with the consumer problem, live access and product; keep technical
+proof/source links and reproduction later. Document Privy, Envio, Alchemy and CRE
+against the current portal fields. The portal has no saved selection at observation;
+the README describes intended entries. Future completion does not establish an actual
+receipt, useful hosted CRE result, device test or customer research. Retain the dated
+evidence distinction while writing a final artifact rather than an engineering backlog.
+
+Mobile View lacks iPhone 18 Pro. User chooses iPhone 17 if available, otherwise 16;
+use its iPhone 17 Pro Max 440x956 preset and exported device frame. Capture real About,
+plan forecast and confirmed/pending schedule without changing UI data or entering
+personal details. Preserve the testnet labels and forecast distinction. Keep captures
+local with the README; publication, portal selection and video production are separate.
+
+
+## 2026-10-13 — Secondary completion audit without widening proof
+
+User asks to check and remove Secondary work already done. Compare the exact scope
+with dated raw evidence and focused canonical reads; do not delete a hosted/device
+campaign because its local fixture passes. Remove completed ordinary cancellation/
+returns and allowance/reload recovery, current history reconciliation, local worker/
+indexer/CRE recovery checks, local restore/encryption, source/input preparation and
+current release checks from unfinished scope. Keep new provider actions, real live
+failure scenarios, actual devices, positive hosted CRE, explorer publication, optional
+mail and remote retention open. Routine checks after future changes are engineering
+rules, not an uncompleted release task for verified source.
+
+Re-verify both closed plans and every recorded beneficiary at one block; zero claims
+and attributed conservation must hold. Reconcile all current hosted indexed plans/
+canonical events. Preserve private evidence and all financial terms/journal/signers.
+Fix stale runbook setup instructions instead of repeating completed migrations,
+secret cutovers and rollout. No new account actions, provider reconfiguration,
+public proof upload or exhaustive test campaign is authorized by this checklist audit.
+
+## 2026-10-13 — remove completed Primary work; inspect the 12 October case
+
+User asks to remove completed Primary items and finish the rest while excluding
+videos and waiting for the 14 October case. Preserve earlier engineering-only and
+user-managed hosting scope. Prepare concise technical product/integration descriptions,
+verified public source links and a role walkthrough; external portal typing/submission
+remains a manual handoff. Do not generate video/pitch/marketing work or publish source.
+
+Inspect all registered plans at one canonical block, not only the newest plan or an
+old screenshot. The 12 October installment is already Paid, with exact complete
+150 FBTEST own-funded transfer inside grace; no new settlement can replay it. All
+four plans currently have no eligible settle/expire/closeFunding work. Do not alter
+immutable terms, create unconsented work or equate empty/local success with useful
+hosted CRE. Move the uncompleted time-dependent run to explicit deferred status.
+Primary has no immediate engineering task under the current exclusions. Keep real
+integration limitations and owner-operated submission/video/availability tasks visible.
+This follow-up changes documentation and private read-only evidence, not contracts,
+application source, deployments, user requests, signer or worker journal.
+
+## 2026-10-13 — engineering-only continuation and useful CRE enforcement
+
+Latest user instruction supersedes the earlier submission-material scope: work on
+engineering, leave hosted availability to the user, and do not spend work on deadlines,
+videos or entry text. Browser-heavy/manual work remains a concise handoff while
+independent engineering continues. No new financial signing, source publication,
+account contact, paid service or deployed configuration is authorized by the brief.
+
+Source/Graphify traversal finds no missing Privy/Envio/Alchemy feature. Fresh hosted
+health/worker and canonical index reconciliation pass; CRE runs the real hosted
+adapter with zero eligible work. Preserve the fresh active plan's immutable terms
+rather than advance due time or present a local fixture as hosted success.
+
+Add a `cre:execute` command that requires a successful parsed non-empty enqueue.
+CLI success without a workflow observation is failure; empty/stale results return
+2. Retain every sanitized observation in private exclusive-write files so later
+scans cannot destroy an earlier useful run's evidence. Keep relay-only execution.
+No extra native chain integration or CRE deployment is claimed.
+
+Reuse the local worker verification in an explicit CRE-batch mode. Exercise the
+production strict schema/coordinator on fresh LOOPBACK Anvil using chain ID 10143,
+isolated SQL and actual worker transactions. Registry discovery is a fixture source;
+this is neither the public Monad network nor actual positive CLI execution. Verify
+exact 100-own/50-backup payment, one durable job/signature/broadcast, repeated batch
+acknowledgement before/after settlement, three restarts and no duplicate notifications.
+The original local 31337 worker mode stays separately tested. Hosted positive work
+remains time-dependent; no accepted schedule, signer or journal changes.
+
 ## 2026-10-13 — primary submission work and secondary proofs
 
 User explicitly separates remaining work: Primary contains functional work needed
