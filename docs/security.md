@@ -1,103 +1,90 @@
-# Threat model and static-analysis review
+# Security model
 
-Assets are attributed escrow funds and immutable consented payment terms. Authorized
-recipient actions, supporter Open funding actions, payee acceptance, permissionless
-scheduling, and beneficiary-fixed claims are separate authorities. There is no admin.
-The worker cannot redirect payments. Factory membership will be checked by all apps.
+Fallback's protected assets are attributed plan funds and immutable consented
+payment terms. Owner actions, supporter funding, payee acceptance, permissionless
+settlement and beneficiary-fixed claims have distinct authority.
 
-Protected against locally tested failure classes: insufficient/cap-blocked partial
-payments, order bypass, duplicate settlement/claims, altered terms, unauthorized role
-actions, consent replay/expiry/domain crossing, rounding dust, external wallet/allowance
-influence, unaccounted donations, transfer failure, reentrancy, and competing workers.
+## Contract boundaries
 
-Slither 0.11.6 direct-solc analysis reports nine low-severity timestamp findings for
-factory/plan/term deadline checks; test token reports none. These are intentional:
-schedules use actual block time, with exact tested boundaries, and no randomness or
-historical hardship inference. Validator timestamp behavior can affect boundary
-transactions; the UI must disclose execution-time evaluation. No high/medium findings
-were observed on this path. Reports are in `docs/evidence/slither-*.json`.
+Each immutable plan holds its own attributed owner allocation and supporter reserve.
+The contract enforces owner-money-first settlement, complete payments, backup caps,
+chronological processing and exact execution-time windows. Activation freezes
+supporter weights and ordering. Closure establishes independent pull claims with
+exact rounding; a failed claim cannot block another beneficiary.
 
-Initial Foundry-mode Slither analysis produced unresolved inherited reference IDs,
-so that output is not treated as clean analysis. Direct-solc compilation resolved
-the imports/inheritance without those warnings. The uninitialized prefix and uncached
-bounded-array length notices were fixed explicitly. Foundry high/medium lint is a
-separate gate; expected timestamp warnings remain visible in full compiler output.
+There is no proxy upgrade, administrator sweep or configurable payment executor.
+The worker cannot choose a different destination, amount or funding split.
+External wallet balances, approvals and unsolicited transfers cannot change
+attributed funding or eligibility. Unsolicited tokens remain locked excess.
 
-Conventional immutable asset selection remains essential. Balance-delta checks
-reject fee behavior but cannot make arbitrary malicious/rebasing token code safe.
-FBTEST's public test mint is intentional and means all resulting balances have no
-real value. Unsolicited tokens are locked excess; no administrator can sweep them.
+Asset selection is immutable. Balance-delta checks reject fee behavior, but cannot
+make arbitrary malicious or rebasing assets safe. FBTEST has public test minting
+and no real value.
 
-Known payee collusion, beneficial ownership, wallet funds held elsewhere, voluntary
-recipient allocation choices, public chain activity, reserve-cap shortfalls, and
-offchain creditor/fiat settlement remain outside the guarantee. Liveness requires a
-worker or another caller. Application authorization, sponsorship, cache and relay checks are described below;
-recovery/error completeness and deployed operational verification remain incomplete.
-Automated checks are not an independent audit or production financial approval.
+## Account and application boundaries
 
-## Application checks and remaining boundaries — 2026-10-08
+Privy authentication resolves a canonical embedded account. Every private object
+and action is checked against that account's membership and role. The browser
+authorizes the backend's exact stored request; arbitrary client destinations or
+calldata are not accepted. Authorization binds account, application, request,
+expiry, chain, zero native value and sponsorship.
 
-Backend tests exercise cryptographically signed JWT fixtures through the installed
-Privy verifier, exact canonical embedded-wallet selection, private membership access,
-account rebinding rejection, invitation hash/binding/expiry/replay, origin/body limits,
-durable rate/idempotency and ambiguous-request recovery. Real PostgreSQL checks
-confirm concurrent idempotency/invitation/lease behavior. These fixture accounts are
-not evidence of distinct live Privy role sessions. The user reported two live account
-verification cycles; actual sponsored recipient/payee consent, publication and recipient funding are now
-verified separately in privy-live-actions.json. Remaining mutation/recovery paths still
-need individual proof.
+User authorization signatures expire after two minutes and are never stored or
+logged. Access tokens authenticate application requests; they do not give the
+backend an unrestricted user signer. Durable payloads and provider identities
+support reconciliation before retries, including ambiguous submissions.
 
-Named sponsored calls enforce recipient/supporter/payee role, testnet, registered
-plan, destination/selector and bounded amounts on the server. Token approvals are
-exact, separate steps. Durable stored payloads survive navigation and block new
-actor/plan keys until reconciled; no credential is stored in those rows. Approval
-receipt proof checks owner/spender/value. Sponsored account-operation proof uses
-expected inner events and provider wallet ownership rather than the outer EntryPoint.
-Private queries/caches are identity scoped and cleared on logout; service workers
-cache safe static/offline content only. Offline actions are disabled, never queued.
-Four public browser/provider-dialog/axe/offline checks passed; authenticated journey isolation,
-recovery failures and all provider error/replacement cases need live verification.
+Token approvals are exact and separate from deposits. Receipt verification checks
+the intended inner contract events, account, amounts and terms rather than relying
+on an outer account-abstraction receipt alone.
 
-Dependency follow-up, 11 October: decode-uri-component is pinned to the published
-0.5.0 fix. A one-line query-string 7.1.3 patch selects its ESM default export for
-the existing CommonJS consumer; installed-consumer tests cover ordinary queries,
-UTF-8/BOM, malformed input and bounded work. The obsolete decoder patch is removed.
-Production audit reports zero advisories; the full audit retains one high braces
-3.0.3 development-tooling advisory. Upstream still publishes no fixed release.
-Its tracked parser/AST depth guard and hostile-input regressions remain enabled.
-Do not suppress that finding or claim audit cleanliness. Sources:
-[decoder advisory](https://github.com/advisories/GHSA-vcc3-ghjq-m6fr),
+Private APIs enforce authentication, membership, origin checks, schema/body limits,
+rate limits and idempotency. Invitations are expiring, account-bound and single-use.
+Private caches are identity scoped and cleared on logout. The service worker
+caches safe static/offline assets only; financial actions are disabled offline.
+
+## Scheduler and data boundaries
+
+The HTTP adapter requires constant-time bearer authentication, bounded inputs,
+allowlisted actions, registered plans and current RPC eligibility checks. Durable
+jobs deduplicate work. Signed worker calls are committed before broadcast; leases
+and nonce reservations fence competing processes.
+
+The indexer is a history read model. Current chain state and canonical receipts
+authorize financial actions and establish confirmed outcomes. Missing reads stay
+unavailable rather than becoming zero balances. Notifications are receipt-backed.
+
+## Verification and dependency review
+
+Contract unit, fuzz, invariant and local-chain checks cover conservation, caps,
+boundaries, replay, role restrictions, adversarial token behavior and worker races.
+Application, PostgreSQL and browser tests cover authorization, concurrency,
+recovery and interface behavior.
+
+Recorded direct-solc Slither analysis found no high/medium issues and nine
+low-severity timestamp findings for intentional schedule/deadline comparisons.
+Actual block timestamps govern the tested boundaries. This is automated analysis,
+not an independent audit or production financial approval.
+
+The dependency review recorded on 11 October 2026 pins decode-uri-component to
+0.5.0 with a tested query-string compatibility patch. It also records a high-severity
+braces 3.0.3 advisory in development tooling, with a tracked parser/AST depth guard
+and hostile-input regressions. That mitigation is not an upstream fix. See the
+[decoder advisory](https://github.com/advisories/GHSA-vcc3-ghjq-m6fr) and
 [braces advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm).
 
-The local Git baseline excludes raw historical evidence, private configuration,
-backups and runtime artifacts. `pnpm scan:source --staged` checks the exact index
-before a commit; the default source scan also checks new files and runs in CI.
-It checks configured secret values, credential markers and personal machine paths,
-including binary content, without printing values. This is a focused local guard,
-not a comprehensive independent security assessment. Preserve offchain user data
-and raw verification privately; only the sanitized stabilization summary is tracked.
+Source scans inspect configured secrets, credential markers and personal machine
+paths without printing secret values. Credentials, private records, raw evidence,
+backups and generated runtime state are excluded from source control.
 
-The HTTP relay uses constant-time bearer authentication, bounded schema, fixed
-allowlisted actions, registry/current-index/deadline/preview RPC checks and unique
-jobs. Worker notifications require successful receipt logs and beneficiary-fixed
-contracts remain authoritative if indexing/relay is wrong. Live reorg/lag, secret
-rotation, host backups and deployed CRE simulation remain unverified. Automatic
-approval rejected simulation with all `.env` values and an unverified endpoint; the
-correct next action is trusted-host approval and a relay-only secret environment.
+## Product and operating limits
 
+Backup is bounded by deposited funds and consented caps. A recipient may hold money
+elsewhere, and known payees may collude. Public onchain activity is visible even
+when application labels remain private. Execution requires a worker or another
+caller within the permitted window.
 
-## Corrected native signing boundary
-The general server user-JWT approach was rejected for native Privy login. Follow the
-specific native-user-wallet guide: server builds canonical request bytes, client uses
-useAuthorizationSignature, backend passes the bound signature with its private app
-credentials. Access JWTs still authenticate app endpoints. The client checks version,
-canonical wallet resource URL, public app ID, stored request ID, exact expiry, testnet,
-zero native value and sponsorship. The backend ignores arbitrary destinations/data
-in signed-submission input; only signature/expiry are accepted and the stored body is
-reconstructed. Provider verifies ownership/signature. Wallet resource is pinned in
-migration0004; changes require reconciliation. Signatures expire after two minutes
-and are never saved/logged. Manual same-key retry ceiling is one hour, below provider
-idempotency lifetime. Neither an unrestricted user key nor delegated signer is granted.
-Tests verify actual SDK HTTP canonicalization/cryptographic signature mismatch and
-request isolation/expiry. Live provider/receipt proof now covers consent, publication, self mint, exact approval
-and recipient allocation. Other mutation/error paths require their human authorization.
+Fallback does not deliver bank payments, verify external bills or determine
+financial hardship. Local test chains, browser previews, hosted simulations and
+real testnet receipts establish different evidence scopes. No independent audit,
+physical-device certification or production financial readiness is claimed.

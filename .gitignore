@@ -50,3 +50,23 @@ indexer/config.fixture.yaml
 /generated/
 /envio-env.d.ts
 /.envio/
+
+# Local engineering memory and agent tooling; keep out of the public repository.
+/AGENTS.md
+/prompt.md
+/progress.md
+/Improve_UIUX.md
+/.codex/
+/.graphifyignore
+/docs/HANDOFF.md
+/docs/decisions.md
+/docs/tooling.md
+/docs/integrations.md
+/docs/test-report.md
+/docs/backend-verification.md
+/docs/bounty-engineering-notes.md
+/docs/remaining-verification.md
+/docs/operations.md
+/docs/demo-video.md
+/docs/cre-demo-video.md
+/docs/pitch-video.md

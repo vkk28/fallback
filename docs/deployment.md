@@ -1,119 +1,86 @@
-# Free hackathon deployment
+# Deployment
 
-## Current submission-fix release preparation
+The deployed application is [fallbackk.netlify.app](https://fallbackk.netlify.app).
+Its services run independently of a local development machine.
 
-Fresh application/contract/local-chain/worker/browser/build checks pass. Hosted
-backup verifies12tables/145rows in an isolated local restore and encrypted recovery.
-Migration0009 is applied and the restricted heartbeat grant verified, without
-changing existing plan/request/job data or the deployed contracts. Netlify now stores
-the verified Alchemy URL as a server secret; the enabled worker and other secrets
-are preserved. Source deployment, runtime provider verification, repeated hosted
-reads and the new-person invitation remain pending. Monitoring stays disabled until
-the updated worker completes. Later sections retain historical cutover evidence.
+| Component | Runtime | Repository configuration |
+| --- | --- | --- |
+| Web and authenticated API | Netlify Next.js runtime | [netlify.toml](../netlify.toml), [apps/web](../apps/web) |
+| Private metadata and durable jobs | Neon PostgreSQL | [Migrations](../infra/migrations), [database client](../packages/backend/src/database.ts) |
+| Scheduled execution | Netlify scheduled trigger and background function | [Functions](../netlify/functions), [worker](../apps/worker/src) |
+| Indexed history | Envio Cloud HyperIndex and GraphQL | [config.yaml](../config.yaml), [schema](../indexer/schema.graphql) |
+| Payment contracts | Monad Testnet 10143 | [Deployment manifest](../packages/chain/deployments/monad-testnet.json) |
 
-## Actual services
+## Application configuration
 
-- App/API: https://fallbackk.netlify.app on the verified Netlify Free plan
-  (300credits, no saved payment method). Native Next.js adapter5.16.2 serves the
-  nested app. Public site returns200; private API requires Privy authentication.
-- Metadata: Neon Free fallback-hackathon, PostgreSQL18, direct certificate-verified
-  TLS, fixed0.25CU and five-minute suspension. Actual account shows1GB/100CU-hours.
-  Exact quiesced12-table/141-row restore passes. Owner credentials remain local;
-  limited application connection is stored only in Netlify secrets.
-- Worker: enabled Node24 background function with an authenticated scheduled trigger
-  every15minutes. One native invocation completes4102.93ms without error; scheduled
-  trigger and actual due-payment receipt verification pass:150FBTEST entirely from
-  recipient allocation, no backup consumed. Hosted queue reports1confirmed job.
-- Indexer: Envio fallback Development project created for vkk28/fallback/main,
-  directory., config.yaml. The approved free tier lasts up to30days and has resource
-  and inactivity limits. 978c44e runs with HyperSync,29events/3plans and measured2-block lag. Its verified
-  release URL is connected to the app; Free has no static production alias.
+Use Node 24.19.0 and pnpm 11.25.0. Netlify builds from the repository root with
+<code>pnpm web:build</code>, publishes apps/web/.next and bundles netlify/functions.
+The explicit Next.js adapter is required for the nested application and API routes.
 
-All selected services are free tiers. No paid upgrade, payment method or auto-recharge
-is configured. Quotas still apply; this does not promise unlimited permanent hosting.
-Google benefits were not redeemed because the actual account required verification
-and its old trial had expired. The user selected this free Netlify/Neon route instead.
+Follow [provider setup](provider-setup.md) for credentials. Configure APP_ORIGIN
+and INVITATION_APP_ORIGIN to the exact HTTPS application origin. Server credentials,
+the limited database connection and worker/relay/trigger keys belong in host
+runtime storage. The public Privy app ID is browser configuration.
 
-## Reproducible configuration
+Apply versioned migrations with the schema owner and use a limited application
+database role. Preserve existing accounts, invitations, requests, signed
+transactions and nonce reservations during a release.
 
-netlify.toml builds pnpm web:build from repository root, publishes apps/web/.next,
-bundles netlify/functions and explicitly enables @netlify/plugin-nextjs. Native
-framework build is required; publishing a raw .next directory alone produced404.
-NODE_VERSION24.19.0/PNPM_VERSION11.25.0 are pinned. Secrets remain server environment
-values, never GitHub files or public browser assets. Public Privy app ID and public
-Monad RPC are ordinary configuration; actual secret scanning stays enabled.
+## Worker operation
 
-Set production APP_ORIGIN and INVITATION_APP_ORIGIN to the exact HTTPS app origin.
-Use the limited Neon DATABASE_URL, preserved dedicated testnet worker key, Privy
-server secret, invitation HMAC key, CRE relay secret and private trigger secret.
-Keep HOSTED_WORKER_ENABLED=false until the journal/signer/state cutover is verified.
-Optional email delivery remains disabled; no sender or external recipient is configured.
+The configured trigger runs every 15 minutes. Keep HOSTED_WORKER_ENABLED disabled
+until the database, signer, private trigger authentication and state-preserving
+cutover are verified. Only one authoritative signer/journal combination should
+operate across a local-to-hosted migration.
 
-Root config.yaml uses existing schema/handlers/ABIs and the root pinned Envio3.14
-manifest. HyperSync handles historical/current sync with the public RPC retained as a bounded
-fallback using the verified100-block ceiling. Configured start
-69077351 is preserved, preceding factory deployment69077360. Native root codegen
-and cloud-handler types pass. Generated runtime/type outputs remain ignored.
+Hosted batches refuse registries above 50 plans and process at most 20 queued jobs.
+The worker rechecks chain eligibility, commits signed bytes before broadcast and
+reconciles receipts before notifying users. Never delete an unresolved job or
+replace its nonce to force a retry. A queued or submitted job is not a paid
+installment; contract timestamps and canonical receipts determine the outcome.
 
-## State-preserving cutover and limits
+## Indexing
 
-Owned local web/worker were quiesced. Final private snapshot/disposable restore and
-exact Neon comparison preserve all accounts, memberships, invitations, immutable
-payloads, request identities, notifications and job/nonce state. Source database is
-unchanged. At cutover there are38confirmed requests,1legacy failed and zero jobs.
-Limited app role permits setup-draft cleanup but no financial request DELETE/schema
-CREATE. Do not restart an independent local signer/database after remote writes begin.
+Envio dynamically registers plans created by the configured factory. Preserve the
+deployment start block and shared handler/schema configuration. Generated code,
+local runtime output and private credentials are excluded from Git.
 
-The worker scans at most50registered plans and refuses an incomplete larger scope.
-It processes at most20existing jobs per batch, retaining commit-before-broadcast
-signed bytes, nonce reservation, canonical receipts and notification deduplication.
-A15-minute cadence can delay attempts; actual contract due/grace boundaries govern
-eligibility. No guarantee or fabricated receipt follows from HTTP202 acceptance.
+Configure the application with its private GraphQL reader and verify actual
+historical accounting and the processing watermark. A plan's last event is not
+a synchronization watermark. Use manual Envio releases for the existing hosted
+installation; do not reset its data as part of an application release.
 
-Application backup verifies exact disposable restoration; local indexer snapshot
-checksum is verified but its restoration is not. Hosted sign-in/three preserved plan reads, actual history/accounting/23receipt events
-and native scheduled/positive-payment checks pass. Full fresh-device financial and
-recovery journeys, remote backup retention/restore and optional email delivery remain
-separate product verification work. Envio deployments are manual after stabilization.
-Existing consented terms and refund liabilities are preserved.
+## Release checks
 
-Primary references: [Netlify functions](https://docs.netlify.com/build/functions/overview/),
-[Neon Free](https://neon.com/docs/introduction/plans),
-[Envio Development](https://envio.dev/pricing/hosting).
+~~~sh
+pnpm scan:source
+pnpm check
+pnpm test:local-chain
+pnpm web:typecheck
+pnpm web:build
+pnpm chain:verify
+~~~
 
-Final production health returns200 with DB/RPC/indexer/account/deployment readiness;
-anonymous private plans return401 and authenticated worker queue returns1confirmed.
-Hosted reload preserves3plan links and authenticated history loads. Human-approved
-obsolete2f8cfc0 deletion completes;978c44e is preserved. No paid static alias or upgrade.
+Run appropriate database, worker, indexing, browser and CRE checks when those
+components change. Verify public HTTP access, anonymous rejection on private
+routes and authenticated current-state reads after a release.
 
-Actual authenticated Activity displays10indexed rows without outage. Hosted schema
-has no FallbackSync view, so the app labels coverage unknown; independent metadata
-checks measure a2-block lag. No latest-completeness claim is fabricated in the UI.
+The public health endpoint checks database and RPC readiness. Protected operational
+health exposes aggregate job, broadcast, heartbeat and indexing diagnostics.
+Keep relay credentials in authorization headers. Review canonical receipts before
+intervening in unresolved work.
 
-## Pending local engineering rollout
+## Recovery and service limits
 
-Current source adds strict invitation sender readiness, bounded shared RPC transport,
-same-block Multicall3 snapshots, hosted watermark support, receipt notification reorg
-reconciliation, fenced worker leases/heartbeats, private operational health and gated
-scheduled monitoring. Migration0009 is applied to the local metadata copy only.
-Existing hosted release remains978c44e; source is uncommitted and unpublished.
+Back up private state before migrations or service changes and test restoration
+in a disposable database. Preserve signer/journal identities and invitation keys.
+Encrypted local backup helpers are provided; remote storage, scheduling and
+retention must be configured separately for the chosen hosting environment.
 
-After a fresh private hosted backup, apply0009 with the schema owner and grant only
-SELECT/INSERT/UPDATE on worker_heartbeat to the existing application role. Preserve
-all journal/request/nonce/signature identities and the existing dedicated signer.
-Cut over Netlify's server-only MONAD_RPC_URL to the privately verified Alchemy
-Monad Testnet URL, classified as a secret. Deploy reviewed app/worker source, verify
-actual heartbeat/coverage, then set HEALTH_MONITOR_ENABLED=true. The existing
-15minute trigger reports fixed diagnostic failures through native invocation status.
-Keep free tiers and the sole Envio release; no automatic Envio release is required.
+The hosted setup uses resource-limited services. Monitor availability and indexer
+project lifetime for the configured plans; free hosting does not imply permanent
+or unlimited capacity. Docker is optional for local Hasura development.
 
-`pnpm contracts:prepare-verification` prepares standard JSON/compiler settings and
-constructor arguments privately after source-hash and runtime compilation checks.
-Use that package for an authorized explorer source-verification submission. It does
-not upload code or change deployed bytecode. Runtime verification, prepared inputs
-and successful explorer publication are three separate results.
-
-Remote backup storage, scheduled encryption/retention and fresh hosted isolated
-restoration remain unconfigured. Local app/indexer/encrypted restore evidence is
-recorded in test-report.md; the indexer export is historical. Manual final gates and
-browser steps are in remaining-verification.md.
+Contract runtime verification, explorer source publication, CRE simulation and
+CRE-network deployment are separate operations. Consult the manifest for explorer
+status. No mainnet or real-asset deployment is configured.
