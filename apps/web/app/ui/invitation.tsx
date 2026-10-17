@@ -51,7 +51,7 @@ export function Invite({ api, address }: { api: API; address?: string }) {
   const router = useRouter();
   const [source, setSource] = useState(invitationSource), [agreed, setAgreed] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState(''), [declined, setDeclined] = useState(false);
   const key = useRef(crypto.randomUUID()), guard = useRef(false);
-  useEffect(() => { const changed = () => { setSource(invitationSource()); setAgreed(false); setError(''); key.current = crypto.randomUUID(); }; window.addEventListener('hashchange', changed); return () => window.removeEventListener('hashchange', changed); }, []);
+  useEffect(() => { const changed = () => { setSource(invitationSource()); setAgreed(false); setDeclined(false); setError(''); key.current = crypto.randomUUID(); }; window.addEventListener('hashchange', changed); return () => window.removeEventListener('hashchange', changed); }, []);
   const preview = useQuery({ queryKey: ['invitation', source.id, source.token], retry: false, refetchOnWindowFocus: false, queryFn: () => source.id ? api<Preview>(`requests/${encodeURIComponent(source.id)}`) : publicPreview(source.token) });
   async function respond(decline = false) {
     if (guard.current || !decline && !agreed) return;

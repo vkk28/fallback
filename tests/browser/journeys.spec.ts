@@ -108,4 +108,9 @@ test('isolated invitation review: sign-in return/reload retain the token; declin
   expect(await page.evaluate(() => sessionStorage.getItem('fallback:invitation-intent'))).toBeNull();
   expect(await page.evaluate(() => window.fixtureCalls.includes('POST invitations/accept'))).toBe(false);
   expect(await page.evaluate(() => window.fixtureAuthorizations)).toBe(0);
+  await page.goto('/__ui-fixture?scenario=invite#' + 'u'.repeat(43));
+  await expect(page.getByRole('heading', { name: 'Invitation declined' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Join this plan', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Decline invitation', exact: true })).toBeEnabled();
+  expect(tokens.at(-1)).toBe('u'.repeat(43));
 });
